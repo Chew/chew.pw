@@ -23,7 +23,6 @@
 <h4>Column breakdown</h4>
 <p>
   <b>Name</b> - The Name of the country, state, territory, organization, etc.<br>
-  <b>Updated</b> <i>(Global only)</i> - When data was last updated<br>
   <b>Doses</b> - The amount of doses given to people. <i>(Hidden by default. <%= link_to "Why?", "#why" %>)</i><br>
   <b>People</b> - The amount of people who have received at least one dose <i>(Hidden by default <%= link_to "Why?", "#why" %>)</i><br>
   <b>Completed</b> - The amount of people who have been completely vaccinated<br>
@@ -47,7 +46,6 @@
     <thead class="thead-dark">
     <tr>
       <th data-sortable="true" data-field="name" data-switchable="false" data-sort-order="asc">Name</th>
-      <th data-sortable="true" data-field="dateUpdated">Updated</th>
       <th data-sortable="true" data-field="noDosesTotal" data-sort-order="desc" data-visible="false">Doses</th>
       <th data-sortable="true" data-field="noPeopleTotal" data-sort-order="desc" data-visible="false">People</th>
       <th data-sortable="true" data-field="noCompletedVaccination" data-sort-order="desc">Completed</th>
@@ -64,7 +62,6 @@
     <% @data['info']['vaccination']['global'].each do |country| %>
       <tr>
         <td><%= country['name'] %></td>
-        <td><%= country['dateUpdated'] %></td>
         <td><%= country['noDosesTotal'] %></td>
         <td><%= country['noPeopleTotal'] %></td>
         <td><%= country['noCompletedVaccination'] %></td>
@@ -89,6 +86,7 @@
     <thead class="thead-dark">
     <tr>
       <th data-sortable="true" data-field="name" data-switchable="false" data-sort-order="asc">Name</th>
+      <th data-sortable="true" data-field="type" data-switchable="true" data-sort-order="asc" data-visible="false">Type</th>
       <th data-sortable="true" data-field="noDosesTotal" data-sort-order="desc" data-visible="false">Doses</th>
       <th data-sortable="true" data-field="noPeopleTotal" data-sort-order="desc" data-visible="false">People</th>
       <th data-sortable="true" data-field="noCompletedVaccination" data-sort-order="desc">Completed</th>
@@ -105,6 +103,7 @@
     <% @data['info']['vaccination']['usa'].each do |country| %>
       <tr>
         <td><%= country['name'] %></td>
+        <td><%= type country['name'] %></td>
         <td><%= country['noDosesTotal'] %></td>
         <td><%= country['noPeopleTotal'] %></td>
         <td><%= country['noCompletedVaccination'] %></td>
