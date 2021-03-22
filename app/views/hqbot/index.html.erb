@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col">
+
+    <h1 id="welcomeh1">Welcome, <%= @as %>!</h1>
+
+    <p>Modify your profile below.</p>
+  </div>
+</div>
+<form action="/hqbot/saveprofile" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <h3>HQ Username</h3>
+        <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" value="<%= @profile['username'] %>" placeholder="Enter username">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h3>Status</h3>
+      <p>These are your unmodifiable stats. Contact Chew if you want these modified.</p>
+      <% @status.each do |internal, external| %>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="<%= internal %>" disabled="disabled" <%= 'checked' if @profile[internal] %>>
+          <label class="form-check-label" for="<%= internal %>">
+            <%= external %>
+          </label>
+        </div>
+      <% end %>
+    </div>
+    <% if @profile['authkey'] %>
+      <div class="col">
+        <h4>Auth Key Settings</h4>
+        <p>Thank you for being an Auth Key donor. Here are your settings.</p>
+        <p>These get shown on YOUR <code>hq, user</code> output.</p>
+        <h5>Key ID:</h5>
+        <h6>(contact Chew to change, this is your HQ ID)</h6>
+        <input class="form-control" type="text" placeholder="<%= @profile['keyid'] %>" readonly="readonly">
+        <p></p>
+        <% @settings.each do |internal, external| %>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="1" id="<%= internal %>" name="<%= internal %>" <%= 'checked' if @profile[internal] %>>
+            <label class="form-check-label" for="lives">
+              <%= external %>
+            </label>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button id="savebutton" type="submit" class="btn btn-success">Save Settings</button>
+    </div>
+  </div>
+</form>
+
+<script>
+    $('form').submit(function () {
+        $(this).find('button[type=submit]').prop('disabled', true);
+        $(this).find('button[type=submit]').html('Submitting...');
+    });
+</script>

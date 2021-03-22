@@ -1,0 +1,58 @@
+<% content_for :extra_head do %>
+  <%= meta_tags title: "Home",
+                description: "Read more about my tools and others here!",
+                service: "Chew's Minecraft Tools",
+                color: '#00AA00' %>
+<% end %>
+
+<h1>Chew's Minecraft Tools</h1>
+
+<p>Welcome to my page for my Minecraft tools. I also use some external tools that I will list below as well.</p>
+
+<p>Got suggestions? Issues? Feedback? Feel free to join me on <%= link_to "my Discord server", "https://discord.gg/0kYlxgkh65QhZAjm" %>!</p>
+
+<h2>My Tools</h2>
+
+<p>
+  Below are tools I've made. They are described below. You can access them by clicking the header or using the navbar.
+</p>
+
+<h3><%= link_to "Enchantment Translator", "/mc/enchant" %></h3>
+<p>
+  This is a tool I wrote up when I got confused trying to translate between Vanilla enchantment names and the Bukkit
+  API's naming for them. Some are quite annoying and hard to figure out, so hence its existence. It's a bit outdated
+  I believe, but there are plans to update it and maybe add other implementations versions if they are confusing.
+</p>
+
+<h3><%= link_to "Log Analyzer", "/mc/log" %></h3>
+<p>
+  My attempt at a log analyzer. It's quite basic, but useful for simple error checking if your startup log is gigantic.
+</p>
+
+<h3><%= link_to "JAR Downloader", "/mc/jars" %></h3>
+<p>
+  Arguably my most useful page. This page is for downloading common JARs for your favorite server types.
+  Included are Paper, proxies, as well as Geyser and Floodgate. No JARs are hosted here, it is simply a way to link to
+  common JARs people frequently need.<br>
+  This has been featured on Me4502 (author of WorldEdit, WorldGuard, and CraftBook)'s
+  <%= link_to '"The Ultimate Guide to Running a Minecraft Server"',
+              "https://matthewmiller.dev/blog/ultimate-guide-running-minecraft-server/" %>.
+  If you're needing JARs for the first time, you may want to check out the guide as well!
+</p>
+
+<h3><%= link_to "Favicon Resizer", "/mc/favicon" %></h3>
+<p>
+  A quick and easy way to turn any image into a server-compatible favicon!
+</p>
+
+<hr>
+
+<h2>External Tools</h2>
+
+<p>These are tools I use frequently. Definitely check them out if they look useful to you!</p>
+
+<h3><%= link_to "MCSRVSTAT.US", "https://mcsrvstat.us" %></h3>
+<p>
+  This site is a dead-simple way to ping and query servers that respond to them. I use it all the time to check IPs,
+  and it is compatible with Geyser!
+</p>

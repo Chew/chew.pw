@@ -1,0 +1,35 @@
+<%= content_for :extra_head do %>
+  <% meta_tags title: "Connection Viewer",
+               service: "Discord Tools" %>
+<% end %>
+
+<h1>Your Connections</h1>
+
+<p>A list of your connections!</p>
+
+<p>Total Connections: <%= @connections.length %></p>
+
+<p><%= link_to "Log-out", "/discord/connections/logout" %></p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" data-toggle="table" data-search="true" data-show-columns-toggle-all="true" data-show-columns="true" data-height="1300px">
+    <thead class="table-dark">
+    <tr>
+      <th data-sortable="true" data-field="type" data-switchable="false" data-sort-order="asc">Type</th>
+      <th data-sortable="true" data-field="id" data-switchable="true" data-sort-order="desc">ID</th>
+      <th data-sortable="true" data-field="name" data-switchable="false">Name</th>
+      <th data-sortable="true" data-field="verified" data-switchable="true">Verified</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @connections.each do |connection| %>
+      <tr>
+        <td><%= connection['type'] %></td>
+        <td><%= connection['id'] %></td>
+        <td><%= connection['name'] %></td>
+        <td><%= connection['verified'] %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,154 @@
+<%= content_for :extra_head do %>
+  <% meta_tags title: "Discord Webhook Sender",
+               description: "Test a webhook by sending one!",
+               service: "Discord Tools",
+               color: "#9ba0ff" %>
+<% end %>
+
+<% unless flash[:webhook_status].nil? %>
+<div id="notification" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Just letting you know!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p><%=  raw flash[:webhook_status]  %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+<div class="row">
+  <div class="col">
+    <h1>Discord Webhook Sender</h1>
+    <p>Enter the webhook below.</p>
+  </div>
+</div>
+<form action="/webhooks/send" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <h3>Message Content</h3>
+        <p>(Optional) This is normal text that doesn't appear in the embed.</p>
+        <input type="text" class="form-control" name="content" placeholder="Enter message content">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <h3>Webhook URL</h3>
+        <p>(Required) This is URL OF THE WEBHOOK.</p>
+        <input type="url" class="form-control" name="webhook" placeholder="Enter Webhook URL" required>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <h3>Webhook Username</h3>
+        <p>(Optional) This is username of the webhook.</p>
+        <input type="text" class="form-control" name="wh_username" maxlength="32" placeholder="Enter Webhook Username">
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-group">
+        <h3>Webhook Avatar URL</h3>
+        <p>(Optional) This is Avatar URL of the webhook.</p>
+        <input type="url" class="form-control" name="wh_avatar" placeholder="Enter Webhook Avatar URL">
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col">
+      <h3>Author Avatar</h3>
+      <p>(Optional) This is the author's avatar URL.</p>
+      <input type="url" class="form-control" name="author_url" placeholder="Enter URL">
+    </div>
+    <div class="col">
+      <h3>Author Name</h3>
+      <p>(Optional) The author's name.</p>
+      <input type="text" class="form-control" name="author_text" placeholder="Enter Text">
+    </div>
+    <div class="col">
+      <h3>Thumbnail</h3>
+      <p>(Optional) A thumbnail.</p>
+      <input type="url" class="form-control" name="thumbnail_url" placeholder="Enter URL">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <h3>Embed Title</h3>
+      <p>(Optional) The title of the embed.</p>
+      <input type="text" class="form-control" name="title" placeholder="Enter Title">
+    </div>
+    <div class="col">
+      <h3>Embed Title URL</h3>
+      <p>(Optional) The url for the title of the embed.</p>
+      <input type="url" class="form-control" name="title_url" placeholder="Enter Title URL">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col col-3">
+      <h3>Embed Color</h3>
+      <p>(Optional) The color of the embed.</p>
+      <input type="color" class="form-control" name="color" placeholder="Enter Embed Color">
+    </div>
+    <div class="col">
+      <h3>Embed Description</h3>
+      <p>(Optional) The description of the embed.</p>
+      <input type="text" class="form-control" name="description" placeholder="Enter Description">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <h3>Embed Image URL</h3>
+      <p>(Optional) The image of the embed.</p>
+      <input type="url" class="form-control" name="image_url" placeholder="Enter Image URL">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <h3>Embed Footer Text</h3>
+      <p>(Optional) The footer text of the embed.</p>
+      <input type="text" class="form-control" name="footer_text" placeholder="Enter Footer Text">
+    </div>
+    <div class="col">
+      <h3>Embed Footer Icon URL</h3>
+      <p>(Optional) The url of the icon of the footer of the embed.</p>
+      <input type="url" class="form-control" name="footer_url" placeholder="Enter Footer Icon URL">
+    </div>
+    <div class="col">
+      <h3>Embed Timestamp</h3>
+      <p>(Optional) The timestamp of the embed.</p>
+      <input type="datetime-local" class="form-control" name="timestamp" placeholder="Enter Footer Date">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col">
+      <button id="savebutton" type="submit" class="btn btn-success">Submit Webhook</button>
+    </div>
+  </div>
+</form>
+<% unless flash[:webhook_status].nil? %>
+  <script>$('#notification').modal({
+      show: true
+  })
+  </script>
+<% end %>

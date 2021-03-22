@@ -1,0 +1,71 @@
+<%=
+
+user = get_user(session[:hq_online_token])
+a = get_user("Bearer #{Words['A']}")
+b = get_user("Bearer #{Words['B']}")
+c = get_user("Bearer #{Words['C']}")
+d = get_user("Bearer #{Words['D']}")
+e = get_user("Bearer #{Words['E']}")
+f = get_user("Bearer #{Words['F']}")
+g = get_user("Bearer #{Words['G']}")
+h = get_user("Bearer #{Words['H']}")
+i = get_user("Bearer #{Words['I']}")
+j = get_user("Bearer #{Words['J']}")
+k = get_user("Bearer #{Words['K']}")
+l = get_user("Bearer #{Words['L']}")
+m = get_user("Bearer #{Words['M']}")
+n = get_user("Bearer #{Words['N']}")
+o = get_user("Bearer #{Words['O']}")
+p = get_user("Bearer #{Words['P']}")
+q = get_user("Bearer #{Words['Q']}")
+r = get_user("Bearer #{Words['R']}")
+s = get_user("Bearer #{Words['S']}")
+t = get_user("Bearer #{Words['T']}")
+u = get_user("Bearer #{Words['U']}")
+v = get_user("Bearer #{Words['V']}")
+w = get_user("Bearer #{Words['W']}")
+x = get_user("Bearer #{Words['X']}")
+y = get_user("Bearer #{Words['Y']}")
+z = get_user("Bearer #{Words['Z']}")
+
+letters = [a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z]
+alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M",'N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+nil
+%>
+
+        <div class="row">
+          <div class="col">
+            <h1 id="welcomeh1">Words Bots</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>Letter</th>
+                    <th>Username</th>
+                    <th>ID</th>
+                    <th>Games</th>
+                    <th>Balance</th>
+                    <th>Avatar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% letters.each_with_index do |e, i| %>
+                  <tr>
+                    <td><%= alphabet[i] %></td>
+                    <td><%= e['username'] %></td>
+                    <td><%= e['userId'] %></td>
+                    <td><%= e['winCount'] %> / <%= e['gamesPlayed'] %></td>
+                    <td><%= e['leaderboard']['unclaimed'] %></td>
+                    <td><%= image_tag e['avatarUrl'], width: '100px', height: '100px' %></td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>

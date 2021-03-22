@@ -1,0 +1,27 @@
+<h1 id="fix">Neighboring Teams for <%= @name %></h1>
+<p>These are the neighboring teams for <%= @name %>!</p>
+
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered table-hover <%= 'table-dark' if session[:dark_mode] %>">
+        <thead class="thead-dark">
+          <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>Cookies</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @teams.each do |data| %>
+            <tr>
+              <td><%= data['rank'] %></td>
+              <td><a href="/cookiesinc/team/<%= data['teamId'] %>"><%= data['teamName'] %></a></td>
+              <td><%= number_with_delimiter data['collectedCookieCount'].round(0) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

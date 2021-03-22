@@ -1,0 +1,61 @@
+<% content_for :extra_head do %>
+<title>Commands - Chewbotcca for Discord</title>
+<meta property="og:title" content="Commands - Chewbotcca for Discord" />
+<meta property="og:description" content="The commands for the Chewbotcca Discord bot" />
+<meta name="description" content="The commands for the Chewbotcca Discord bot" itemprop="description">
+<meta property="twitter:title" content="Commands - Chewbotcca for Discord">
+<% end %>
+
+<h1 id="fix">Chewbotcca Discord Commands</h1>
+
+<p>
+  Bot obviously needs at least Read and Send messages if you want a response.
+  Permissions listed under "Bot Permissions" are permissions the bot needs to execute the command.
+  Permissions listed under "User Permissions" are permissions you, the executor, need to execute the command.
+  The bot will notify you of missing permissions if needed.
+</p>
+<p>To use most commands reliably, you'll need the following permissions:</p>
+<ul>
+  <li>Read Messages - required to see commands</li>
+  <li>Send Messages - required to respond to commands</li>
+  <li>Embed Links - required for most commands</li>
+</ul>
+<p>The rest of the permissions are optional, but are required if you plan on utilizing all bot commands:</p>
+<ul>
+  <li>Add Reactions - needed for paginators to work properly</li>
+  <li>External Emotes - makes some commands look nicer</li>
+  <li>Ban Members - for %^ban, as you'd expect</li>
+  <li>Manage Roles - for %^role command</li>
+  <li>Manage Nicknames - for %^dehoist command</li>
+  <li>Manage Webhooks - to view webhook count in %^cinfo and to %^rory follow</li>
+</ul>
+<p>... or simply just give it admin :)</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-columns-toggle-all="true" data-show-columns="true">
+    <thead class="thead-dark">
+      <tr>
+        <th data-sortable="true" data-field="command" data-switchable="false" data-sort-order="asc">Command</th>
+        <th data-sortable="false" data-field="args" data-switchable="true" data-sort-order="asc">Args</th>
+        <th data-sortable="false" data-field="aliases" data-switchable="true">Aliases</th>
+        <th data-sortable="false" data-field="flags" data-switchable="true">Flags</th>
+        <th data-sortable="false" data-field="description" data-switchable="false">Description</th>
+        <th data-sortable="false" data-field="bot_permissions" data-switchable="true">Bot Permissions</th>
+        <th data-sortable="false" data-field="user_permissions" data-switchable="true">User Permissions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @commands.each do |command| %>
+        <tr>
+          <td><code>%^<%= command.command %></code></td>
+          <td><%= command.args || "None" %></td>
+          <td><%= command.aliases || "None" %></td>
+          <td><%= command.flags || "None" %></td>
+          <td><%= command.description %></td>
+          <td><%= command.bot_permissions || "No Special Perms" %></td>
+          <td><%= command.user_permissions || "No Special Perms" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

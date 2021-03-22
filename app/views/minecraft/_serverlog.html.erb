@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col">
+    <h2>Minecraft version</h2>
+    <p><i>The Minecraft version of your server</i></p>
+    <p><%= @mc_ver || "Unable to determine Server Version. Make sure you have a full log!" %></p>
+    <% unless @mc_ver == @paper_versions['versions'].last %>
+    <p>Please note: Your minecraft version is outdated! It is highly recommended to upgrade to the latest (<% @paper_versions['versions'].last %>), as you will receive minimal to no support otherwise.</p>
+    <% end %>
+  </div>
+  <div class="col">
+    <h2>Bukkit version</h2>
+    <p><i>What Implementation of Bukkit you're running, and version.</i></p>
+    <p>
+      <%= @version %><br />
+      <% if @version_message %>
+      <b><%= @version_message %></b>
+      <% end %>
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <% if @could_not_load.length.positive? %>
+  <div class="col">
+    <h2>Failed to load plugins</h2>
+    <p><i>Plugins can fail to load for any number of reasons, but most likely due to a missing dependency or invalid JAR. See Stack Traces below for exact error(s).</i></p>
+    <p><%= @could_not_load.join(", ") %></p>
+  </div>
+  <% end %>
+  <% if @could_not_load.length.positive? %>
+  <div class="col">
+    <h2>Failed to enable plugins</h2>
+    <p><i>Plugins can fail to enable for any number of reasons. See Stack Traces below for exact error(s).</i></p>
+    <p><%= @could_not_enable.join(", ") %></p>
+  </div>
+  <% end %>
+</div>
+
+<h2>Successfully enabled plugins</h2>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Version</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @could_enable.sort.each do |plugin| %>
+      <tr>
+        <td><%= plugin.split(' ').first %></td>
+        <td><%= plugin.split(' v').last %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% if @stack_traces.length.positive? %>
+<h2>Errors</h2>
+<p><i>An error can occur for many reasons, and usually it's described. Check below for all errors!</i></p>
+<p><b>DO NOT REPORT STACK TRACES IN SPIGOT PLUGIN REVIEWS! AUTHORS HATE THIS, AND SO DOES EVERYONE ELSE. REPORT IT IN THE DISCLOSED (if any) PLACE TO REPORT BUGS.</b></p>
+<hr />
+<% @stack_traces.each do |trace| %>
+<% unless trace[0].nil? %>
+<% next if trace[1].include?("WARN") %>
+<% if trace[0].include? "Could not load" %>
+<p>This stack trace is due to a plugin being unable to load. This could be due to an invalid plugin contents or a missing dependency.</p>
+<% elsif trace[0].include? "Error occurred while enabling" %>
+<p>This stack trace is due to a plugin being unable to enable. While the plugin jar itself is valid, code within it is not. This could be for any reason, so it's recommended to report the error to the author ask in a community support channel.</p>
+<% end %>
+<% end %>
+<textarea style="width: 100%; height: 200px" readonly><%= trace.join("\n") %></textarea><hr />
+<% end %>
+<% end %>

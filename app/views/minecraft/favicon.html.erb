@@ -1,0 +1,47 @@
+<% content_for :extra_head do %>
+  <%= meta_tags title: "Favicon Resizer",
+                description: "A quick and easy way to turn any image into a server-compatible favicon!",
+                service: "Chew's Minecraft Tools",
+                color: '#00AA00' %>
+<% end %>
+
+<h1>Favicon Resizer</h1>
+
+<p>Tired of Photoshop? Just want a server compatible icon? Look no further than below!</p>
+
+<p>Upload your photo below. It will be resized to 64x64 and renamed.</p>
+
+<p>Please limit your file size, we don't run a charity here.</p>
+
+<form enctype="multipart/form-data" action="/mc/favicon/submit" accept-charset="UTF-8" method="post">
+  <input name="utf8" type="hidden" value="✓">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="mb-3">
+    <h3>Select Image</h3>
+    <input class="form-control" type="file" required accept="image/*" name="picture" id="picture">
+  </div>
+  <div class="mb-3">
+    <h3>Resize Method</h3>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" id="resize" name="type" value="resize" checked />
+      <label class="form-check-label" for="resize">Resize - Resize the image (stretches if not square)</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" id="resize_to_fill" name="type" value="resize_to_fill" />
+      <label class="form-check-label" for="resize_to_fill">Resize to Fill - Resize and crop while retaining the aspect ratio</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" id="resize_to_fit" name="type" value="resize_to_fit" />
+      <label class="form-check-label" for="resize_to_fit">Resize to Fit - Resize the image retaining the aspect ratio (transparent if not square)</label><br>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" id="upload_button">Upload</button>
+</form>
+
+<script>
+    $('form').submit(function(){
+        $(this).find('button[type=submit]').prop('disabled', true);
+        $(this).find('button[type=submit]').html('Submitting...');
+    });
+</script>

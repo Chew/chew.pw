@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <base href="/chewbotcca/" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <title>Chewbotcca</title>
+    <%= csrf_meta_tags %>
+    <%= yield :extra_head %>
+    <%= stylesheet_link_tag 'discord' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+
+    <script src="https://kit.fontawesome.com/4ae5eef027.js"></script>
+  </head>
+  <body style="background-color: #1A1C2C;">
+    <header></header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <%= link_to "Chewbotcca", "/chewbotcca", class: "navbar-brand" %>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <%= link_to raw("#{fas_icon "home"} Home"), "/chewbotcca", class: "nav-link #{'active' if request.path == "/chewbotcca"}" %>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fab fa-discord"></i> Discord
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <%= dropdown_item name: "Home", href: "/chewbotcca/discord", fa_icon: "fas fa-home" %>
+                <%= dropdown_item name: "Commands", href: "/chewbotcca/discord/commands", fa_icon: "fas fa-cogs" %>
+                <%= dropdown_item name: "Invite Bot", href: invite_link("939879492"), fa_icon: "fas fa-link" %>
+                <%= dropdown_item name: "Privacy Policy", href: "/chewbotcca/discord/privacy", fa_icon: "fas fa-user-shield" %>
+                <%= dropdown_item name: "Support Server", href: "https://discord.gg/UjxQ3Bh", fa_icon: "fab fa-discord" %>
+                <%= dropdown_item name: "Source Code", href: "https://github.com/Chewbotcca/Discord", fa_icon: "fab fa-github" %>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fab fa-slack"></i> Slack
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <%= dropdown_item name: "Home", href: "/chewbotcca/slack", fa_icon: "fas fa-home" %>
+                <%= dropdown_item name: "Invite Bot", href: "https://slack.com/oauth/v2/authorize?client_id=135824302695.1690214909123&scope=commands&user_scope=", fa_icon: "fas fa-link" %>
+                <%= dropdown_item name: "Privacy Policy", href: "/chewbotcca/slack/privacy", fa_icon: "fas fa-user-shield" %>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" style="margin-top: 20px;">
+      <div class="jumbotron"><%= yield %></div>
+    </div>
+    <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+  </body>
+</html>

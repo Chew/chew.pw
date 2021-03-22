@@ -1,0 +1,51 @@
+<% content_for :extra_head do %>
+  <%= meta_tags title: "Log Analyzer",
+                description: "Analyze your Minecraft Logs!",
+                service: "Chew's Minecraft Tools",
+                color: '#00AA00' %>
+<% end %>
+
+<h1>Log Analyzer</h1>
+<p><i>Version: <%= link_to "1.0.6", "/mc/log/change" %></i></p>
+<p>Upload your (supported) Minecraft log below to have it analyzed for common errors.</p>
+<ul>
+  <li>Server latest.log</li>
+</ul>
+
+<form enctype="multipart/form-data" action="/mc/log/analyze" accept-charset="UTF-8" method="post">
+  <input name="utf8" type="hidden" value="✓">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="mb-3">
+    <input class="form-control" type="file" required accept=".log" name="log" id="log">
+  </div>
+  <% if 1 == 2 %>
+    <div class="h-captcha" data-sitekey="0e47c53b-69aa-431e-b166-1aae7de66e03" data-callback="enableBtn"></div>
+
+    <script>
+    function enableBtn(){
+      document.getElementById("upload_button").disabled = false;
+      document.getElementById('upload_button').innerHTML = 'Upload';
+      document.getElementById('upload_button').setAttribute('class', 'btn btn-success');
+    }
+    </script>
+    <br />
+    <button type="submit" disabled class="btn btn-danger" id="upload_button"></button>
+    <br />
+
+    <script>
+      document.getElementById("upload_button").disabled = true;
+      document.getElementById('upload_button').innerHTML = 'Please Solve Captcha';
+    </script>
+
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+  <% else %>
+    <button type="submit" class="btn btn-primary" id="upload_button">Upload</button>
+  <% end %>
+</form>
+
+<script>
+$('form').submit(function(){
+  $(this).find('button[type=submit]').prop('disabled', true);
+  $(this).find('button[type=submit]').html('Submitting...');
+});
+</script>

@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col">
+    <h1 id="welcomeh1">Friends</h1>
+  </div>
+</div>
+<div class="row">
+  <% if @any_in %>
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" colspan="2">Incoming Requests</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @incoming['data'].each do |e| %>
+            <tr>
+              <td scope="row">
+                <%= image_tag e['requestingUser']['avatarUrl'], height: '25px', width: '25px' %>
+                <%= e['requestingUser']['username'] %>
+              </td>
+              <td scope="row">
+                <button class="btn btn-success">Accept</button>
+                <button class="btn btn-danger">Decline</button>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+  <% if @any_out %>
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col" colspan="2">Outgoing Requests</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @requests['data'].each do |e| %>
+            <tr>
+              <td scope="row">
+                <%= image_tag e['requestingUser']['avatarUrl'], height: '25px', width: '25px' %>
+                <%= e['requestingUser']['username'] %>
+              </td>
+              <td scope="row">
+                <button class="btn btn-danger">Cancel</button>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>
+<div class="row">
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" colspan="2">Friends</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @friends['data'].each do |e| %>
+          <tr>
+            <td scope="row">
+              <%= image_tag e['avatarUrl'], height: '25px', width: '25px' %>
+              <%= e['username'] %><br/>Wins:
+              <%= e['winCount'] %>
+              - Plays
+              <%= e['gamesPlayed'] %>
+            </td>
+            <td scope="row">
+              <button class="btn btn-danger">Remove</button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" colspan="2">Contacts Playing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @contacts['count'].positive? %>
+          <% @realcontacts.each do |e| %>
+            <tr>
+              <td scope="row">
+                <%= image_tag e['user']['avatarUrl'], height: '25px', width: '25px' %>
+                <%= e['name'] %><br/>HQ Username:
+                <%= e['user']['username'] %>
+              </td>
+              <td scope="row">
+                <button class="btn btn-primary">Add</button>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <td>None of your contacts are playing!</td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

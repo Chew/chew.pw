@@ -1,0 +1,103 @@
+<%= content_for :extra_head do %>
+  <% meta_tags title: "Server Viewer",
+               service: "Discord Tools" %>
+<% end %>
+
+<h1>Your Servers</h1>
+
+<p>A list of your servers!</p>
+
+<p>Total Servers: <%= @servers.length %> / 100</p>
+
+<p><%= link_to "Log-out", "/discord/servers/logout" %></p>
+
+<template id="serverTemplate">
+  <div class="col-4 mt-3">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-lg-8 col-md-6">
+            <h3 class="mb-0 text-truncated">%VERIFIED%%NAME%</h3>
+            <p class="lead">%ID%</p>
+            <p>
+              Created: %DATE%
+            </p>
+          </div>
+          <div class="col-12 col-lg-4 col-md-6 text-center">
+            <img src="%IMAGE%" alt="" class="mx-auto rounded-circle img-fluid" style="width: 120px">
+          </div>
+          <div class="col-12 col-lg-4">
+            <h3 class="mb-0">Perms</h3>
+            <small>%PERMISSIONS%</small>
+          </div>
+          <div class="col-12 col-lg-4">
+            <h3 class="mb-0">Owner?</h3>
+            <small>%OWNER%</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover"
+         data-toggle="table"
+         data-search="true"
+         data-show-columns-toggle-all="true"
+         data-show-columns="true"
+         data-height="1300px"
+         data-show-custom-view="true"
+         data-custom-view="customViewFormatter"
+         data-show-custom-view-button="true">
+    <thead class="table-dark">
+    <tr>
+      <th data-sortable="false" data-field="icon" data-switchable="false" data-visible="false">Icon</th>
+      <th data-sortable="false" data-field="verified" data-switchable="false" data-visible="false">Verified</th>
+      <th data-sortable="false" data-field="partnered" data-switchable="false" data-visible="false">Partnered</th>
+      <th data-sortable="true" data-field="server_id" data-switchable="false" data-sort-order="asc">ID</th>
+      <th data-sortable="true" data-field="created" data-switchable="false" data-sort-order="asc">Created</th>
+      <th data-sortable="true" data-field="name" data-switchable="true" data-sort-order="desc">Name</th>
+      <th data-sortable="true" data-field="owner" data-switchable="true">Owner?</th>
+      <th data-sortable="true" data-field="permsraw" data-switchable="false" data-visible="false" data-sort-order="desc">Permissions Raw</th>
+      <th data-sortable="false" data-field="features" data-switchable="true" data-visible="false">Features</th>
+      <th data-sortable="true" data-field="perms" data-sort-name="permsraw" data-switchable="true">Permissions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @servers.each do |server| %>
+      <tr>
+        <td><%= "https://cdn.discordapp.com/icons/#{server['id']}/#{server['icon']}.#{server['icon'].start_with?("a_") ? "gif" : "png"}" unless server['icon'].nil? %></td>
+        <td> <%= verified_image(24) if server['features'].include? "VERIFIED" %></td>
+        <td><%= server['id'] %></td>
+        <td><%= server['id'] %></td>
+        <td><%= created_at server['id'] %></td>
+        <td><%= server['name'] %></td>
+        <td><%= server['owner'] %></td>
+        <td><%= server['permissions'] %></td>
+        <td><%= server['features'].join(", ") %></td>
+        <td><a href="https://discordapi.com/permissions.html#<%= server['permissions'] %>" target="_blank"><%= server['permissions'] %></a></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<script>
+    function customViewFormatter (data) {
+        var template = $('#serverTemplate').html()
+        var view = ''
+        $.each(data, function (i, row) {
+            view += template.replace('%NAME%', row.name)
+                .replace('%IMAGE%', row.icon)
+                .replace('%ID%', row.server_id)
+                .replace('%DATE%', row.created)
+                .replace('%FEATURES%', row.features)
+                .replace('%VERIFIED%', row.verified + " ")
+                .replace('%PERMISSIONS%', row.perms)
+                .replace('%OWNER%', row.owner);
+        })
+
+        return `<div class="row mx-0">${view}</div>`
+    }
+</script>

@@ -1,0 +1,172 @@
+<% content_for :extra_head do %>
+  <%= meta_tags title: "Minecraft JARs",
+                description: "Download the latest server JARs for your favorite types!",
+                service: "Chew's Minecraft Tools",
+                color: '#00AA00' %>
+
+  <%= javascript_pack_tag "mc-jars" %>
+<% end %>
+
+<h1>JAR Downloader</h1>
+
+<p>Download latest server JARs for your favorite types!</p>
+
+<p>As seen on <%= link_to '"The Ultimate Guide to Running a Minecraft Server"',
+                          "https://matthewmiller.dev/blog/ultimate-guide-running-minecraft-server/" %> by Me4502.</p>
+
+<p>
+  <i><b>For Legal Reasons, you CANNOT download Spigot or CraftBukkit from ANY site. You MUST compile it yourself or you are breaking the law.</b></i><br>
+  No worries, though! We recommend Paper, which is 100% legal to download, and you can below!
+  Paper performs much better than Spigot and works with 99% of Spigot plugins, and some run even better!
+</p>
+
+<style>
+  @media (min-width: 576px) {
+      #table-of-contents {
+          display: none;
+      }
+  }
+  @media (max-width: 576px) {
+      #table-of-contents {
+          display: inline;
+      }
+  }
+</style>
+
+<div id="table-of-contents">
+  <h3>Table of Contents</h3>
+  <ul>
+    <li><%= link_to "Paper", "#paper" %></li>
+    <li><%= link_to "Proxies", "#proxies" %></li>
+    <li><%= link_to "Geyser", "#geyserHeader" %></li>
+    <li><%= link_to "Floodgate", "#floodgateHeader" %></li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-sm-3">
+    <h2 id="paper">Paper</h2>
+    <p>
+      All versions that have builds are listed here.
+      Usually, only the top row is supported.
+      The rest are for legacy purposes.
+    </p>
+    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-page-size="5" data-page-list="[5]">
+      <thead class="table-dark">
+      <tr>
+        <th>Version</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @paper['versions'].reverse.each do |version| %>
+      <tr>
+        <td>
+          <%= link_to version, "/mc/jars/paper/#{version}" %> -
+          <%= link_to "[Get Build #]", "/mc/jars/build/paper/#{version}", remote: true, id: "paper/#{version}" %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-3">
+    <h2 id="proxies">Proxies</h2>
+    <p>
+      All are for the latest version.<br>
+      All support 1.8.x to latest.<br>
+      Travertine & Velocity are 1.7.x to latest.<br>
+      None support non-latest versions.
+    </p>
+    <table class="table table-striped table-bordered table-hover" data-toggle="table">
+      <thead class="table-dark">
+      <tr>
+        <th>Proxy Type</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>
+          <%= link_to "BungeeCord", "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar" %> -
+          <%= link_to "[Get Build #]", "/mc/jars/build/bungeecord", remote: true, id: 'bungeecord' %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to "Waterfall", "/mc/jars/waterfall" %> -
+          <%= link_to "[Get Build #]", "/mc/jars/build/waterfall", remote: true, id: 'waterfall' %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to "Travertine", "/mc/jars/travertine" %> -
+          <%= link_to "[Get Build #]", "/mc/jars/build/travertine", remote: true, id: 'travertine' %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to "Velocity", "/mc/jars/velocity" %> -
+          <%= link_to "[Get Build #]", "/mc/jars/build/velocity", remote: true, id: 'velocity' %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-3">
+    <h2 id="geyserHeader">Geyser</h2>
+    <p>
+      Geyser is a bridge/proxy allowing you to connect to Java servers with Bedrock.
+      Read more <%= link_to "here", "https://geysermc.org" %>.
+      All are for latest version(s)
+    </p>
+    <table class="table table-striped table-bordered table-hover" data-toggle="table">
+      <thead class="table-dark">
+      <tr>
+        <th>Version - <%= link_to "[Get Build #]", "/mc/jars/build/geyser", remote: true, id: 'geyser' %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><%= link_to "Standalone", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar" %></td>
+      </tr>
+      <tr>
+        <td><%= link_to "Spigot/Paper", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar" %></td>
+      </tr>
+      <tr>
+        <td><%= link_to "BungeeCord", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/bungeecord/target/Geyser-BungeeCord.jar" %></td>
+      </tr>
+      <tr>
+        <td><%= link_to "Velocity", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/velocity/target/Geyser-Velocity.jar" %></td>
+      </tr>
+      <tr>
+        <td><%= link_to "Sponge", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/sponge/target/Geyser-Sponge.jar" %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-sm-3">
+    <h2 id="floodgateHeader">Floodgate</h2>
+    <p>
+      Hybrid mode plugin to allow for connections from Geyser to join online mode servers.
+      Read more <%= link_to "here", "https://github.com/GeyserMC/floodgate" %>.
+      All are for latest version(s)
+    </p>
+    <table class="table table-striped table-bordered table-hover" data-toggle="table">
+      <thead class="table-dark">
+      <tr>
+        <th>Version - <%= link_to "[Get Build #]", "/mc/jars/build/floodgate", remote: true, id: 'floodgate' %></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><%= link_to "Spigot/Paper", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/bukkit/target/floodgate-bukkit.jar" %></td>
+      </tr>
+      <tr>
+        <td><%= link_to "BungeeCord", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/bungee/target/floodgate-bungee.jar" %></td>
+      </tr>
+      <tr>
+        <td><%= link_to "Velocity", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/velocity/target/floodgate-velocity.jar" %></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

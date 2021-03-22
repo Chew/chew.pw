@@ -1,0 +1,206 @@
+<% content_for :extra_head do %>
+  <%= meta_tags title: "Enchantment Translator",
+                description: "Compare vanilla enchantments to that of Bukkit API and more!",
+                service: "Chew's Minecraft Tools",
+                color: '#00AA00' %>
+<% end %>
+
+<h1>Minecraft Enchantment Translator</h1>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-search="true">
+    <thead class="table-dark">
+      <tr>
+        <th>In-Game Name</th>
+        <th>Bukkit API Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Power</td>
+        <td>ARROW_DAMAGE</td>
+        <td>Provides extra damage when shooting arrows from bows</td>
+      </tr>
+      <tr>
+        <td>Flame</td>
+        <td>ARROW_FIRE</td>
+        <td>Sets entities on fire when hit by arrows shot from a bow</td>
+      </tr>
+      <tr>
+        <td>Infinity</td>
+        <td>ARROW_INFINITE</td>
+        <td>Provides infinite arrows when shooting a bow</td>
+      </tr>
+      <tr>
+        <td>Punch</td>
+        <td>ARROW_KNOCKBACK</td>
+        <td>Provides a knockback when an entity is hit by an arrow from a bow</td>
+      </tr>
+      <tr>
+        <td>Curse of Binding</td>
+        <td>BINDING_CURSE</td>
+        <td>Item cannot be removed</td>
+      </tr>
+      <tr>
+        <td>Channeling</td>
+        <td>CHANNELING</td>
+        <td>Strikes lightning when a mob is hit with a trident if conditions are stormy</td>
+      </tr>
+      <tr>
+        <td>Sharpness</td>
+        <td>DAMAGE_ALL</td>
+        <td>Increases damage against all targets</td>
+      </tr>
+      <tr>
+        <td>Bane of Arthropods</td>
+        <td>DAMAGE_ARTHROPODS</td>
+        <td>Increases damage against arthropod targets</td>
+      </tr>
+      <tr>
+        <td>Smite</td>
+        <td>DAMAGE_UNDEAD</td>
+        <td>Increases damage against undead targets</td>
+      </tr>
+      <tr>
+        <td>Depth Strider</td>
+        <td>DEPTH_STRIDER</td>
+        <td>Increases walking speed while in water</td>
+      </tr>
+      <tr>
+        <td>Efficiency</td>
+        <td>DIG_SPEED</td>
+        <td>Increases the rate at which you mine/dig</td>
+      </tr>
+      <tr>
+        <td>Unbreaking</td>
+        <td>DURABILITY</td>
+        <td>Decreases the rate at which a tool looses durability</td>
+      </tr>
+      <tr>
+        <td>Fire Aspect</td>
+        <td>FIRE_ASPECT</td>
+        <td>When attacking a target, has a chance to set them on fire</td>
+      </tr>
+      <tr>
+        <td>Frost Walker</td>
+        <td>FROST_WALKER</td>
+        <td>Freezes any still water adjacent to ice / frost which player is walking on</td>
+      </tr>
+      <tr>
+        <td>Impaling</td>
+        <td>IMPALING</td>
+        <td>Deals more damage to mobs that live in the ocean</td>
+      </tr>
+      <tr>
+        <td>Knockback</td>
+        <td>KNOCKBACK</td>
+        <td>All damage to other targets will knock them back when hit</td>
+      </tr>
+      <tr>
+        <td>Fortune</td>
+        <td>LOOT_BONUS_BLOCKS</td>
+        <td>Provides a chance of gaining extra loot when destroying blocks</td>
+      </tr>
+      <tr>
+        <td>Looting</td>
+        <td>LOOT_BONUS_MOBS</td>
+        <td>Provides a chance of gaining extra loot when killing monsters</td>
+      </tr>
+      <tr>
+        <td>Loyalty</td>
+        <td>LOYALTY</td>
+        <td>Causes a thrown trident to return to the player who threw it</td>
+      </tr>
+      <tr>
+        <td>Luck of the Sea</td>
+        <td>LUCK</td>
+        <td>Decreases odds of catching worthless junk</td>
+      </tr>
+      <tr>
+        <td>Lure</td>
+        <td>LURE</td>
+        <td>Increases rate of fish biting your hook</td>
+      </tr>
+      <tr>
+        <td>Mending</td>
+        <td>MENDING</td>
+        <td>Allows mending the item using experience orbs</td>
+      </tr>
+      <tr>
+        <td>Multishot</td>
+        <td>MULTISHOT</td>
+        <td>Shoot multiple arrows from crossbows</td>
+      </tr>
+      <tr>
+        <td>Respiration</td>
+        <td>OXYGEN</td>
+        <td>Decreases the rate of air loss whilst underwater</td>
+      </tr>
+      <tr>
+        <td>Piercing</td>
+        <td>PIERCING</td>
+        <td>Crossbow projectiles pierce entities</td>
+      </tr>
+      <tr>
+        <td>Protection</td>
+        <td>PROTECTION_ENVIRONMENTAL</td>
+        <td>Provides protection against environmental damage</td>
+      </tr>
+      <tr>
+        <td>Blast Protection</td>
+        <td>PROTECTION_EXPLOSIONS</td>
+        <td>Provides protection against explosive damage</td>
+      </tr>
+      <tr>
+        <td>Feather Falling</td>
+        <td>PROTECTION_FALL</td>
+        <td>Provides protection against fall damage</td>
+      </tr>
+      <tr>
+        <td>Fire Protection</td>
+        <td>PROTECTION_FIRE</td>
+        <td>Provides protection against fire damage</td>
+      </tr>
+      <tr>
+        <td>Projectile Protection</td>
+        <td>PROTECTION_PROJECTILE</td>
+        <td>Provides protection against projectile damage</td>
+      </tr>
+      <tr>
+        <td>Quick Charge</td>
+        <td>QUICK_CHARGE</td>
+        <td>Charges crossbows quickly</td>
+      </tr>
+      <tr>
+        <td>Riptide</td>
+        <td>RIPTIDE</td>
+        <td>When it is rainy, launches the player in the direction their trident is thrown</td>
+      </tr>
+      <tr>
+        <td>Silk Touch</td>
+        <td>SILK_TOUCH</td>
+        <td>Allows blocks to drop themselves instead of fragments (for example, stone instead of cobblestone)</td>
+      </tr>
+      <tr>
+        <td>Sweeping Edge</td>
+        <td>SWEEPING_EDGE</td>
+        <td>Increases damage against targets when using a sweep attack</td>
+      </tr>
+      <tr>
+        <td>Thorns</td>
+        <td>THORNS</td>
+        <td>Damages the attacker</td>
+      </tr>
+      <tr>
+        <td>Curse of Vanishing</td>
+        <td>VANISHING_CURSE</td>
+        <td>Item disappears instead of dropping</td>
+      </tr>
+      <tr>
+        <td>Aqua Affinity</td>
+        <td>WATER_WORKER</td>
+        <td>Increases the speed at which a player may mine underwater</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

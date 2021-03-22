@@ -1,0 +1,2 @@
+module MinecraftHelper
+end

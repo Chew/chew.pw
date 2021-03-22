@@ -1,0 +1,42 @@
+<%=
+
+key = session[:hq_online_token]
+
+user = get_user(key)
+
+data = {
+  "username": params['username']
+}.to_json
+
+uri = URI.parse("https://api-quiz.hype.space/users/me")
+request = Net::HTTP::Patch.new(uri)
+request.content_type = "application/json"
+request["Authorization"] = key
+request["X-Hq-Client"] = "iOS/1.3.27 b121"
+request.body = data
+req_options = {
+  use_ssl: uri.scheme == "https",
+}
+
+response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+  http.request(request)
+end
+
+# response.code
+# response.body
+
+stuff = JSON.parse(response.body)
+
+if stuff['error'].nil?
+  flash[:usersaved] = 'Your username has been saved!'
+else
+  flash[:usersaved] = "An error occured! <br /> <code>#{stuff['error']}</code>"
+end
+
+
+nil
+%>
+
+<script>
+window.location.href = "/hq/settings"
+</script>

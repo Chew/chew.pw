@@ -1,0 +1,2 @@
+class ChewbotccaProfile < ApplicationRecord
+end

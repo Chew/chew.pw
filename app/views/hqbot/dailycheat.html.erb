@@ -1,0 +1,40 @@
+<%=
+questions = HqQuestion.all
+nil
+%>
+
+<h1 id="fix">Daily Challenge Cheat</h1>
+<p>Type in the Question below and get the answers. Gives answers 80% of the time! </p>
+
+<link rel="stylesheet" href="https://smp.cloudcitymc.us/assets/css/searchboxes.css">
+
+<script src="https://smp.cloudcitymc.us/assets/js/searchboxes.js"></script>
+
+<input type="text" id="findblocks" onkeyup="searchTable(0, 'findblocks')" placeholder="Search by Question" style="width: 100%!important">
+
+
+<table id="blocks">
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% questions.each do |ques| %>
+    <tr>
+      <td><%= ques.question %></td>
+      <td>
+        <% case ques.correct %>
+        <% when 1 %>
+        <%= ques.option1 %>
+        <% when 2 %>
+        <%= ques.option2 %>
+        <% when 3 %>
+        <%= ques.option3 %>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

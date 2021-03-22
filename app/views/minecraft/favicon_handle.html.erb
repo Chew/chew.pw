@@ -1,0 +1,15 @@
+<h1>Image Resized Successfully!</h1>
+
+<%= link_to button_tag("#{fas_icon "home"} Back".html_safe, class: "btn btn-primary"), "/mc/favicon" %>
+
+<h2>Preview</h2>
+
+<div>
+  <img src="data:image/png;base64,<%= Base64.encode64( File.read(@image) ) %>">
+</div>
+<br>
+<div>
+  <%= link_to button_tag("#{fas_icon "download"} Download".html_safe, class: "btn btn-success"),
+            "data:image/png;base64,#{Base64.encode64(File.read(@image))}",
+            download: "server-icon.png" %>
+</div>

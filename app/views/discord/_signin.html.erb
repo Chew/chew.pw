@@ -1,0 +1,27 @@
+<%= content_for :extra_head do %>
+  <% case flash[:view_type] %>
+  <% when "Server" %>
+    <% meta_tags title: "Discord Server Viewer",
+                 description: "View all of your Discord servers in a nice list!",
+                 service: "Discord Tools",
+                 color: "#9ba0ff" %>
+  <% when "Connection" %>
+    <% meta_tags title: "Discord Connection Viewer",
+                 description: "View all of your Discord connections in a nice list!",
+                 service: "Discord Tools",
+                 color: "#9ba0ff" %>
+  <% else %>
+    <% meta_tags title: "Discord Tools",
+                 description: "A nice collection of Discord tools!",
+                 service: "Discord Tools",
+                 color: "#9ba0ff" %>
+  <% end %>
+<% end %>
+
+<h1>Discord <%= flash[:view_type] %> Viewer</h1>
+
+<p>You are not signed in.</p>
+
+<a href="https://discord.com/api/oauth2/authorize?client_id=758151124413972492&redirect_uri=<%= URI.encode_www_form_component(request.url) %>%2Fcallback&response_type=code&scope=<%= session[:scope] %>">
+  <button class="btn btn-primary"><i class="fab fa-discord"></i> Sign-in with Discord</button>
+</a>
