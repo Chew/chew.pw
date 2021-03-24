@@ -54,7 +54,7 @@
 
     .table > :not(caption) > * > * {
         background-color: rgb(28, 30, 31);
-        box-shadow: rgb(40 44 45) 0px 0px 0px 9999px inset;
+        box-shadow: rgb(40, 44, 45) 0px 0px 0px 9999px inset;
     }
 
     .jumbotron a {
@@ -121,7 +121,7 @@
         background-color: rgb(24, 26, 27);
         border-color: rgb(1, 57, 137);
         outline-color: initial;
-        box-shadow: rgb(2 80 196 / 25%) 0px 0px 0px 0.25rem;
+        box-shadow: rgb(2, 80, 196 / 25%) 0px 0px 0px 0.25rem;
     }
 
     .dropdown-item.active, .dropdown-item:active {
