@@ -113,17 +113,6 @@ Rails.application.routes.draw do
       get 'commands', to: 'chewbotcca#discord_commands'
       get 'api/command/:command', to: 'chewbotcca#commands'
       get 'privacy', to: 'chewbotcca#discord_privacy'
-      scope 'api' do
-        scope 'profile/:id' do
-          get '', to: 'chewbotcca#api_get_profile'
-          post '', to: 'chewbotcca#api_post_profile'
-          delete '', to: 'chewbotcca#api_delete_profile'
-        end
-        scope 'server/:id' do
-          get '', to: 'chewbotcca#api_get_server'
-          post '', to: 'chewbotcca#api_post_server'
-        end
-      end
     end
     scope 'slack' do
       get '/', to: 'chewbotcca#slack'
