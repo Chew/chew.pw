@@ -10,7 +10,7 @@
   Online: <%= @players.count { |e| e['isOnline'] >= 1 } %> / <%= @players.count %> <%= @players.count { |e| e['isOnline'] == 2 } > 0 ? "(#{@players.count { |e| e['isOnline'] == 2 }} idle)" : "" %><br />
   Total Season: <%= number_with_delimiter @total.round(0) %><br />
   Total Lifetime: <%= number_with_delimiter @players.map{|e| e['lifetimeCollected']}.sum.round(0) %><br />
-  Total Showcase: <%= @players.map{|e| e['showcaseLevel']}.sum %> / <%= @players.count * 112 %><br />
+  Total Showcase: <%= @players.map{|e| e['showcaseLevel']}.sum %> / <%= @players.count * 160 %><br />
   Total Cookie Power: <%= number_with_delimiter @players.map { |e| e['bakeryLevel'] }.sum %>
 </p>
 <hr />
