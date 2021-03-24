@@ -36,3 +36,126 @@
         margin-top: 20px;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    html, body, input, textarea, select, button {
+        border-color: #736b5e;
+        color: #e8e6e3;
+    }
+
+    .jumbotron {
+        background-color: rgb(35, 38, 39);
+    }
+
+    body {
+        color: rgb(209, 205, 199);
+        background-color: rgb(24, 26, 27);
+    }
+
+    .table > :not(caption) > * > * {
+        background-color: rgb(28, 30, 31);
+        box-shadow: rgb(40 44 45) 0px 0px 0px 9999px inset;
+    }
+
+    .jumbotron a {
+        text-decoration-color: initial;
+    }
+
+    .page-link {
+        color: rgb(35, 148, 253);
+        text-decoration-color: initial;
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(56, 61, 63);
+    }
+
+    .dropdown-menu {
+        color: rgb(209, 205, 199)!important;
+        list-style-image: initial!important;
+        background-color: rgb(24, 26, 27)!important;
+        border-color: rgba(140, 130, 115, 0.15)!important;
+    }
+
+    .dropdown-item {
+        color: rgb(209, 205, 199);
+        text-decoration-color: initial;
+        background-color: transparent;
+        border-color: initial;
+    }
+
+    .dropdown-item:focus, .dropdown-item:hover {
+        color: rgb(211, 207, 201);
+        background-color: rgb(35, 38, 39);
+    }
+
+    tbody, td, tfoot, th, thead, tr {
+        border-color: inherit;
+    }
+
+    .table {
+        color: rgb(209, 205, 199);
+        border-color: rgb(56, 61, 63);
+    }
+
+    .table-striped > tbody > tr:nth-of-type(2n+1) {
+        color: rgb(232, 230, 227);
+    }
+
+    .table-hover > tbody > tr:hover {
+        color: rgb(232, 230, 227);
+    }
+
+    .form-control {
+        color: rgb(209, 205, 199);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(60, 65, 68);
+    }
+
+    .page-link:hover {
+        color: rgb(85, 169, 247);
+        background-color: rgb(35, 38, 39);
+        border-color: rgb(56, 61, 63);
+    }
+
+    .form-control:focus {
+        color: rgb(209, 205, 199);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(1, 57, 137);
+        outline-color: initial;
+        box-shadow: rgb(2 80 196 / 25%) 0px 0px 0px 0.25rem;
+    }
+
+    .dropdown-item.active, .dropdown-item:active {
+        color: rgb(232, 230, 227);
+        text-decoration-color: initial;
+        background-color: rgb(2, 80, 196);
+    }
+
+    .table-dark {
+        color: rgb(232, 230, 227);
+        border-color: rgb(121, 112, 99);
+        border-top-color: rgb(121, 112, 99);
+        border-right-color: rgb(121, 112, 99);
+        border-bottom-color: rgb(121, 112, 99);
+        border-left-color: rgb(121, 112, 99);
+    }
+
+    a {
+        color: rgb(35, 148, 253);
+        text-decoration-color: initial;
+    }
+
+    .SandboxRoot {
+        background-image: initial;
+        background-color: initial;
+        color: rgb(203, 198, 192);
+    }
+
+    .timeline-Widget {
+        background-color: rgb(24, 26, 27);
+    }
+
+    .timeline-Body {
+        border-top-color: rgba(29, 134, 192, 0.12);
+        border-bottom-color: rgba(29, 134, 192, 0.12);
+    }
+}
