@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <%= link_to "MC Tools", "/mc", class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <%= navbar_item name: "Home", href: "/mc", fa_icon: "fas fa-home", external: false %>
+        <%= navbar_item name: "Enchantment Translator", href: "/mc/enchant", fa_icon: "fas fa-magic", external: false %>
+        <%= navbar_item name: "Log Analyzer", href: "/mc/log", fa_icon: "fas fa-scroll", external: false %>
+        <%= navbar_item name: "JAR Downloader", href: "/mc/jars", fa_icon: "fab fa-java", external: false %>
+        <%= navbar_item name: "Favicon Resizer", href: "/mc/favicon", fa_icon: "fas fa-image", external: false %>
+      </ul>
+
+      <%= render "/layouts/navs/chew" %>
+    </div>
+  </div>
+</nav>

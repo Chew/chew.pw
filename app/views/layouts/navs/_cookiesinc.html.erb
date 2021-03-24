@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <%= link_to "Cookies Inc Hub", "/cookiesinc", class: "navbar-brand" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <%= navbar_item name: "Home", href: "/cookiesinc", fa_icon: "fas fa-home" %>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Teams
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <%= dropdown_item name: "Top Teams", href: "/cookiesinc/teams/top", fa_icon: "fas fa-trophy" %>
+            <!--<a class="dropdown-item" href="/cookiesinc/teams/search"><i class="fas fa-search"></i> Search</a>-->
+          </div>
+        </li>
+      </ul>
+
+      <%= render "/layouts/navs/chew" %>
+    </div>
+  </div>
+</nav>

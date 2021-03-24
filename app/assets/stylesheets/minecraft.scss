@@ -1,4 +1,11 @@
 // Place all the styles related to the minecraft controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-@import "bootstrap-table/dist/bootstrap-table.min";
+
+body {
+	background-color: #1A1C2C;
+	background-image: url("https://wiki.teamcstudios.pw/assets/images/mrjo_background.png");
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center bottom;
+}
