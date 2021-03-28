@@ -158,4 +158,9 @@
         border-top-color: rgba(29, 134, 192, 0.12);
         border-bottom-color: rgba(29, 134, 192, 0.12);
     }
+
+    .card {
+        background-color: rgb(24, 26, 27);
+        border-color: rgba(140, 130, 115, 0.13);
+    }
 }
