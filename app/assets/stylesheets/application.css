@@ -43,8 +43,20 @@
         color: #e8e6e3;
     }
 
+    textarea {
+        background-color: #181a1b;
+    }
+
+    .bg-dark {
+        background-color: rgb(28, 30, 31) !important;
+    }
+
+    .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+        color: rgba(232, 230, 227, 0.75);
+    }
+
     .jumbotron {
-        background-color: rgb(35, 38, 39);
+        background-color: rgb(28, 30, 31);
     }
 
     body {
@@ -59,6 +71,10 @@
 
     .jumbotron a {
         text-decoration-color: initial;
+    }
+
+    a:hover {
+        color: rgb(85, 169, 247);
     }
 
     .page-link {
@@ -110,6 +126,52 @@
         border-color: rgb(60, 65, 68);
     }
 
+    .form-control:focus {
+        color: rgb(209, 205, 199);
+        background-color: rgb(24, 26, 27);
+        border-color: rgb(1, 57, 137);
+        outline-color: initial;
+        box-shadow: rgba(2, 80, 196, 0.25) 0px 0px 0px 0.25rem;
+    }
+
+    .form-control::-webkit-input-placeholder {
+        color: rgb(158, 150, 137);
+    }
+
+    .form-control::placeholder {
+        color: rgb(158, 150, 137);
+    }
+
+    .form-control:disabled, .form-control[readonly] {
+        background-color: rgb(35, 38, 39);
+    }
+
+    .form-control::file-selector-button {
+        color: rgb(209, 205, 199);
+        background-color: rgb(35, 38, 39);
+        border-color: inherit;
+    }
+
+    .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
+        background-color: rgb(42, 45, 47);
+    }
+
+    .form-control::-webkit-file-upload-button {
+        color: rgb(209, 205, 199);
+        background-color: rgb(35, 38, 39);
+        border-color: inherit;
+    }
+
+    .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+        background-color: rgb(42, 45, 47);
+    }
+
+    .form-control-plaintext {
+        color: rgb(209, 205, 199);
+        background-color: transparent;
+        border-color: transparent;
+    }
+
     .page-link:hover {
         color: rgb(85, 169, 247);
         background-color: rgb(35, 38, 39);
@@ -122,6 +184,11 @@
         border-color: rgb(1, 57, 137);
         outline-color: initial;
         box-shadow: rgb(2, 80, 196 / 25%) 0px 0px 0px 0.25rem;
+    }
+
+    .form-check-input {
+        background-color: rgb(24, 26, 27);
+        border-color: rgba(140, 130, 115, 0.25);
     }
 
     .dropdown-item.active, .dropdown-item:active {
