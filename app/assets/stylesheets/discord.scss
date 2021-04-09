@@ -3,5 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 body {
-	background-color: #7289DA;
+	background-color: #7289DA; // "Blurple"
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: #2C2F33!important; // "Dark, but not black"
+	}
 }
