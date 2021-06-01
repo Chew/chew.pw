@@ -28,6 +28,10 @@ I want the site dark for all mode users, so here you go!
         color: #e8e6e3;
     }
 
+    input, textarea, select, button {
+        background-color: #181a1b;
+    }
+
     a {
         color: #3391ff;
     }
@@ -40,9 +44,7 @@ I want the site dark for all mode users, so here you go!
         color: #b2aba1;
     }
 
-    input:-webkit-autofill,
-    textarea:-webkit-autofill,
-    select:-webkit-autofill {
+    input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
         background-color: #555b00 !important;
         color: #e8e6e3 !important;
     }
@@ -94,11 +96,8 @@ I want the site dark for all mode users, so here you go!
         --bs-light: #f8f9fa;
         --bs-dark: #212529;
         --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
-        monospace;
-        --darkreader-bgimg--bs-gradient: linear-gradient(180deg,
-        rgba(24, 26, 27, 0.15),
-        rgba(24, 26, 27, 0));
+        --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        --darkreader-bgimg--bs-gradient: linear-gradient(180deg, rgba(24, 26, 27, 0.15), rgba(24, 26, 27, 0));
     }
 
     body {
@@ -117,13 +116,11 @@ I want the site dark for all mode users, so here you go!
         border-color: initial;
     }
 
-    abbr[data-bs-original-title],
-    abbr[title] {
+    abbr[data-bs-original-title], abbr[title] {
         text-decoration-color: initial;
     }
 
-    .mark,
-    mark {
+    .mark, mark {
         background-color: rgb(63, 54, 7);
     }
 
@@ -136,8 +133,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(85, 169, 247);
     }
 
-    a:not([href]):not([class]),
-    a:not([href]):not([class]):hover {
+    a:not([href]):not([class]), a:not([href]):not([class]):hover {
         color: inherit;
         text-decoration-color: initial;
     }
@@ -163,12 +159,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(158, 150, 137);
     }
 
-    tbody,
-    td,
-    tfoot,
-    th,
-    thead,
-    tr {
+    tbody, td, tfoot, th, thead, tr {
         border-color: inherit;
     }
 
@@ -210,371 +201,6 @@ I want the site dark for all mode users, so here you go!
         --bs-gutter-y: 0;
     }
 
-    .g-0,
-    .gx-0 {
-        --bs-gutter-x: 0;
-    }
-
-    .g-0,
-    .gy-0 {
-        --bs-gutter-y: 0;
-    }
-
-    .g-1,
-    .gx-1 {
-        --bs-gutter-x: 0.25rem;
-    }
-
-    .g-1,
-    .gy-1 {
-        --bs-gutter-y: 0.25rem;
-    }
-
-    .g-2,
-    .gx-2 {
-        --bs-gutter-x: 0.5rem;
-    }
-
-    .g-2,
-    .gy-2 {
-        --bs-gutter-y: 0.5rem;
-    }
-
-    .g-3,
-    .gx-3 {
-        --bs-gutter-x: 1rem;
-    }
-
-    .g-3,
-    .gy-3 {
-        --bs-gutter-y: 1rem;
-    }
-
-    .g-4,
-    .gx-4 {
-        --bs-gutter-x: 1.5rem;
-    }
-
-    .g-4,
-    .gy-4 {
-        --bs-gutter-y: 1.5rem;
-    }
-
-    .g-5,
-    .gx-5 {
-        --bs-gutter-x: 3rem;
-    }
-
-    .g-5,
-    .gy-5 {
-        --bs-gutter-y: 3rem;
-    }
-
-    @media (min-width: 576px) {
-        .g-sm-0,
-        .gx-sm-0 {
-            --bs-gutter-x: 0;
-        }
-
-        .g-sm-0,
-        .gy-sm-0 {
-            --bs-gutter-y: 0;
-        }
-
-        .g-sm-1,
-        .gx-sm-1 {
-            --bs-gutter-x: 0.25rem;
-        }
-
-        .g-sm-1,
-        .gy-sm-1 {
-            --bs-gutter-y: 0.25rem;
-        }
-
-        .g-sm-2,
-        .gx-sm-2 {
-            --bs-gutter-x: 0.5rem;
-        }
-
-        .g-sm-2,
-        .gy-sm-2 {
-            --bs-gutter-y: 0.5rem;
-        }
-
-        .g-sm-3,
-        .gx-sm-3 {
-            --bs-gutter-x: 1rem;
-        }
-
-        .g-sm-3,
-        .gy-sm-3 {
-            --bs-gutter-y: 1rem;
-        }
-
-        .g-sm-4,
-        .gx-sm-4 {
-            --bs-gutter-x: 1.5rem;
-        }
-
-        .g-sm-4,
-        .gy-sm-4 {
-            --bs-gutter-y: 1.5rem;
-        }
-
-        .g-sm-5,
-        .gx-sm-5 {
-            --bs-gutter-x: 3rem;
-        }
-
-        .g-sm-5,
-        .gy-sm-5 {
-            --bs-gutter-y: 3rem;
-        }
-    }
-    @media (min-width: 768px) {
-        .g-md-0,
-        .gx-md-0 {
-            --bs-gutter-x: 0;
-        }
-
-        .g-md-0,
-        .gy-md-0 {
-            --bs-gutter-y: 0;
-        }
-
-        .g-md-1,
-        .gx-md-1 {
-            --bs-gutter-x: 0.25rem;
-        }
-
-        .g-md-1,
-        .gy-md-1 {
-            --bs-gutter-y: 0.25rem;
-        }
-
-        .g-md-2,
-        .gx-md-2 {
-            --bs-gutter-x: 0.5rem;
-        }
-
-        .g-md-2,
-        .gy-md-2 {
-            --bs-gutter-y: 0.5rem;
-        }
-
-        .g-md-3,
-        .gx-md-3 {
-            --bs-gutter-x: 1rem;
-        }
-
-        .g-md-3,
-        .gy-md-3 {
-            --bs-gutter-y: 1rem;
-        }
-
-        .g-md-4,
-        .gx-md-4 {
-            --bs-gutter-x: 1.5rem;
-        }
-
-        .g-md-4,
-        .gy-md-4 {
-            --bs-gutter-y: 1.5rem;
-        }
-
-        .g-md-5,
-        .gx-md-5 {
-            --bs-gutter-x: 3rem;
-        }
-
-        .g-md-5,
-        .gy-md-5 {
-            --bs-gutter-y: 3rem;
-        }
-    }
-    @media (min-width: 992px) {
-        .g-lg-0,
-        .gx-lg-0 {
-            --bs-gutter-x: 0;
-        }
-
-        .g-lg-0,
-        .gy-lg-0 {
-            --bs-gutter-y: 0;
-        }
-
-        .g-lg-1,
-        .gx-lg-1 {
-            --bs-gutter-x: 0.25rem;
-        }
-
-        .g-lg-1,
-        .gy-lg-1 {
-            --bs-gutter-y: 0.25rem;
-        }
-
-        .g-lg-2,
-        .gx-lg-2 {
-            --bs-gutter-x: 0.5rem;
-        }
-
-        .g-lg-2,
-        .gy-lg-2 {
-            --bs-gutter-y: 0.5rem;
-        }
-
-        .g-lg-3,
-        .gx-lg-3 {
-            --bs-gutter-x: 1rem;
-        }
-
-        .g-lg-3,
-        .gy-lg-3 {
-            --bs-gutter-y: 1rem;
-        }
-
-        .g-lg-4,
-        .gx-lg-4 {
-            --bs-gutter-x: 1.5rem;
-        }
-
-        .g-lg-4,
-        .gy-lg-4 {
-            --bs-gutter-y: 1.5rem;
-        }
-
-        .g-lg-5,
-        .gx-lg-5 {
-            --bs-gutter-x: 3rem;
-        }
-
-        .g-lg-5,
-        .gy-lg-5 {
-            --bs-gutter-y: 3rem;
-        }
-    }
-    @media (min-width: 1200px) {
-        .g-xl-0,
-        .gx-xl-0 {
-            --bs-gutter-x: 0;
-        }
-
-        .g-xl-0,
-        .gy-xl-0 {
-            --bs-gutter-y: 0;
-        }
-
-        .g-xl-1,
-        .gx-xl-1 {
-            --bs-gutter-x: 0.25rem;
-        }
-
-        .g-xl-1,
-        .gy-xl-1 {
-            --bs-gutter-y: 0.25rem;
-        }
-
-        .g-xl-2,
-        .gx-xl-2 {
-            --bs-gutter-x: 0.5rem;
-        }
-
-        .g-xl-2,
-        .gy-xl-2 {
-            --bs-gutter-y: 0.5rem;
-        }
-
-        .g-xl-3,
-        .gx-xl-3 {
-            --bs-gutter-x: 1rem;
-        }
-
-        .g-xl-3,
-        .gy-xl-3 {
-            --bs-gutter-y: 1rem;
-        }
-
-        .g-xl-4,
-        .gx-xl-4 {
-            --bs-gutter-x: 1.5rem;
-        }
-
-        .g-xl-4,
-        .gy-xl-4 {
-            --bs-gutter-y: 1.5rem;
-        }
-
-        .g-xl-5,
-        .gx-xl-5 {
-            --bs-gutter-x: 3rem;
-        }
-
-        .g-xl-5,
-        .gy-xl-5 {
-            --bs-gutter-y: 3rem;
-        }
-    }
-    @media (min-width: 1400px) {
-        .g-xxl-0,
-        .gx-xxl-0 {
-            --bs-gutter-x: 0;
-        }
-
-        .g-xxl-0,
-        .gy-xxl-0 {
-            --bs-gutter-y: 0;
-        }
-
-        .g-xxl-1,
-        .gx-xxl-1 {
-            --bs-gutter-x: 0.25rem;
-        }
-
-        .g-xxl-1,
-        .gy-xxl-1 {
-            --bs-gutter-y: 0.25rem;
-        }
-
-        .g-xxl-2,
-        .gx-xxl-2 {
-            --bs-gutter-x: 0.5rem;
-        }
-
-        .g-xxl-2,
-        .gy-xxl-2 {
-            --bs-gutter-y: 0.5rem;
-        }
-
-        .g-xxl-3,
-        .gx-xxl-3 {
-            --bs-gutter-x: 1rem;
-        }
-
-        .g-xxl-3,
-        .gy-xxl-3 {
-            --bs-gutter-y: 1rem;
-        }
-
-        .g-xxl-4,
-        .gx-xxl-4 {
-            --bs-gutter-x: 1.5rem;
-        }
-
-        .g-xxl-4,
-        .gy-xxl-4 {
-            --bs-gutter-y: 1.5rem;
-        }
-
-        .g-xxl-5,
-        .gx-xxl-5 {
-            --bs-gutter-x: 3rem;
-        }
-
-        .g-xxl-5,
-        .gy-xxl-5 {
-            --bs-gutter-y: 3rem;
-        }
-    }
     .table {
         --darkreader-bg--bs-table-bg: rgba(0, 0, 0, 0);
         --darkreader-text--bs-table-striped-color: #d1cdc7;
@@ -733,8 +359,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(158, 150, 137);
     }
 
-    .form-control:disabled,
-    .form-control[readonly] {
+    .form-control:disabled, .form-control[readonly] {
         background-color: rgb(35, 38, 39);
     }
 
@@ -777,8 +402,7 @@ I want the site dark for all mode users, so here you go!
         box-shadow: rgba(2, 80, 196, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-select[multiple],
-    .form-select[size]:not([size="1"]) {
+    .form-select[multiple], .form-select[size]:not([size="1"]) {
         background-image: none;
     }
 
@@ -838,8 +462,7 @@ I want the site dark for all mode users, so here you go!
     }
 
     .form-range:focus::-webkit-slider-thumb {
-        box-shadow: rgb(24, 26, 27) 0 0 0 1px,
-        rgba(2, 80, 196, 0.25) 0 0 0 0.25rem;
+        box-shadow: rgb(24, 26, 27) 0 0 0 1px, rgba(2, 80, 196, 0.25) 0 0 0 0.25rem;
     }
 
     .form-range::-webkit-slider-thumb {
@@ -888,48 +511,39 @@ I want the site dark for all mode users, so here you go!
         background-color: rgba(20, 108, 67, 0.9);
     }
 
-    .form-control.is-valid,
-    .was-validated .form-control:valid {
+    .form-control.is-valid, .was-validated .form-control:valid {
         border-color: rgb(32, 175, 109);
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
     }
 
-    .form-control.is-valid:focus,
-    .was-validated .form-control:valid:focus {
+    .form-control.is-valid:focus, .was-validated .form-control:valid:focus {
         border-color: rgb(32, 175, 109);
         box-shadow: rgba(20, 108, 67, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-select.is-valid,
-    .was-validated .form-select:valid {
+    .form-select.is-valid, .was-validated .form-select:valid {
         border-color: rgb(32, 175, 109);
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"),
-        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
     }
 
-    .form-select.is-valid:focus,
-    .was-validated .form-select:valid:focus {
+    .form-select.is-valid:focus, .was-validated .form-select:valid:focus {
         border-color: rgb(32, 175, 109);
         box-shadow: rgba(20, 108, 67, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-check-input.is-valid,
-    .was-validated .form-check-input:valid {
+    .form-check-input.is-valid, .was-validated .form-check-input:valid {
         border-color: rgb(32, 175, 109);
     }
 
-    .form-check-input.is-valid:checked,
-    .was-validated .form-check-input:valid:checked {
+    .form-check-input.is-valid:checked, .was-validated .form-check-input:valid:checked {
         background-color: rgb(20, 108, 67);
     }
 
-    .form-check-input.is-valid:focus,
-    .was-validated .form-check-input:valid:focus {
+    .form-check-input.is-valid:focus, .was-validated .form-check-input:valid:focus {
         box-shadow: rgba(20, 108, 67, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-check-input.is-valid ~ .form-check-label,
-    .was-validated .form-check-input:valid ~ .form-check-label {
+    .form-check-input.is-valid ~ .form-check-label, .was-validated .form-check-input:valid ~ .form-check-label {
         color: rgb(117, 230, 178);
     }
 
@@ -942,48 +556,39 @@ I want the site dark for all mode users, so here you go!
         background-color: rgba(165, 29, 42, 0.9);
     }
 
-    .form-control.is-invalid,
-    .was-validated .form-control:invalid {
+    .form-control.is-invalid, .was-validated .form-control:invalid {
         border-color: rgb(148, 26, 37);
         background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiPjxkZWZzPjxmaWx0ZXIgaWQ9ImRhcmtyZWFkZXItaW1hZ2UtZmlsdGVyIj48ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMC4yNDkgLTAuNjE0IC0wLjY3MiAwLjAwMCAxLjAzNSAtMC42NDYgMC4yODggLTAuNjY0IDAuMDAwIDEuMDIwIC0wLjYzNiAtMC42MDkgMC4yNTAgMC4wMDAgMC45OTQgMC4wMDAgMC4wMDAgMC4wMDAgMS4wMDAgMC4wMDAiIC8+PC9maWx0ZXI+PC9kZWZzPjxpbWFnZSB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIGZpbHRlcj0idXJsKCNkYXJrcmVhZGVyLWltYWdlLWZpbHRlcikiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM2NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTIgMTInIHdpZHRoPScxMicgaGVpZ2h0PScxMicgZmlsbD0nbm9uZScgc3Ryb2tlPSclMjNkYzM1NDUnJTNlJTNjY2lyY2xlIGN4PSc2JyBjeT0nNicgcj0nNC41Jy8lM2UlM2NwYXRoIHN0cm9rZS1saW5lam9pbj0ncm91bmQnIGQ9J001LjggMy42aC40TDYgNi41eicvJTNlJTNjY2lyY2xlIGN4PSc2JyBjeT0nOC4yJyByPScuNicgZmlsbD0nJTIzZGMzNTQ1JyBzdHJva2U9J25vbmUnLyUzZSUzYy9zdmclM2UiIC8+PC9zdmc+");
     }
 
-    .form-control.is-invalid:focus,
-    .was-validated .form-control:invalid:focus {
+    .form-control.is-invalid:focus, .was-validated .form-control:invalid:focus {
         border-color: rgb(148, 26, 37);
         box-shadow: rgba(165, 29, 42, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-select.is-invalid,
-    .was-validated .form-select:invalid {
+    .form-select.is-invalid, .was-validated .form-select:invalid {
         border-color: rgb(148, 26, 37);
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"),
-        url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiPjxkZWZzPjxmaWx0ZXIgaWQ9ImRhcmtyZWFkZXItaW1hZ2UtZmlsdGVyIj48ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMC4yNDkgLTAuNjE0IC0wLjY3MiAwLjAwMCAxLjAzNSAtMC42NDYgMC4yODggLTAuNjY0IDAuMDAwIDEuMDIwIC0wLjYzNiAtMC42MDkgMC4yNTAgMC4wMDAgMC45OTQgMC4wMDAgMC4wMDAgMC4wMDAgMS4wMDAgMC4wMDAiIC8+PC9maWx0ZXI+PC9kZWZzPjxpbWFnZSB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIGZpbHRlcj0idXJsKCNkYXJrcmVhZGVyLWltYWdlLWZpbHRlcikiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM2NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTIgMTInIHdpZHRoPScxMicgaGVpZ2h0PScxMicgZmlsbD0nbm9uZScgc3Ryb2tlPSclMjNkYzM1NDUnJTNlJTNjY2lyY2xlIGN4PSc2JyBjeT0nNicgcj0nNC41Jy8lM2UlM2NwYXRoIHN0cm9rZS1saW5lam9pbj0ncm91bmQnIGQ9J001LjggMy42aC40TDYgNi41eicvJTNlJTNjY2lyY2xlIGN4PSc2JyBjeT0nOC4yJyByPScuNicgZmlsbD0nJTIzZGMzNTQ1JyBzdHJva2U9J25vbmUnLyUzZSUzYy9zdmclM2UiIC8+PC9zdmc+");
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTIiIGhlaWdodD0iMTIiPjxkZWZzPjxmaWx0ZXIgaWQ9ImRhcmtyZWFkZXItaW1hZ2UtZmlsdGVyIj48ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMC4yNDkgLTAuNjE0IC0wLjY3MiAwLjAwMCAxLjAzNSAtMC42NDYgMC4yODggLTAuNjY0IDAuMDAwIDEuMDIwIC0wLjYzNiAtMC42MDkgMC4yNTAgMC4wMDAgMC45OTQgMC4wMDAgMC4wMDAgMC4wMDAgMS4wMDAgMC4wMDAiIC8+PC9maWx0ZXI+PC9kZWZzPjxpbWFnZSB3aWR0aD0iMTIiIGhlaWdodD0iMTIiIGZpbHRlcj0idXJsKCNkYXJrcmVhZGVyLWltYWdlLWZpbHRlcikiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM2NzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTIgMTInIHdpZHRoPScxMicgaGVpZ2h0PScxMicgZmlsbD0nbm9uZScgc3Ryb2tlPSclMjNkYzM1NDUnJTNlJTNjY2lyY2xlIGN4PSc2JyBjeT0nNicgcj0nNC41Jy8lM2UlM2NwYXRoIHN0cm9rZS1saW5lam9pbj0ncm91bmQnIGQ9J001LjggMy42aC40TDYgNi41eicvJTNlJTNjY2lyY2xlIGN4PSc2JyBjeT0nOC4yJyByPScuNicgZmlsbD0nJTIzZGMzNTQ1JyBzdHJva2U9J25vbmUnLyUzZSUzYy9zdmclM2UiIC8+PC9zdmc+");
     }
 
-    .form-select.is-invalid:focus,
-    .was-validated .form-select:invalid:focus {
+    .form-select.is-invalid:focus, .was-validated .form-select:invalid:focus {
         border-color: rgb(148, 26, 37);
         box-shadow: rgba(165, 29, 42, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-check-input.is-invalid,
-    .was-validated .form-check-input:invalid {
+    .form-check-input.is-invalid, .was-validated .form-check-input:invalid {
         border-color: rgb(148, 26, 37);
     }
 
-    .form-check-input.is-invalid:checked,
-    .was-validated .form-check-input:invalid:checked {
+    .form-check-input.is-invalid:checked, .was-validated .form-check-input:invalid:checked {
         background-color: rgb(165, 29, 42);
     }
 
-    .form-check-input.is-invalid:focus,
-    .was-validated .form-check-input:invalid:focus {
+    .form-check-input.is-invalid:focus, .was-validated .form-check-input:invalid:focus {
         box-shadow: rgba(165, 29, 42, 0.25) 0 0 0 0.25rem;
     }
 
-    .form-check-input.is-invalid ~ .form-check-label,
-    .was-validated .form-check-input:invalid ~ .form-check-label {
+    .form-check-input.is-invalid ~ .form-check-label, .was-validated .form-check-input:invalid ~ .form-check-label {
         color: rgb(223, 70, 85);
     }
 
@@ -998,8 +603,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(209, 205, 199);
     }
 
-    .btn-check:focus + .btn,
-    .btn:focus {
+    .btn-check:focus + .btn, .btn:focus {
         outline-color: initial;
         box-shadow: rgba(2, 80, 196, 0.25) 0 0 0 0.25rem;
     }
@@ -1016,34 +620,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(9, 79, 182);
     }
 
-    .btn-check:focus + .btn-primary,
-    .btn-primary:focus {
+    .btn-check:focus + .btn-primary, .btn-primary:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(9, 75, 172);
         border-color: rgb(9, 79, 182);
         box-shadow: rgba(2, 72, 174, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-primary,
-    .btn-check:checked + .btn-primary,
-    .btn-primary.active,
-    .btn-primary:active,
-    .show > .btn-primary.dropdown-toggle {
+    .btn-check:active + .btn-primary, .btn-check:checked + .btn-primary, .btn-primary.active, .btn-primary:active, .show > .btn-primary.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(8, 70, 162);
         border-color: rgb(10, 81, 185);
     }
 
-    .btn-check:active + .btn-primary:focus,
-    .btn-check:checked + .btn-primary:focus,
-    .btn-primary.active:focus,
-    .btn-primary:active:focus,
-    .show > .btn-primary.dropdown-toggle:focus {
+    .btn-check:active + .btn-primary:focus, .btn-check:checked + .btn-primary:focus, .btn-primary.active:focus, .btn-primary:active:focus, .show > .btn-primary.dropdown-toggle:focus {
         box-shadow: rgba(2, 72, 174, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-primary.disabled,
-    .btn-primary:disabled {
+    .btn-primary.disabled, .btn-primary:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(2, 80, 196);
         border-color: rgb(1, 71, 174);
@@ -1061,34 +655,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(109, 102, 90);
     }
 
-    .btn-check:focus + .btn-secondary,
-    .btn-secondary:focus {
+    .btn-check:focus + .btn-secondary, .btn-secondary:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(75, 81, 84);
         border-color: rgb(109, 102, 90);
         box-shadow: rgba(90, 98, 102, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-secondary,
-    .btn-check:checked + .btn-secondary,
-    .btn-secondary.active,
-    .btn-secondary:active,
-    .show > .btn-secondary.dropdown-toggle {
+    .btn-check:active + .btn-secondary, .btn-check:checked + .btn-secondary, .btn-secondary.active, .btn-secondary:active, .show > .btn-secondary.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(70, 76, 79);
         border-color: rgb(111, 103, 91);
     }
 
-    .btn-check:active + .btn-secondary:focus,
-    .btn-check:checked + .btn-secondary:focus,
-    .btn-secondary.active:focus,
-    .btn-secondary:active:focus,
-    .show > .btn-secondary.dropdown-toggle:focus {
+    .btn-check:active + .btn-secondary:focus, .btn-check:checked + .btn-secondary:focus, .btn-secondary.active:focus, .btn-secondary:active:focus, .show > .btn-secondary.dropdown-toggle:focus {
         box-shadow: rgba(90, 98, 102, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-secondary.disabled,
-    .btn-secondary:disabled {
+    .btn-secondary.disabled, .btn-secondary:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(88, 95, 99);
         border-color: rgb(102, 94, 83);
@@ -1106,34 +690,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(34, 183, 113);
     }
 
-    .btn-check:focus + .btn-success,
-    .btn-success:focus {
+    .btn-check:focus + .btn-success, .btn-success:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(17, 92, 57);
         border-color: rgb(34, 183, 113);
         box-shadow: rgba(48, 122, 88, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-success,
-    .btn-check:checked + .btn-success,
-    .btn-success.active,
-    .btn-success:active,
-    .show > .btn-success.dropdown-toggle {
+    .btn-check:active + .btn-success, .btn-check:checked + .btn-success, .btn-success.active, .btn-success:active, .show > .btn-success.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(16, 86, 54);
         border-color: rgb(35, 184, 115);
     }
 
-    .btn-check:active + .btn-success:focus,
-    .btn-check:checked + .btn-success:focus,
-    .btn-success.active:focus,
-    .btn-success:active:focus,
-    .show > .btn-success.dropdown-toggle:focus {
+    .btn-check:active + .btn-success:focus, .btn-check:checked + .btn-success:focus, .btn-success.active:focus, .btn-success:active:focus, .show > .btn-success.dropdown-toggle:focus {
         box-shadow: rgba(48, 122, 88, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-success.disabled,
-    .btn-success:disabled {
+    .btn-success.disabled, .btn-success:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(20, 108, 67);
         border-color: rgb(32, 175, 109);
@@ -1151,34 +725,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(10, 136, 162);
     }
 
-    .btn-check:focus + .btn-info,
-    .btn-info:focus {
+    .btn-check:focus + .btn-info, .btn-info:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(11, 145, 172);
         border-color: rgb(10, 136, 162);
         box-shadow: rgba(9, 138, 163, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-info,
-    .btn-check:checked + .btn-info,
-    .btn-info.active,
-    .btn-info:active,
-    .show > .btn-info.dropdown-toggle {
+    .btn-check:active + .btn-info, .btn-check:checked + .btn-info, .btn-info.active, .btn-info:active, .show > .btn-info.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(10, 139, 164);
         border-color: rgb(10, 136, 162);
     }
 
-    .btn-check:active + .btn-info:focus,
-    .btn-check:checked + .btn-info:focus,
-    .btn-info.active:focus,
-    .btn-info:active:focus,
-    .show > .btn-info.dropdown-toggle:focus {
+    .btn-check:active + .btn-info:focus, .btn-check:checked + .btn-info:focus, .btn-info.active:focus, .btn-info:active:focus, .show > .btn-info.dropdown-toggle:focus {
         box-shadow: rgba(9, 138, 163, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-info.disabled,
-    .btn-info:disabled {
+    .btn-info.disabled, .btn-info:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(10, 162, 192);
         border-color: rgb(9, 143, 170);
@@ -1196,34 +760,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(169, 126, 0);
     }
 
-    .btn-check:focus + .btn-warning,
-    .btn-warning:focus {
+    .btn-check:focus + .btn-warning, .btn-warning:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(178, 133, 0);
         border-color: rgb(169, 126, 0);
         box-shadow: rgba(174, 131, 5, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-warning,
-    .btn-check:checked + .btn-warning,
-    .btn-warning.active,
-    .btn-warning:active,
-    .show > .btn-warning.dropdown-toggle {
+    .btn-check:active + .btn-warning, .btn-check:checked + .btn-warning, .btn-warning.active, .btn-warning:active, .show > .btn-warning.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(170, 127, 0);
         border-color: rgb(169, 126, 0);
     }
 
-    .btn-check:active + .btn-warning:focus,
-    .btn-check:checked + .btn-warning:focus,
-    .btn-warning.active:focus,
-    .btn-warning:active:focus,
-    .show > .btn-warning.dropdown-toggle:focus {
+    .btn-check:active + .btn-warning:focus, .btn-check:checked + .btn-warning:focus, .btn-warning.active:focus, .btn-warning:active:focus, .show > .btn-warning.dropdown-toggle:focus {
         box-shadow: rgba(174, 131, 5, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-warning.disabled,
-    .btn-warning:disabled {
+    .btn-warning.disabled, .btn-warning:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(200, 150, 0);
         border-color: rgb(176, 132, 0);
@@ -1241,34 +795,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(153, 37, 48);
     }
 
-    .btn-check:focus + .btn-danger,
-    .btn-danger:focus {
+    .btn-check:focus + .btn-danger, .btn-danger:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(150, 36, 47);
         border-color: rgb(153, 37, 48);
         box-shadow: rgba(147, 26, 38, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-danger,
-    .btn-check:checked + .btn-danger,
-    .btn-danger.active,
-    .btn-danger:active,
-    .show > .btn-danger.dropdown-toggle {
+    .btn-check:active + .btn-danger, .btn-check:checked + .btn-danger, .btn-danger.active, .btn-danger:active, .show > .btn-danger.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(141, 34, 44);
         border-color: rgb(156, 38, 49);
     }
 
-    .btn-check:active + .btn-danger:focus,
-    .btn-check:checked + .btn-danger:focus,
-    .btn-danger.active:focus,
-    .btn-danger:active:focus,
-    .show > .btn-danger.dropdown-toggle:focus {
+    .btn-check:active + .btn-danger:focus, .btn-check:checked + .btn-danger:focus, .btn-danger.active:focus, .btn-danger:active:focus, .show > .btn-danger.dropdown-toggle:focus {
         box-shadow: rgba(147, 26, 38, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-danger.disabled,
-    .btn-danger:disabled {
+    .btn-danger.disabled, .btn-danger:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(165, 29, 42);
         border-color: rgb(148, 26, 37);
@@ -1286,34 +830,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(49, 54, 56);
     }
 
-    .btn-check:focus + .btn-light,
-    .btn-light:focus {
+    .btn-check:focus + .btn-light, .btn-light:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(27, 29, 30);
         border-color: rgb(49, 54, 56);
         box-shadow: rgba(48, 52, 54, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-light,
-    .btn-check:checked + .btn-light,
-    .btn-light.active,
-    .btn-light:active,
-    .show > .btn-light.dropdown-toggle {
+    .btn-check:active + .btn-light, .btn-check:checked + .btn-light, .btn-light.active, .btn-light:active, .show > .btn-light.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(27, 29, 30);
         border-color: rgb(49, 54, 56);
     }
 
-    .btn-check:active + .btn-light:focus,
-    .btn-check:checked + .btn-light:focus,
-    .btn-light.active:focus,
-    .btn-light:active:focus,
-    .show > .btn-light.dropdown-toggle:focus {
+    .btn-check:active + .btn-light:focus, .btn-check:checked + .btn-light:focus, .btn-light.active:focus, .btn-light:active:focus, .show > .btn-light.dropdown-toggle:focus {
         box-shadow: rgba(48, 52, 54, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-light.disabled,
-    .btn-light:disabled {
+    .btn-light.disabled, .btn-light:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(27, 30, 31);
         border-color: rgb(50, 54, 56);
@@ -1331,34 +865,24 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(130, 121, 107);
     }
 
-    .btn-check:focus + .btn-dark,
-    .btn-dark:focus {
+    .btn-check:focus + .btn-dark, .btn-dark:focus {
         color: rgb(232, 230, 227);
         background-color: rgb(24, 26, 27);
         border-color: rgb(130, 121, 107);
         box-shadow: rgba(52, 57, 59, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-dark,
-    .btn-check:checked + .btn-dark,
-    .btn-dark.active,
-    .btn-dark:active,
-    .show > .btn-dark.dropdown-toggle {
+    .btn-check:active + .btn-dark, .btn-check:checked + .btn-dark, .btn-dark.active, .btn-dark:active, .show > .btn-dark.dropdown-toggle {
         color: rgb(232, 230, 227);
         background-color: rgb(22, 24, 25);
         border-color: rgb(131, 121, 107);
     }
 
-    .btn-check:active + .btn-dark:focus,
-    .btn-check:checked + .btn-dark:focus,
-    .btn-dark.active:focus,
-    .btn-dark:active:focus,
-    .show > .btn-dark.dropdown-toggle:focus {
+    .btn-check:active + .btn-dark:focus, .btn-check:checked + .btn-dark:focus, .btn-dark.active:focus, .btn-dark:active:focus, .show > .btn-dark.dropdown-toggle:focus {
         box-shadow: rgba(52, 57, 59, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-dark.disabled,
-    .btn-dark:disabled {
+    .btn-dark.disabled, .btn-dark:disabled {
         color: rgb(232, 230, 227);
         background-color: rgb(28, 30, 31);
         border-color: rgb(128, 119, 105);
@@ -1375,31 +899,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(1, 71, 174);
     }
 
-    .btn-check:focus + .btn-outline-primary,
-    .btn-outline-primary:focus {
+    .btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus {
         box-shadow: rgba(2, 80, 196, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-primary,
-    .btn-check:checked + .btn-outline-primary,
-    .btn-outline-primary.active,
-    .btn-outline-primary.dropdown-toggle.show,
-    .btn-outline-primary:active {
+    .btn-check:active + .btn-outline-primary, .btn-check:checked + .btn-outline-primary, .btn-outline-primary.active, .btn-outline-primary.dropdown-toggle.show, .btn-outline-primary:active {
         color: rgb(232, 230, 227);
         background-color: rgb(2, 80, 196);
         border-color: rgb(1, 71, 174);
     }
 
-    .btn-check:active + .btn-outline-primary:focus,
-    .btn-check:checked + .btn-outline-primary:focus,
-    .btn-outline-primary.active:focus,
-    .btn-outline-primary.dropdown-toggle.show:focus,
-    .btn-outline-primary:active:focus {
+    .btn-check:active + .btn-outline-primary:focus, .btn-check:checked + .btn-outline-primary:focus, .btn-outline-primary.active:focus, .btn-outline-primary.dropdown-toggle.show:focus, .btn-outline-primary:active:focus {
         box-shadow: rgba(2, 80, 196, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-primary.disabled,
-    .btn-outline-primary:disabled {
+    .btn-outline-primary.disabled, .btn-outline-primary:disabled {
         color: rgb(35, 148, 253);
         background-color: transparent;
     }
@@ -1415,31 +929,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(102, 94, 83);
     }
 
-    .btn-check:focus + .btn-outline-secondary,
-    .btn-outline-secondary:focus {
+    .btn-check:focus + .btn-outline-secondary, .btn-outline-secondary:focus {
         box-shadow: rgba(88, 95, 99, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-secondary,
-    .btn-check:checked + .btn-outline-secondary,
-    .btn-outline-secondary.active,
-    .btn-outline-secondary.dropdown-toggle.show,
-    .btn-outline-secondary:active {
+    .btn-check:active + .btn-outline-secondary, .btn-check:checked + .btn-outline-secondary, .btn-outline-secondary.active, .btn-outline-secondary.dropdown-toggle.show, .btn-outline-secondary:active {
         color: rgb(232, 230, 227);
         background-color: rgb(88, 95, 99);
         border-color: rgb(102, 94, 83);
     }
 
-    .btn-check:active + .btn-outline-secondary:focus,
-    .btn-check:checked + .btn-outline-secondary:focus,
-    .btn-outline-secondary.active:focus,
-    .btn-outline-secondary.dropdown-toggle.show:focus,
-    .btn-outline-secondary:active:focus {
+    .btn-check:active + .btn-outline-secondary:focus, .btn-check:checked + .btn-outline-secondary:focus, .btn-outline-secondary.active:focus, .btn-outline-secondary.dropdown-toggle.show:focus, .btn-outline-secondary:active:focus {
         box-shadow: rgba(88, 95, 99, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-secondary.disabled,
-    .btn-outline-secondary:disabled {
+    .btn-outline-secondary.disabled, .btn-outline-secondary:disabled {
         color: rgb(158, 150, 137);
         background-color: transparent;
     }
@@ -1455,31 +959,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(32, 175, 109);
     }
 
-    .btn-check:focus + .btn-outline-success,
-    .btn-outline-success:focus {
+    .btn-check:focus + .btn-outline-success, .btn-outline-success:focus {
         box-shadow: rgba(20, 108, 67, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-success,
-    .btn-check:checked + .btn-outline-success,
-    .btn-outline-success.active,
-    .btn-outline-success.dropdown-toggle.show,
-    .btn-outline-success:active {
+    .btn-check:active + .btn-outline-success, .btn-check:checked + .btn-outline-success, .btn-outline-success.active, .btn-outline-success.dropdown-toggle.show, .btn-outline-success:active {
         color: rgb(232, 230, 227);
         background-color: rgb(20, 108, 67);
         border-color: rgb(32, 175, 109);
     }
 
-    .btn-check:active + .btn-outline-success:focus,
-    .btn-check:checked + .btn-outline-success:focus,
-    .btn-outline-success.active:focus,
-    .btn-outline-success.dropdown-toggle.show:focus,
-    .btn-outline-success:active:focus {
+    .btn-check:active + .btn-outline-success:focus, .btn-check:checked + .btn-outline-success:focus, .btn-outline-success.active:focus, .btn-outline-success.dropdown-toggle.show:focus, .btn-outline-success:active:focus {
         box-shadow: rgba(20, 108, 67, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-success.disabled,
-    .btn-outline-success:disabled {
+    .btn-outline-success.disabled, .btn-outline-success:disabled {
         color: rgb(117, 230, 178);
         background-color: transparent;
     }
@@ -1495,31 +989,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(9, 143, 170);
     }
 
-    .btn-check:focus + .btn-outline-info,
-    .btn-outline-info:focus {
+    .btn-check:focus + .btn-outline-info, .btn-outline-info:focus {
         box-shadow: rgba(10, 162, 192, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-info,
-    .btn-check:checked + .btn-outline-info,
-    .btn-outline-info.active,
-    .btn-outline-info.dropdown-toggle.show,
-    .btn-outline-info:active {
+    .btn-check:active + .btn-outline-info, .btn-check:checked + .btn-outline-info, .btn-outline-info.active, .btn-outline-info.dropdown-toggle.show, .btn-outline-info:active {
         color: rgb(232, 230, 227);
         background-color: rgb(10, 162, 192);
         border-color: rgb(9, 143, 170);
     }
 
-    .btn-check:active + .btn-outline-info:focus,
-    .btn-check:checked + .btn-outline-info:focus,
-    .btn-outline-info.active:focus,
-    .btn-outline-info.dropdown-toggle.show:focus,
-    .btn-outline-info:active:focus {
+    .btn-check:active + .btn-outline-info:focus, .btn-check:checked + .btn-outline-info:focus, .btn-outline-info.active:focus, .btn-outline-info.dropdown-toggle.show:focus, .btn-outline-info:active:focus {
         box-shadow: rgba(10, 162, 192, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-info.disabled,
-    .btn-outline-info:disabled {
+    .btn-outline-info.disabled, .btn-outline-info:disabled {
         color: rgb(39, 209, 243);
         background-color: transparent;
     }
@@ -1535,31 +1019,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(176, 132, 0);
     }
 
-    .btn-check:focus + .btn-outline-warning,
-    .btn-outline-warning:focus {
+    .btn-check:focus + .btn-outline-warning, .btn-outline-warning:focus {
         box-shadow: rgba(200, 150, 0, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-warning,
-    .btn-check:checked + .btn-outline-warning,
-    .btn-outline-warning.active,
-    .btn-outline-warning.dropdown-toggle.show,
-    .btn-outline-warning:active {
+    .btn-check:active + .btn-outline-warning, .btn-check:checked + .btn-outline-warning, .btn-outline-warning.active, .btn-outline-warning.dropdown-toggle.show, .btn-outline-warning:active {
         color: rgb(232, 230, 227);
         background-color: rgb(200, 150, 0);
         border-color: rgb(176, 132, 0);
     }
 
-    .btn-check:active + .btn-outline-warning:focus,
-    .btn-check:checked + .btn-outline-warning:focus,
-    .btn-outline-warning.active:focus,
-    .btn-outline-warning.dropdown-toggle.show:focus,
-    .btn-outline-warning:active:focus {
+    .btn-check:active + .btn-outline-warning:focus, .btn-check:checked + .btn-outline-warning:focus, .btn-outline-warning.active:focus, .btn-outline-warning.dropdown-toggle.show:focus, .btn-outline-warning:active:focus {
         box-shadow: rgba(200, 150, 0, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-warning.disabled,
-    .btn-outline-warning:disabled {
+    .btn-outline-warning.disabled, .btn-outline-warning:disabled {
         color: rgb(255, 199, 30);
         background-color: transparent;
     }
@@ -1575,31 +1049,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(148, 26, 37);
     }
 
-    .btn-check:focus + .btn-outline-danger,
-    .btn-outline-danger:focus {
+    .btn-check:focus + .btn-outline-danger, .btn-outline-danger:focus {
         box-shadow: rgba(165, 29, 42, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-danger,
-    .btn-check:checked + .btn-outline-danger,
-    .btn-outline-danger.active,
-    .btn-outline-danger.dropdown-toggle.show,
-    .btn-outline-danger:active {
+    .btn-check:active + .btn-outline-danger, .btn-check:checked + .btn-outline-danger, .btn-outline-danger.active, .btn-outline-danger.dropdown-toggle.show, .btn-outline-danger:active {
         color: rgb(232, 230, 227);
         background-color: rgb(165, 29, 42);
         border-color: rgb(148, 26, 37);
     }
 
-    .btn-check:active + .btn-outline-danger:focus,
-    .btn-check:checked + .btn-outline-danger:focus,
-    .btn-outline-danger.active:focus,
-    .btn-outline-danger.dropdown-toggle.show:focus,
-    .btn-outline-danger:active:focus {
+    .btn-check:active + .btn-outline-danger:focus, .btn-check:checked + .btn-outline-danger:focus, .btn-outline-danger.active:focus, .btn-outline-danger.dropdown-toggle.show:focus, .btn-outline-danger:active:focus {
         box-shadow: rgba(165, 29, 42, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-danger.disabled,
-    .btn-outline-danger:disabled {
+    .btn-outline-danger.disabled, .btn-outline-danger:disabled {
         color: rgb(223, 70, 85);
         background-color: transparent;
     }
@@ -1615,31 +1079,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(50, 54, 56);
     }
 
-    .btn-check:focus + .btn-outline-light,
-    .btn-outline-light:focus {
+    .btn-check:focus + .btn-outline-light, .btn-outline-light:focus {
         box-shadow: rgba(27, 30, 31, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-light,
-    .btn-check:checked + .btn-outline-light,
-    .btn-outline-light.active,
-    .btn-outline-light.dropdown-toggle.show,
-    .btn-outline-light:active {
+    .btn-check:active + .btn-outline-light, .btn-check:checked + .btn-outline-light, .btn-outline-light.active, .btn-outline-light.dropdown-toggle.show, .btn-outline-light:active {
         color: rgb(232, 230, 227);
         background-color: rgb(27, 30, 31);
         border-color: rgb(50, 54, 56);
     }
 
-    .btn-check:active + .btn-outline-light:focus,
-    .btn-check:checked + .btn-outline-light:focus,
-    .btn-outline-light.active:focus,
-    .btn-outline-light.dropdown-toggle.show:focus,
-    .btn-outline-light:active:focus {
+    .btn-check:active + .btn-outline-light:focus, .btn-check:checked + .btn-outline-light:focus, .btn-outline-light.active:focus, .btn-outline-light.dropdown-toggle.show:focus, .btn-outline-light:active:focus {
         box-shadow: rgba(27, 30, 31, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-light.disabled,
-    .btn-outline-light:disabled {
+    .btn-outline-light.disabled, .btn-outline-light:disabled {
         color: rgb(228, 226, 222);
         background-color: transparent;
     }
@@ -1655,31 +1109,21 @@ I want the site dark for all mode users, so here you go!
         border-color: rgb(128, 119, 105);
     }
 
-    .btn-check:focus + .btn-outline-dark,
-    .btn-outline-dark:focus {
+    .btn-check:focus + .btn-outline-dark, .btn-outline-dark:focus {
         box-shadow: rgba(28, 30, 31, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-check:active + .btn-outline-dark,
-    .btn-check:checked + .btn-outline-dark,
-    .btn-outline-dark.active,
-    .btn-outline-dark.dropdown-toggle.show,
-    .btn-outline-dark:active {
+    .btn-check:active + .btn-outline-dark, .btn-check:checked + .btn-outline-dark, .btn-outline-dark.active, .btn-outline-dark.dropdown-toggle.show, .btn-outline-dark:active {
         color: rgb(232, 230, 227);
         background-color: rgb(28, 30, 31);
         border-color: rgb(128, 119, 105);
     }
 
-    .btn-check:active + .btn-outline-dark:focus,
-    .btn-check:checked + .btn-outline-dark:focus,
-    .btn-outline-dark.active:focus,
-    .btn-outline-dark.dropdown-toggle.show:focus,
-    .btn-outline-dark:active:focus {
+    .btn-check:active + .btn-outline-dark:focus, .btn-check:checked + .btn-outline-dark:focus, .btn-outline-dark.active:focus, .btn-outline-dark.dropdown-toggle.show:focus, .btn-outline-dark:active:focus {
         box-shadow: rgba(28, 30, 31, 0.5) 0 0 0 0.25rem;
     }
 
-    .btn-outline-dark.disabled,
-    .btn-outline-dark:disabled {
+    .btn-outline-dark.disabled, .btn-outline-dark:disabled {
         color: rgb(209, 205, 199);
         background-color: transparent;
     }
@@ -1693,8 +1137,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(85, 169, 247);
     }
 
-    .btn-link.disabled,
-    .btn-link:disabled {
+    .btn-link.disabled, .btn-link:disabled {
         color: rgb(158, 150, 137);
     }
 
@@ -1796,21 +1239,18 @@ I want the site dark for all mode users, so here you go!
         border-color: initial;
     }
 
-    .dropdown-item:focus,
-    .dropdown-item:hover {
+    .dropdown-item:focus, .dropdown-item:hover {
         color: rgb(211, 207, 201);
         background-color: rgb(35, 38, 39);
     }
 
-    .dropdown-item.active,
-    .dropdown-item:active {
+    .dropdown-item.active, .dropdown-item:active {
         color: rgb(232, 230, 227);
         text-decoration-color: initial;
         background-color: rgb(2, 80, 196);
     }
 
-    .dropdown-item.disabled,
-    .dropdown-item:disabled {
+    .dropdown-item.disabled, .dropdown-item:disabled {
         color: rgb(185, 179, 170);
         background-color: transparent;
     }
@@ -1833,20 +1273,17 @@ I want the site dark for all mode users, so here you go!
         color: rgb(214, 210, 205);
     }
 
-    .dropdown-menu-dark .dropdown-item:focus,
-    .dropdown-menu-dark .dropdown-item:hover {
+    .dropdown-menu-dark .dropdown-item:focus, .dropdown-menu-dark .dropdown-item:hover {
         color: rgb(232, 230, 227);
         background-color: rgba(24, 26, 27, 0.15);
     }
 
-    .dropdown-menu-dark .dropdown-item.active,
-    .dropdown-menu-dark .dropdown-item:active {
+    .dropdown-menu-dark .dropdown-item.active, .dropdown-menu-dark .dropdown-item:active {
         color: rgb(232, 230, 227);
         background-color: rgb(2, 80, 196);
     }
 
-    .dropdown-menu-dark .dropdown-item.disabled,
-    .dropdown-menu-dark .dropdown-item:disabled {
+    .dropdown-menu-dark .dropdown-item.disabled, .dropdown-menu-dark .dropdown-item:disabled {
         color: rgb(185, 179, 170);
     }
 
@@ -1884,8 +1321,7 @@ I want the site dark for all mode users, so here you go!
         border-color: transparent;
     }
 
-    .nav-tabs .nav-link:focus,
-    .nav-tabs .nav-link:hover {
+    .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
         border-color: rgb(53, 58, 60) rgb(53, 58, 60) rgb(56, 61, 63);
     }
 
@@ -1895,8 +1331,7 @@ I want the site dark for all mode users, so here you go!
         border-color: transparent;
     }
 
-    .nav-tabs .nav-item.show .nav-link,
-    .nav-tabs .nav-link.active {
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
         color: rgb(181, 175, 166);
         background-color: rgb(24, 26, 27);
         border-color: rgb(56, 61, 63) rgb(56, 61, 63) rgb(48, 52, 54);
@@ -1908,8 +1343,7 @@ I want the site dark for all mode users, so here you go!
         border-color: initial;
     }
 
-    .nav-pills .nav-link.active,
-    .nav-pills .show > .nav-link {
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
         color: rgb(232, 230, 227);
         background-color: rgb(2, 80, 196);
     }
@@ -1940,8 +1374,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.9);
     }
 
-    .navbar-light .navbar-brand:focus,
-    .navbar-light .navbar-brand:hover {
+    .navbar-light .navbar-brand:focus, .navbar-light .navbar-brand:hover {
         color: rgba(232, 230, 227, 0.9);
     }
 
@@ -1949,8 +1382,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.55);
     }
 
-    .navbar-light .navbar-nav .nav-link:focus,
-    .navbar-light .navbar-nav .nav-link:hover {
+    .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
         color: rgba(232, 230, 227, 0.7);
     }
 
@@ -1958,8 +1390,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.3);
     }
 
-    .navbar-light .navbar-nav .nav-link.active,
-    .navbar-light .navbar-nav .show > .nav-link {
+    .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .show > .nav-link {
         color: rgba(232, 230, 227, 0.9);
     }
 
@@ -1976,9 +1407,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.55);
     }
 
-    .navbar-light .navbar-text a,
-    .navbar-light .navbar-text a:focus,
-    .navbar-light .navbar-text a:hover {
+    .navbar-light .navbar-text a, .navbar-light .navbar-text a:focus, .navbar-light .navbar-text a:hover {
         color: rgba(232, 230, 227, 0.9);
     }
 
@@ -1986,8 +1415,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(232, 230, 227);
     }
 
-    .navbar-dark .navbar-brand:focus,
-    .navbar-dark .navbar-brand:hover {
+    .navbar-dark .navbar-brand:focus, .navbar-dark .navbar-brand:hover {
         color: rgb(232, 230, 227);
     }
 
@@ -1995,8 +1423,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.55);
     }
 
-    .navbar-dark .navbar-nav .nav-link:focus,
-    .navbar-dark .navbar-nav .nav-link:hover {
+    .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
         color: rgba(232, 230, 227, 0.75);
     }
 
@@ -2004,8 +1431,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.25);
     }
 
-    .navbar-dark .navbar-nav .nav-link.active,
-    .navbar-dark .navbar-nav .show > .nav-link {
+    .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .show > .nav-link {
         color: rgb(232, 230, 227);
     }
 
@@ -2022,9 +1448,7 @@ I want the site dark for all mode users, so here you go!
         color: rgba(232, 230, 227, 0.55);
     }
 
-    .navbar-dark .navbar-text a,
-    .navbar-dark .navbar-text a:focus,
-    .navbar-dark .navbar-text a:hover {
+    .navbar-dark .navbar-text a, .navbar-dark .navbar-text a:focus, .navbar-dark .navbar-text a:hover {
         color: rgb(232, 230, 227);
     }
 
@@ -2038,8 +1462,7 @@ I want the site dark for all mode users, so here you go!
         border-bottom-color: inherit;
     }
 
-    .card > .card-header + .list-group,
-    .card > .list-group + .card-footer {
+    .card > .card-header + .list-group, .card > .list-group + .card-footer {
         border-top-color: initial;
     }
 
@@ -2250,22 +1673,14 @@ I want the site dark for all mode users, so here you go!
     }
 
     .progress-bar-striped {
-        background-image: linear-gradient(45deg,
-        rgba(24, 26, 27, 0.15) 25%,
-        rgba(0, 0, 0, 0) 25%,
-        rgba(0, 0, 0, 0) 50%,
-        rgba(24, 26, 27, 0.15) 50%,
-        rgba(24, 26, 27, 0.15) 75%,
-        rgba(0, 0, 0, 0) 75%,
-        rgba(0, 0, 0, 0));
+        background-image: linear-gradient(45deg, rgba(24, 26, 27, 0.15) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(24, 26, 27, 0.15) 50%, rgba(24, 26, 27, 0.15) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0));
     }
 
     .list-group-item-action {
         color: rgb(181, 175, 166);
     }
 
-    .list-group-item-action:focus,
-    .list-group-item-action:hover {
+    .list-group-item-action:focus, .list-group-item-action:hover {
         color: rgb(181, 175, 166);
         text-decoration-color: initial;
         background-color: rgb(27, 30, 31);
@@ -2282,8 +1697,7 @@ I want the site dark for all mode users, so here you go!
         border-color: rgba(140, 130, 115, 0.13);
     }
 
-    .list-group-item.disabled,
-    .list-group-item:disabled {
+    .list-group-item.disabled, .list-group-item:disabled {
         color: rgb(158, 150, 137);
         background-color: rgb(24, 26, 27);
     }
@@ -2299,8 +1713,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(38, 41, 42);
     }
 
-    .list-group-item-primary.list-group-item-action:focus,
-    .list-group-item-primary.list-group-item-action:hover {
+    .list-group-item-primary.list-group-item-action:focus, .list-group-item-primary.list-group-item-action:hover {
         color: rgb(115, 184, 248);
         background-color: rgb(51, 55, 57);
     }
@@ -2316,8 +1729,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(40, 43, 44);
     }
 
-    .list-group-item-secondary.list-group-item-action:focus,
-    .list-group-item-secondary.list-group-item-action:hover {
+    .list-group-item-secondary.list-group-item-action:focus, .list-group-item-secondary.list-group-item-action:hover {
         color: rgb(188, 182, 173);
         background-color: rgb(53, 57, 59);
     }
@@ -2333,8 +1745,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(32, 61, 51);
     }
 
-    .list-group-item-success.list-group-item-action:focus,
-    .list-group-item-success.list-group-item-action:hover {
+    .list-group-item-success.list-group-item-action:focus, .list-group-item-success.list-group-item-action:hover {
         color: rgb(202, 197, 190);
         background-color: rgb(49, 70, 63);
     }
@@ -2350,8 +1761,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(5, 64, 77);
     }
 
-    .list-group-item-info.list-group-item-action:focus,
-    .list-group-item-info.list-group-item-action:hover {
+    .list-group-item-info.list-group-item-action:focus, .list-group-item-info.list-group-item-action:hover {
         color: rgb(200, 195, 188);
         background-color: rgb(32, 70, 78);
     }
@@ -2367,8 +1777,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(81, 62, 0);
     }
 
-    .list-group-item-warning.list-group-item-action:focus,
-    .list-group-item-warning.list-group-item-action:hover {
+    .list-group-item-warning.list-group-item-action:focus, .list-group-item-warning.list-group-item-action:hover {
         color: rgb(251, 222, 134);
         background-color: rgb(80, 67, 28);
     }
@@ -2384,8 +1793,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(67, 12, 17);
     }
 
-    .list-group-item-danger.list-group-item-action:focus,
-    .list-group-item-danger.list-group-item-action:hover {
+    .list-group-item-danger.list-group-item-action:focus, .list-group-item-danger.list-group-item-action:hover {
         color: rgb(223, 122, 131);
         background-color: rgb(70, 37, 39);
     }
@@ -2401,8 +1809,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(25, 27, 28);
     }
 
-    .list-group-item-light.list-group-item-action:focus,
-    .list-group-item-light.list-group-item-action:hover {
+    .list-group-item-light.list-group-item-action:focus, .list-group-item-light.list-group-item-action:hover {
         color: rgb(169, 162, 151);
         background-color: rgb(39, 42, 44);
     }
@@ -2418,8 +1825,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(49, 53, 55);
     }
 
-    .list-group-item-dark.list-group-item-action:focus,
-    .list-group-item-dark.list-group-item-action:hover {
+    .list-group-item-dark.list-group-item-action:focus, .list-group-item-dark.list-group-item-action:hover {
         color: rgb(218, 215, 210);
         background-color: rgb(60, 65, 68);
     }
@@ -2519,23 +1925,19 @@ I want the site dark for all mode users, so here you go!
         border-color: transparent;
     }
 
-    .bs-tooltip-auto[data-popper-placement^="top"] .tooltip-arrow::before,
-    .bs-tooltip-top .tooltip-arrow::before {
+    .bs-tooltip-auto[data-popper-placement^="top"] .tooltip-arrow::before, .bs-tooltip-top .tooltip-arrow::before {
         border-top-color: rgb(140, 130, 115);
     }
 
-    .bs-tooltip-auto[data-popper-placement^="right"] .tooltip-arrow::before,
-    .bs-tooltip-end .tooltip-arrow::before {
+    .bs-tooltip-auto[data-popper-placement^="right"] .tooltip-arrow::before, .bs-tooltip-end .tooltip-arrow::before {
         border-right-color: rgb(140, 130, 115);
     }
 
-    .bs-tooltip-auto[data-popper-placement^="bottom"] .tooltip-arrow::before,
-    .bs-tooltip-bottom .tooltip-arrow::before {
+    .bs-tooltip-auto[data-popper-placement^="bottom"] .tooltip-arrow::before, .bs-tooltip-bottom .tooltip-arrow::before {
         border-bottom-color: rgb(140, 130, 115);
     }
 
-    .bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow::before,
-    .bs-tooltip-start .tooltip-arrow::before {
+    .bs-tooltip-auto[data-popper-placement^="left"] .tooltip-arrow::before, .bs-tooltip-start .tooltip-arrow::before {
         border-left-color: rgb(140, 130, 115);
     }
 
@@ -2555,48 +1957,39 @@ I want the site dark for all mode users, so here you go!
         border-color: transparent;
     }
 
-    .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::before,
-    .bs-popover-top > .popover-arrow::before {
+    .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::before, .bs-popover-top > .popover-arrow::before {
         border-top-color: rgba(140, 130, 115, 0.25);
     }
 
-    .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::after,
-    .bs-popover-top > .popover-arrow::after {
+    .bs-popover-auto[data-popper-placement^="top"] > .popover-arrow::after, .bs-popover-top > .popover-arrow::after {
         border-top-color: rgb(48, 52, 54);
     }
 
-    .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::before,
-    .bs-popover-end > .popover-arrow::before {
+    .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::before, .bs-popover-end > .popover-arrow::before {
         border-right-color: rgba(140, 130, 115, 0.25);
     }
 
-    .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::after,
-    .bs-popover-end > .popover-arrow::after {
+    .bs-popover-auto[data-popper-placement^="right"] > .popover-arrow::after, .bs-popover-end > .popover-arrow::after {
         border-right-color: rgb(48, 52, 54);
     }
 
-    .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::before,
-    .bs-popover-bottom > .popover-arrow::before {
+    .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::before, .bs-popover-bottom > .popover-arrow::before {
         border-bottom-color: rgba(140, 130, 115, 0.25);
     }
 
-    .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::after,
-    .bs-popover-bottom > .popover-arrow::after {
+    .bs-popover-auto[data-popper-placement^="bottom"] > .popover-arrow::after, .bs-popover-bottom > .popover-arrow::after {
         border-bottom-color: rgb(48, 52, 54);
     }
 
-    .bs-popover-auto[data-popper-placement^="bottom"] .popover-header::before,
-    .bs-popover-bottom .popover-header::before {
+    .bs-popover-auto[data-popper-placement^="bottom"] .popover-header::before, .bs-popover-bottom .popover-header::before {
         border-bottom-color: rgb(52, 57, 59);
     }
 
-    .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::before,
-    .bs-popover-start > .popover-arrow::before {
+    .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::before, .bs-popover-start > .popover-arrow::before {
         border-left-color: rgba(140, 130, 115, 0.25);
     }
 
-    .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::after,
-    .bs-popover-start > .popover-arrow::after {
+    .bs-popover-auto[data-popper-placement^="left"] > .popover-arrow::after, .bs-popover-start > .popover-arrow::after {
         border-left-color: rgb(48, 52, 54);
     }
 
@@ -2609,18 +2002,14 @@ I want the site dark for all mode users, so here you go!
         color: rgb(209, 205, 199);
     }
 
-    .carousel-control-next,
-    .carousel-control-prev {
+    .carousel-control-next, .carousel-control-prev {
         color: rgb(232, 230, 227);
         background-image: initial;
         background-color: initial;
         border-color: initial;
     }
 
-    .carousel-control-next:focus,
-    .carousel-control-next:hover,
-    .carousel-control-prev:focus,
-    .carousel-control-prev:hover {
+    .carousel-control-next:focus, .carousel-control-next:hover, .carousel-control-prev:focus, .carousel-control-prev:hover {
         color: rgb(232, 230, 227);
         text-decoration-color: initial;
         outline-color: initial;
@@ -2670,8 +2059,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(35, 148, 253);
     }
 
-    .link-primary:focus,
-    .link-primary:hover {
+    .link-primary:focus, .link-primary:hover {
         color: rgb(85, 169, 247);
     }
 
@@ -2679,8 +2067,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(158, 150, 137);
     }
 
-    .link-secondary:focus,
-    .link-secondary:hover {
+    .link-secondary:focus, .link-secondary:hover {
         color: rgb(173, 166, 156);
     }
 
@@ -2688,8 +2075,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(117, 230, 178);
     }
 
-    .link-success:focus,
-    .link-success:hover {
+    .link-success:focus, .link-success:hover {
         color: rgb(136, 233, 188);
     }
 
@@ -2697,8 +2083,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(39, 209, 243);
     }
 
-    .link-info:focus,
-    .link-info:hover {
+    .link-info:focus, .link-info:hover {
         color: rgb(71, 215, 244);
     }
 
@@ -2706,8 +2091,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(255, 199, 30);
     }
 
-    .link-warning:focus,
-    .link-warning:hover {
+    .link-warning:focus, .link-warning:hover {
         color: rgb(255, 207, 65);
     }
 
@@ -2715,8 +2099,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(223, 70, 85);
     }
 
-    .link-danger:focus,
-    .link-danger:hover {
+    .link-danger:focus, .link-danger:hover {
         color: rgb(216, 91, 103);
     }
 
@@ -2724,8 +2107,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(228, 226, 222);
     }
 
-    .link-light:focus,
-    .link-light:hover {
+    .link-light:focus, .link-light:hover {
         color: rgb(229, 227, 223);
     }
 
@@ -2733,8 +2115,7 @@ I want the site dark for all mode users, so here you go!
         color: rgb(209, 205, 199);
     }
 
-    .link-dark:focus,
-    .link-dark:hover {
+    .link-dark:focus, .link-dark:hover {
         color: rgb(213, 210, 204);
     }
 
@@ -2754,8 +2135,7 @@ I want the site dark for all mode users, so here you go!
         --bs-aspect-ratio: calc(9 / 21 * 100%);
     }
 
-    .visually-hidden,
-    .visually-hidden-focusable:not(:focus):not(:focus-within) {
+    .visually-hidden, .visually-hidden-focusable:not(:focus):not(:focus-within) {
         border-color: initial !important;
     }
 
@@ -3030,9 +2410,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(24, 26, 27);
     }
 
-    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .animation-dot,
-    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .animation-wrap::after,
-    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .animation-wrap::before {
+    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .animation-dot, .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .animation-wrap::after, .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading .loading-wrap .animation-wrap::before {
         background-image: initial;
         background-color: rgb(28, 30, 31);
     }
@@ -3042,9 +2420,7 @@ I want the site dark for all mode users, so here you go!
         background-color: rgb(28, 30, 31);
     }
 
-    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading.table-dark .animation-dot,
-    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading.table-dark .animation-wrap::after,
-    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading.table-dark .animation-wrap::before {
+    .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading.table-dark .animation-dot, .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading.table-dark .animation-wrap::after, .bootstrap-table .fixed-table-container .fixed-table-body .fixed-table-loading.table-dark .animation-wrap::before {
         background-image: initial;
         background-color: rgb(24, 26, 27);
     }
