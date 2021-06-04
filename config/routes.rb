@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   scope 'api' do
-    get 'trbmb', to: 'trbmb#index'
+    get 'trbmb', to: 'trbmb#trbmb'
     get 'acronym/:acronym', to: 'trbmb#acronym'
     get 'chewspeak', to: 'trbmb#chewspeak'
     get 'random', to: 'trbmb#random_string'
