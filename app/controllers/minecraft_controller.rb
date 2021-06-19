@@ -200,7 +200,18 @@ class MinecraftController < ApplicationController
     if version.nil?
       version = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}"))['versions'].last
     end
-    build = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}"))['builds'].last
+    begin
+      build = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}"))['builds'].last
+    rescue RestClient::NotFound
+      flash[:modal] = "This version does not exist!"
+      redirect_to "/mc/jars"
+      return
+    end
+    if build.nil?
+      flash[:modal] = "No builds for this version exist!"
+      redirect_to "/mc/jars"
+      return
+    end
     download = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}/builds/#{build}"))['downloads']['application']['name']
 
     redirect_to "https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}/builds/#{build}/downloads/#{download}"
