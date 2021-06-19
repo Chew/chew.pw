@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get 'birb', to: 'trbmb#randombirb'
 
+  post 'cache/flush', to: 'application#flush'
+
   scope 'util' do
     get 'image', to: 'trbmb#url'
     get 'html', to: 'trbmb#striphtml'
