@@ -19,4 +19,8 @@ class UtilitiesController < ApplicationController
       }.as_json
     end
   end
+
+  def strippedhtml
+    @response = Nokogiri::HTML.parse(params['input']).text
+  end
 end

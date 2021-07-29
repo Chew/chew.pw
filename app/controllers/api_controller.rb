@@ -1,4 +1,4 @@
-class TrbmbController < ApplicationController
+class ApiController < ApplicationController
   include Response
   skip_before_action :verify_authenticity_token
   before_action :goodbye_token
@@ -204,10 +204,6 @@ class TrbmbController < ApplicationController
     @id = birb.cookies['Id']
     @permalink = birb.cookies['Permalink']
     @image = Base64.encode64(birb.body)
-  end
-
-  def strippedhtml
-    @response = Nokogiri::HTML.parse(params['input']).text
   end
 
   def new_rory

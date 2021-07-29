@@ -2,22 +2,22 @@ Rails.application.routes.draw do
   root 'front#index'
   get 'sitemap', to: 'front#sitemap'
 
-  get 'birb', to: 'trbmb#randombirb'
+  get 'birb', to: 'api#randombirb'
 
   post 'cache/flush', to: 'application#flush'
 
   scope 'util' do
-    get 'image', to: 'trbmb#url'
-    get 'html', to: 'trbmb#striphtml'
-    post 'html/strip', to: 'trbmb#strippedhtml'
+    get 'image', to: 'api#url'
+    get 'html', to: 'utilities#striphtml'
+    post 'html/strip', to: 'utilities#strippedhtml'
   end
 
   scope 'api' do
-    get 'trbmb', to: 'trbmb#trbmb'
-    get 'acronym/:acronym', to: 'trbmb#acronym'
-    get 'chewspeak', to: 'trbmb#chewspeak'
-    get 'random', to: 'trbmb#random_string'
-    get 'spigotdrama', to: 'trbmb#spigot_drama'
+    get 'trbmb', to: 'api#trbmb'
+    get 'acronym/:acronym', to: 'api#acronym'
+    get 'chewspeak', to: 'api#chewspeak'
+    get 'random', to: 'api#random_string'
+    get 'spigotdrama', to: 'api#spigot_drama'
 
     scope 'slack' do
       post 'rory', to: 'slack_api#rory'
@@ -106,7 +106,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'siri/hq/:username', to: 'trbmb#hq'
+  get 'siri/hq/:username', to: 'api#hq'
 
   scope 'chewbotcca' do
     get '/', to: 'chewbotcca#home'
