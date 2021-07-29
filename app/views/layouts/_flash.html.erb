@@ -7,41 +7,31 @@
     nil
   %>
   <% if message_type.to_s.include?("_js") %>
-    <div id="<%= string %>" class="toast" role="alert" data-animation="true" data-delay="5000" aria-live="assertive" aria-atomic="true" style="position: fixed; max-height: 200px; top: 65px; right: 10px; z-index: 10">
-      <div class="toast-header">
-        <strong class="mr-auto">Notice</strong>
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="toast-body">
-        <%= message %>
+    <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <%= message %>
+        </div>
       </div>
     </div>
-    <script>
-        $('#<%= string %>').toast('show')
-    </script>
-
   <% else %>
     <div id="<%= string2 %>" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Just letting you know!</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <p><%= raw message %></p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
-    <button hidden type="button" id="<%= string %>" data-toggle="modal" data-target="#<%= string2 %>"></button>
+    <button hidden type="button" id="<%= string %>" data-bs-toggle="modal" data-bs-target="#<%= string2 %>"></button>
     <script>
         $(document).ready(function(){
             $("#<%= string %>").click();

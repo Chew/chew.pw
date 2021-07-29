@@ -20,11 +20,12 @@
   <%= stylesheet_link_tag "application" %>
   <%= javascript_pack_tag 'application' %>
 
-  <%= render 'layouts/flash' %>
-
   <%= yield :extra_head %>
 </head>
 <body>
+
+<%= render 'layouts/flash' %>
+
 <header></header>
 
 <% if @nav %>

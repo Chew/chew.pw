@@ -10,7 +10,7 @@ class MinecraftController < ApplicationController
       }
       r = JSON.parse(RestClient.post('https://hcaptcha.com/siteverify', captcha.as_json, 'Content-Type': :json))
       unless r['success']
-        flash[:captcha] = 'Invalid Captcha Response, try again, robot.'
+        flash[:modal_message] = 'Invalid Captcha Response, try again, robot.'
         redirect_to '/meme/submit'
         return
       end
@@ -26,7 +26,7 @@ class MinecraftController < ApplicationController
     extension = File.extname(request.parameters['log'].original_filename)
     mime = FileMagic.new(FileMagic::MAGIC_MIME).file(request.parameters['log'].tempfile.path)
     unless mime.include? "text/plain"
-      flash[:captcha] = 'This is not a valid log file!'
+      flash[:modal_message] = 'This is not a valid log file!'
       redirect_to '/mc/log'
       return
     end
@@ -74,14 +74,14 @@ class MinecraftController < ApplicationController
         handlelatestlogline(line)
       when 'crash'
         redirect_to "/mc/log"
-        flash[:bruh] = "We're sorry, we currently do not support this type of log, or a valid type wasn't detected!"
+        flash[:modal_message] = "We're sorry, we currently do not support this type of log, or a valid type wasn't detected!"
         return
       end
     end
 
     if @type == ""
       redirect_to "/mc/log"
-      flash[:bruh] = "We're sorry, we currently do not support this type of log, or a valid type wasn't detected!"
+      flash[:modal_message] = "We're sorry, we currently do not support this type of log, or a valid type wasn't detected!"
       return
     end
 
@@ -97,7 +97,7 @@ class MinecraftController < ApplicationController
     end
 
     if @mc_ver == "" && @version == ""
-      flash[:captcha] = 'Invalid log file!'
+      flash[:modal_message] = 'Invalid log file!'
       redirect_to '/mc/log'
     end
   end
