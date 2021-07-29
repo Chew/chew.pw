@@ -1,55 +1,36 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HTML Strip</title>
-    <!-- Bootstrap (4.3.1) -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<% content_for :extra_head do %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<% end %>
 
-   <style>
-      @media (min-width: 576px) {
-        h1 {
-          margin-top: -50px;
-        }
-      }
-      @media (max-width: 576px) {
-        h1 {
-          margin-top: -20px;
-        }
-      }
-      body {
-        background-color: #cccccc;
-      }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
-  </head>
-  <body>
-    <div class="container" style="margin-top: 20px;">
-      <div class="jumbotron">
-        <h1>HTML Stripper</h1>
+<h1>HTML Stripper</h1>
 
-        <p>
-          <button id="copy" class="btn btn-primary" data-clipboard-text="<%= @response %>">Copy</button>
-          <a href="/util/html" class="btn btn-primary">Back</a>
-        </p>
+<p>
+  <button id="copy" class="btn btn-primary" data-clipboard-text="<%= @response %>">Copy</button>
+  <%= link_to 'Back', '/util/html', class: 'btn btn-primary', id: 'backButton' %>
+</p>
 
-        <label style="width: 100%;">
-          <textarea style="height: <%= (24.25 * @response.split("\n").length) + 13.75 %>px" id="content" class="form-control"><%= @response %></textarea>
-        </label>
+<label style="width: 100%;">
+  <textarea style="height: <%= (24.25 * @response.split("\n").length) + 13.75 %>px" id="content" class="form-control"><%= @response %></textarea>
+</label>
 
-        <script>
-          let clipboard = new ClipboardJS('#copy');
-          clipboard.on('success', function (e) {
-            document.getElementById('copy').innerHTML = 'Copied';
-            document.getElementById('copy').setAttribute('class', 'btn btn-success');
-          })
-          clipboard.on('error', function (e) {
-            document.getElementById('copy').innerHTML = 'Copy Errored :(';
-          })
-        </script>
-
-      </div>
-    </div>
-  </body>
-</html>
+<script>
+    let clipboard = new ClipboardJS('#copy');
+    let copyButton = $("#copy");
+    clipboard.on('success', function (e) {
+        copyButton.html("Copied!");
+        copyButton.attr('class', 'btn btn-success');
+        copyButton.prop("disabled", true);
+        setTimeout(function() {
+            copyButton.prop("disabled", false);
+            copyButton.attr('class', 'btn btn-primary');
+            copyButton.html("Copy");
+        }, 2000);
+    })
+    clipboard.on('error', function (e) {
+        document.getElementById('copy').innerHTML = 'Copy Errored :(';
+    })
+    $("#backButton").on("click", function() {
+        $(this).attr('disabled', true);
+        $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+    });
+</script>
