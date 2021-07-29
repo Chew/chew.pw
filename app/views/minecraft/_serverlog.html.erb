@@ -4,7 +4,7 @@
     <p><i>The Minecraft version of your server</i></p>
     <p><%= @mc_ver || "Unable to determine Server Version. Make sure you have a full log!" %></p>
     <% unless @mc_ver == @paper_versions['versions'].last %>
-    <p>Please note: Your minecraft version is outdated! It is highly recommended to upgrade to the latest (<% @paper_versions['versions'].last %>), as you will receive minimal to no support otherwise.</p>
+    <p>Please note: Your minecraft version is outdated! It is highly recommended to upgrade to the latest (<%= @paper_versions['versions'].last %>), as you will receive minimal to no support otherwise.</p>
     <% end %>
   </div>
   <div class="col">
