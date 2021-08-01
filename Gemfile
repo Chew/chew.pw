@@ -28,15 +28,28 @@ gem 'webpacker', '~> 5.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+# Better searching
 gem 'algoliasearch-rails'
+
+# The easiest HTTP client I've ever used
 gem 'rest-client'
+
+# Discord gem used in the Discord controller a bit
 gem 'discordrb', github: "shardlab/discordrb", branch: 'main'
+
+# Error catching
 gem "sentry-raven"
-gem 'ruby-filemagic'
-gem 'sitemap_generator'
-gem 'jquery-rails'
+
+# Image processing and storage
 gem 'aws-sdk-s3'
 gem 'rmagick'
+gem 'ruby-filemagic'
+
+# Sitemap generation, makes sense really
+gem 'sitemap_generator'
+
+# Oauth gem
+gem 'oauth'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
