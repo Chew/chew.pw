@@ -1,0 +1,41 @@
+<%= content_for :extra_head do %>
+  <% meta_tags title: "Home",
+               description: "Read more about my Discord tools here!",
+               service: "Chew's Discord Tools",
+               color: "#9ba0ff" %>
+<% end %>
+
+<h1>Chew's Discord Tools</h1>
+
+<p>Welcome to my page for my Discord tools.</p>
+
+<p>Got suggestions? Issues? Feedback? Feel free to join me on <%= link_to "my Discord server", "https://discord.gg/0kYlxgkh65QhZAjm" %>!</p>
+
+<p>
+  Some tools require you to oauth with Discord.
+  If this concerns you, the code is open source and you can view all the backend does <%= link_to "here", "https://github.com/Chew/chew.pw/blob/main/app/controllers/discord_controller.rb" %>.
+  Your token is stored as a cookie and is cleared when you click <%= link_to "Log-out", "/discord/servers/logout" %>.
+</p>
+
+<h2>My Tools</h2>
+
+<p>
+  Below are tools I've made. They are described below. You can access them by clicking the header or using the navbar.
+</p>
+
+<h3><%= link_to "Webhook Sender", "/discord/webhook" %></h3>
+<p>
+  A very bare-bones webhook tester. Allows only one embed, but all fields are supported.
+</p>
+
+<h3><%= link_to "Server Viewer", "/discord/servers" %></h3>
+<p>
+  A quick way to overview all servers you're on in Discord. Shows them as a 3-wide grid with some basic information
+  or view as a table by clicking the eye. Sorted by creation date, by default.
+</p>
+
+<h3><%= link_to "Connection Viewer", "/discord/connections" %></h3>
+<p>
+  A quick way to view all of your connections on Discord, including internal data not shown to the client.
+</p>
+

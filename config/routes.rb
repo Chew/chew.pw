@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get 'webhooks', to: redirect("/discord/webhooks")
 
   scope 'discord' do
+    get '/', to: 'discord#index'
     get 'webhook', to: redirect("/discord/webhooks")
     get 'avatar/:id', to: 'discord#avataryeeter'
     get ':path/logout', to: 'discord#viewer_logout'
