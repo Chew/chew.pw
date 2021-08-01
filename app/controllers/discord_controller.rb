@@ -41,12 +41,10 @@ class DiscordController < ApplicationController
 
   def servers
     if session[:discord_key].nil?
-      respond_to do |format|
-        session[:scope] = "guilds"
-        flash[:view_type] = "Server"
-        session[:view_slug] = "servers"
-        format.html { render '_signin' }
-      end
+      session[:scope] = "guilds"
+      flash[:view_type] = "Server"
+      session[:view_slug] = "servers"
+      render 'signin'
       return
     end
 
@@ -60,11 +58,9 @@ class DiscordController < ApplicationController
 
   def connections
     if session[:discord_key].nil?
-      respond_to do |format|
-        session[:scope] = "connections"
-        flash[:view_type] = "Connection"
-        format.html { render '_signin' }
-      end
+      session[:scope] = "connections"
+      flash[:view_type] = "Connection"
+      render 'signin'
       return
     end
 
