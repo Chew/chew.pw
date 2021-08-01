@@ -11,7 +11,7 @@
 
 <p>A list of your servers!</p>
 
-<p>Total Servers: <%= @servers.length %> / 100</p>
+<p>Total Servers: <%= @servers.length %></p>
 
 <p><%= link_to "Log-out", "/discord/servers/logout" %></p>
 
@@ -21,20 +21,22 @@
       <div class="card-body">
         <div class="row">
           <div class="col-12 col-lg-8 col-md-6">
-            <h3 class="mb-0 text-truncated">%VERIFIED%%NAME%</h3>
+            <h3 class="mb-0 text-truncated">%STATUS_ICON%%NAME%</h3>
             <p class="lead">%ID%</p>
             <p>
               Created: %DATE%
             </p>
           </div>
           <div class="col-12 col-lg-4 col-md-6 text-center">
-            <img src="%IMAGE%" alt="" class="mx-auto rounded-circle img-fluid" style="width: 120px">
+            <img src="%IMAGE%" alt="" class="mx-auto img-fluid big-on-hover" style="width: 120px">
           </div>
-          <div class="col-12 col-lg-4">
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-6">
             <h3 class="mb-0">Perms</h3>
             <small>%PERMISSIONS%</small>
           </div>
-          <div class="col-12 col-lg-4">
+          <div class="col-12 col-lg-6">
             <h3 class="mb-0">Owner?</h3>
             <small>%OWNER%</small>
           </div>
@@ -57,8 +59,7 @@
     <thead class="table-dark">
     <tr>
       <th data-sortable="false" data-field="icon" data-switchable="false" data-visible="false">Icon</th>
-      <th data-sortable="false" data-field="verified" data-switchable="false" data-visible="false">Verified</th>
-      <th data-sortable="false" data-field="partnered" data-switchable="false" data-visible="false">Partnered</th>
+      <th data-sortable="false" data-field="status_icon" data-switchable="false" data-visible="false">Status Icon</th>
       <th data-sortable="true" data-field="server_id" data-switchable="false" data-sort-order="asc">ID</th>
       <th data-sortable="true" data-field="created" data-switchable="false" data-sort-order="asc">Created</th>
       <th data-sortable="true" data-field="name" data-switchable="true" data-sort-order="desc">Name</th>
@@ -71,22 +72,26 @@
     <tbody>
     <% @servers.each do |server| %>
       <tr>
-        <td><%= "https://cdn.discordapp.com/icons/#{server['id']}/#{server['icon']}.#{server['icon'].start_with?("a_") ? "gif" : "png"}" unless server['icon'].nil? %></td>
-        <td> <%= verified_image(24) if server['features'].include? "VERIFIED" %></td>
-        <td><%= server['id'] %></td>
+        <td><%= "https://cdn.discordapp.com/icons/#{server['id']}/#{server['icon']}.png" unless server['icon'].nil? %></td>
+        <td><%= status_icon server['features'], 24 %></td>
         <td><%= server['id'] %></td>
         <td><%= created_at server['id'] %></td>
         <td><%= server['name'] %></td>
         <td><%= server['owner'] %></td>
         <td><%= server['permissions'] %></td>
         <td><%= server['features'].join(", ") %></td>
-        <td><a href="https://discordapi.com/permissions.html#<%= server['permissions'] %>" target="_blank"><%= server['permissions'] %></a></td>
+        <td>
+          <a href="https://discordapi.com/permissions.html#<%= server['permissions'] %>" target="_blank" data-bs-toggle="tooltip" title="<%= friendly_permissions server['permissions'] %>">
+            <%= server['permissions'] %>
+          </a>
+        </td>
       </tr>
     <% end %>
     </tbody>
   </table>
 </div>
 
+<% content_for :extra_foot do %>
 <script>
     function customViewFormatter (data) {
         var template = $('#serverTemplate').html()
@@ -97,11 +102,36 @@
                 .replace('%ID%', row.server_id)
                 .replace('%DATE%', row.created)
                 .replace('%FEATURES%', row.features)
-                .replace('%VERIFIED%', row.verified + " ")
+                .replace('%STATUS_ICON%', row.status_icon + " ")
                 .replace('%PERMISSIONS%', row.perms)
                 .replace('%OWNER%', row.owner);
         })
 
         return `<div class="row mx-0">${view}</div>`
     }
+
+    $(document).ready(function() {
+        $("img").hover(function() {
+            // Pluck the image
+            /** @type {String} */
+            let url = $(this).attr('src');
+            // Replace png with gif, if possible
+            if (url.split("/").pop().startsWith("a_")) {
+                $(this).attr('src', url.replace(".png", ".gif"));
+            }
+        }, function() {
+            // Pluck the image
+            /** @type {String} */
+            // Replace gif with png
+            let url = $(this).attr('src');
+            $(this).attr('src', url.replace(".gif", ".png"));
+        });
+
+        // Enable tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    });
 </script>
+<% end %>

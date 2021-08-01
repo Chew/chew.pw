@@ -30,7 +30,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'algoliasearch-rails'
 gem 'rest-client'
-gem 'discordrb', '>= 3.3.0'
+gem 'discordrb', github: "shardlab/discordrb", branch: 'main'
 gem "sentry-raven"
 gem 'ruby-filemagic'
 gem 'sitemap_generator'

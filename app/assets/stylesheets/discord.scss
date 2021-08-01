@@ -11,3 +11,25 @@ body {
 		background-color: #2C2F33!important; // "Dark, but not black"
 	}
 }
+
+@keyframes bigger-radius {
+	from { border-radius: 50%; }
+	to { border-radius: 25%; }
+}
+
+@keyframes smaller-radius {
+	from { border-radius: 25%; }
+	to { border-radius: 50%; }
+}
+
+.big-on-hover {
+	animation-name: smaller-radius;
+	animation-duration: 0.15s;
+	border-radius: 50%;
+}
+
+.big-on-hover:hover {
+	animation-name: bigger-radius;
+	animation-duration: 0.15s;
+	border-radius: 25%;
+}
