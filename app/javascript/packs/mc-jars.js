@@ -1,18 +1,28 @@
-// Select all links
-//var allLinks = document.querySelectorAll('a[href]');
-window.onload = function() {
-    const allLinks = document.links;
+jQuery.fn.outerHtml = function(newHtml){
+    // if it's passed, return the replacement outer HTML
+    // otherwise, get the outerHTML and return it
+    // IE, Chrome, Safari & FF 11+ will comply with first method
+    // all others (FF < 11) will use fall-back for cloning
+    return newHtml ? this.replaceWith(newHtml) : ( this[0].outerHTML || jQuery('<div>').append(clone(this)).remove().html() );
+};
 
-// Bind the event handler to each link individually
-    let i = 0, n = allLinks.length;
-    for (; i < n; i++) {
-        //allLinks[i].addEventListener('click', function (event) {});
-        const href = allLinks[i].getAttribute('href') || '';
+let initializeAllLinks = function() {
+    $("a").on("click", function(e) {
+        let obj = $(this);
+        console.log(obj);
+        let href = obj.prop('href');
         if (!href.includes("build")) {
-            continue;
+            return;
         }
-        allLinks[i].onclick = function (e) {
-            e.target.outerHTML = `<span id="${e.target.id}">Loading...</span>`
-        };
-    }
+        obj.outerHtml(`<span id="${obj.prop('id')}">Loading...</span>`)
+    });
 }
+
+// Select all links
+$(document).ready(function() {
+    initializeAllLinks();
+
+    $("#paperVersions").on('page-change.bs.table', function (e, n, s) {
+        // TODO: Fix initialization?
+    });
+});

@@ -3,7 +3,9 @@
                 description: "Download the latest server JARs for your favorite types!",
                 service: "Chew's Minecraft Tools",
                 color: '#00AA00' %>
+<% end %>
 
+<% content_for :extra_foot do %>
   <%= javascript_pack_tag "mc-jars" %>
 <% end %>
 
@@ -51,7 +53,7 @@
       Usually, only the top row is supported.
       The rest are for legacy purposes.
     </p>
-    <table class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-page-size="5" data-page-list="[5]">
+    <table id="paperVersions" class="table table-striped table-bordered table-hover" data-toggle="table" data-pagination="true" data-page-size="5" data-page-list="[5]">
       <thead class="table-dark">
       <tr>
         <th>Version</th>
