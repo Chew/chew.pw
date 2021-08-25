@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root 'front#index'
   get 'sitemap', to: 'front#sitemap'
+  get 'privacy', to: 'front#privacy'
 
   get 'birb', to: 'api#randombirb'
 
