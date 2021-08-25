@@ -1,25 +1,23 @@
 # frozen_string_literal: true
 
+# The main controller for HQ Trivia Discord Bot and getting an Auth-key
 class HqbotController < ApplicationController
   before_action :check_auth
 
+  # Check to see if the user is logged in, pluck data if they are
   def check_auth
-    @loggedin = false
-    @as = nil
+    # Check session
+    @loggedin = !session[:hqbot_id].nil?
 
-    lol = session[:id]
-    @profile = HqBotProfile.find_by(userid: lol.to_i)
-    unless lol.nil?
-      cookie = session[:token]
-      jj = HqBotLogin.find_by(userid: lol).access_token
-      if cookie == jj
-        @loggedin = true
-        @as = Discord.user(lol).distinct
-      end
-    end
+    return unless @loggedin
+
+    # Grab their profile
+    @profile = HqBotProfile.find_by(userid: session[:hqbot_id].to_i)
   end
 
+  # Load the main bot profile page
   def index
+    # Return a "logged out" page if not signed in
     unless @loggedin
       respond_to do |format|
         format.html { render 'profile_loggedout' }
@@ -27,6 +25,7 @@ class HqbotController < ApplicationController
       return
     end
 
+    # Return a "no profile" page if no profile
     if @loggedin && @profile.nil?
       respond_to do |format|
         format.html { render 'profile_noprofile' }
@@ -34,6 +33,7 @@ class HqbotController < ApplicationController
       return
     end
 
+    # Helper variables to condense the code in the view
     @status = {
       authkey: "Auth Key Donor",
       donator: "Donator",
@@ -49,19 +49,22 @@ class HqbotController < ApplicationController
     }
   end
 
+  # Save a bot profile
   def saveprofile
+    # Use the inputted usernamne, or their Discord name if they sneaky
     username = params['username']
-    username = Discord.user(session[:id]).name if username == ''
-    region = params['region']
+    username = session[:hqbot_username] if username == ''
 
+    # Pluck authkey options
     lives = params['lives'] || 0
     streaks = params['streaks'] || 0
     erase1s = params['erase1s'] || 0
     superspins = params['superspins'] || 0
     coins = params['coins'] || 0
 
+    # Attempt to save data
     begin
-      user = HqBotProfile.find_by(userid: session[:id].to_i)
+      user = HqBotProfile.find_by(userid: session[:hqbot_id].to_i)
       user.username = username
       user.lives = lives
       user.streaks = streaks
@@ -74,38 +77,28 @@ class HqbotController < ApplicationController
       flash[:modal_js] = 'An error occurred!'
     end
 
+    # Redirect back home
     redirect_to '/hqbot'
   end
 
+  # Create a profile and return back to home
   def makeprofile
-    loggedin = false
-    as = nil
-
-    lol = session[:id]
-    unless lol.nil?
-      cookie = session[:token]
-      jj = HqBotLogin.find_by(userid: lol).access_token
-      if cookie == jj
-        loggedin = true
-        as = Discord.user(lol).distinct
-      end
-    end
-
-    if loggedin
-      user = Discord.user(lol)
-      HqBotProfile.create(userid: lol, username: user.name, region: 'us')
+    if @loggedin
+      HqBotProfile.create(userid: session[:hqbot_id], username: session[:hqbot_username], region: 'us')
     end
 
     redirect_to '/hqbot'
   end
 
+  # Log out the user, nilling their info
   def logout
-    session[:id] = nil
-    session[:token] = nil
+    session[:hqbot_id] = nil
+    session[:hqbot_username] = nil
 
     redirect_to '/hqbot'
   end
 
+  # Handle initial auth key input
   def authkey_handle
     params['country'] = '1' if params['country'].nil?
 
@@ -132,6 +125,7 @@ class HqbotController < ApplicationController
     @verid = j['verificationId']
   end
 
+  # Conclude the process and return their key
   def authkey_conclude
     requestparams = {
       'code' => params['code']
@@ -141,8 +135,6 @@ class HqbotController < ApplicationController
                           requestparams,
                           'x-hq-client': 'iOS/1.3.19 b107',
                           'Content-Type': :json)
-
-    broke = false
 
     begin
       j = JSON.parse(bob)['auth']
@@ -154,54 +146,41 @@ class HqbotController < ApplicationController
     end
   end
 
+  # Login and authenticate the user through Discord
   def authorize
-    url = request.base_url
-
-    if @loggedin
+    # Ensure we aren't already signed in
+    if @loggedin || params['code'].nil?
       redirect_to '/hqbot'
       return
     end
 
-    code = params['code']
-
-    uri = URI.parse('https://discordapp.com/api/v6/oauth2/token')
-    discord_request = Net::HTTP::Post.new(uri)
-    discord_request.content_type = 'application/x-www-form-urlencoded'
-    discord_request.set_form_data(
+    # Build the form body
+    body = {
       'client_id' => '578544051901431821',
       'client_secret' => Rails.application.credentials.hqbot[:oauth_secret],
       'grant_type' => 'authorization_code',
-      'code' => code,
-      'redirect_uri' => "#{url}/hqbot/authorize",
+      'code' => params['code'],
+      'redirect_uri' => "#{request.base_url}/hqbot/authorize",
       'scope' => 'identify'
-    )
-
-    req_options = {
-      use_ssl: uri.scheme == 'https'
     }
 
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(discord_request)
-    end
-    # response.code
+    # Get key info from Discord
+    info = JSON.parse(RestClient.post('https://discord.com/api/v9/oauth2/token', URI.encode_www_form(body)))
 
-    bob = JSON.parse(response.body)
+    # Get Username and ID from Discord
+    data = JSON.parse(RestClient.get('https://discord.com/api/v9/users/@me', Authorization: "Bearer #{info['access_token']}"))
 
-    data = JSON.parse(RestClient.get('https://discordapp.com/api/v6/users/@me', Authorization: "Bearer #{bob['access_token']}"))
+    # Store information from Discord
+    session[:hqbot_id] = data['id']
+    session[:hqbot_username] = data['username']
 
-    user = HqBotLogin.find_by(userid: data['id'])
-
-    if user.nil?
-      HqBotLogin.create(userid: data['id'], access_token: bob['access_token'], refresh_token: bob['refresh_token'])
-    else
-      user.access_token = bob['access_token']
-      user.refresh_token = bob['refresh_token']
-      user.save!
-    end
-
-    session[:id] = data['id']
-    session[:token] = bob['access_token']
-
+    # Redirect home
     redirect_to '/hqbot'
+  end
+
+  # "Daily Challenge" cheat by showing all (most, now) questions from HQBuff
+  def dailycheat
+    # Gather the questions
+    @questions = HqQuestion.all
   end
 end

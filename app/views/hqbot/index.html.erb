@@ -1,20 +1,17 @@
 <div class="row">
   <div class="col">
 
-    <h1 id="welcomeh1">Welcome, <%= @as %>!</h1>
+    <h1 id="welcomeh1">Welcome, <%= @profile['username'] %>!</h1>
 
     <p>Modify your profile below.</p>
   </div>
 </div>
 <form action="/hqbot/saveprofile" method="post">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <div class="row">
-    <div class="col">
-      <div class="form-group">
-        <h3>HQ Username</h3>
-        <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" value="<%= @profile['username'] %>" placeholder="Enter username">
-      </div>
-    </div>
+  <div class="mb-3">
+    <h3>HQ Username</h3>
+    <label for="username" class="visually-hidden">Enter your HQ username below</label>
+    <input type="text" class="form-control" id="username" name="username" aria-describedby="usernameHelp" value="<%= @profile['username'] %>" placeholder="Enter username">
   </div>
   <div class="row">
     <div class="col">
@@ -22,7 +19,7 @@
       <p>These are your unmodifiable stats. Contact Chew if you want these modified.</p>
       <% @status.each do |internal, external| %>
         <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="<%= internal %>" disabled="disabled" <%= 'checked' if @profile[internal] %>>
+          <input class="form-check-input" type="checkbox" value="" id="<%= internal %>" disabled <%= 'checked' if @profile[internal] %>>
           <label class="form-check-label" for="<%= internal %>">
             <%= external %>
           </label>
@@ -31,17 +28,18 @@
     </div>
     <% if @profile['authkey'] %>
       <div class="col">
-        <h4>Auth Key Settings</h4>
+        <h3>Auth Key Settings</h3>
         <p>Thank you for being an Auth Key donor. Here are your settings.</p>
         <p>These get shown on YOUR <code>hq, user</code> output.</p>
         <h5>Key ID:</h5>
         <h6>(contact Chew to change, this is your HQ ID)</h6>
-        <input class="form-control" type="text" placeholder="<%= @profile['keyid'] %>" readonly="readonly">
+        <label for="keyIdInput" class="visually-hidden">View your HQ Key ID below</label>
+        <input id="keyIdInput" class="form-control" type="text" placeholder="<%= @profile['keyid'] %>" readonly>
         <p></p>
         <% @settings.each do |internal, external| %>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="1" id="<%= internal %>" name="<%= internal %>" <%= 'checked' if @profile[internal] %>>
-            <label class="form-check-label" for="lives">
+            <label class="form-check-label" for="<%= internal %>">
               <%= external %>
             </label>
           </div>
@@ -49,16 +47,13 @@
       </div>
     <% end %>
   </div>
-  <div class="row">
-    <div class="col">
-      <button id="savebutton" type="submit" class="btn btn-success">Save Settings</button>
-    </div>
-  </div>
+
+  <button type="submit" class="btn btn-primary">Save Settings</button>
 </form>
 
 <script>
     $('form').submit(function () {
         $(this).find('button[type=submit]').prop('disabled', true);
-        $(this).find('button[type=submit]').html('Submitting...');
+        $(this).find('button[type=submit]').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...');
     });
 </script>

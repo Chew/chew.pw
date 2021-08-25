@@ -1,27 +1,15 @@
-<%=
-questions = HqQuestion.all
-nil
-%>
-
 <h1 id="fix">Daily Challenge Cheat</h1>
 <p>Type in the Question below and get the answers. Gives answers 80% of the time! </p>
 
-<link rel="stylesheet" href="https://smp.cloudcitymc.us/assets/css/searchboxes.css">
-
-<script src="https://smp.cloudcitymc.us/assets/js/searchboxes.js"></script>
-
-<input type="text" id="findblocks" onkeyup="searchTable(0, 'findblocks')" placeholder="Search by Question" style="width: 100%!important">
-
-
-<table id="blocks">
-  <thead>
+<table class="table table-striped table-bordered table-hover" data-toggle="table" data-search="true">
+  <thead class="table-dark">
     <tr>
       <th>Question</th>
       <th>Answer</th>
     </tr>
   </thead>
   <tbody>
-    <% questions.each do |ques| %>
+    <% @questions.each do |ques| %>
     <tr>
       <td><%= ques.question %></td>
       <td>
