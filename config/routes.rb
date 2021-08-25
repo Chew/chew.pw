@@ -125,28 +125,6 @@ Rails.application.routes.draw do
     end
   end
 
-  scope 'hq' do
-    get '/', to: 'hq#index'
-    get 'powerups', to: 'hq#powerups'
-    get 'friends', to: 'hq#friends'
-    get 'schedule', to: 'hq#schedule'
-    get 'leaders', to: 'hq#leaders'
-    get 'settings', to: 'hq#settings'
-    get 'missing', to: 'hq#missing'
-    post 'saveusername', to: 'hq#saveusername'
-
-    get 'logout', to: 'hq#logout'
-    get 'signin', to: 'hq#signin'
-    post 'signin/code', to: 'hq#signinhandle'
-    post 'signin/conclude', to: 'hq#signinconclude'
-
-    get 'words/bots', to: 'hq#wordsbots'
-
-    get 'question/beta', to: 'hq#question2'
-    get 'endpoints', to: 'hq#endpoints'
-    get 'random', to: 'hq#question'
-  end
-
   # Secret routes
   (1..4).each do |i|
     post Rails.application.credentials.routes["post#{i}".to_sym], to: Rails.application.credentials.routes["to#{i}".to_sym]
