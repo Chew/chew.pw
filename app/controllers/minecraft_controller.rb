@@ -16,32 +16,6 @@ class MinecraftController < ApplicationController
       end
     end
 
-    #Aws.config.update(
-    #  region: 'us-east-2',
-    #  credentials: Aws::Credentials.new(Rails.application.credentials.dig(:aws, :access_key_id), Rails.application.credentials.dig(:aws, :secret_access_key))
-    #)
-
-    #s3 = Aws::S3::Client.new
-    type = request.parameters['log'].content_type
-    extension = File.extname(request.parameters['log'].original_filename)
-    mime = FileMagic.new(FileMagic::MAGIC_MIME).file(request.parameters['log'].tempfile.path)
-    unless mime.include? "text/plain"
-      flash[:modal_message] = 'This is not a valid log file!'
-      redirect_to '/mc/log'
-      return
-    end
-    o = [('a'..'z'), ('A'..'Z'), (0..9)].map(&:to_a).flatten
-    string = (0...10).map { o[rand(o.length)] }.join
-    name = string + extension.to_s
-    #obj = s3.put_object(
-    #  bucket: 'cdn.memerator.me',
-    #  body: request.parameters['log'].open,
-    #  acl: 'public-read',
-    #  key: name,
-    #  content_type: type
-    #)
-    #url = "https://cdn.memerator.me/#{name}"
-
     @paper_versions = Rails.cache.fetch("paper/version", expires_in: 1.day) do
       JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/paper"))
     end

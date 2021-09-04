@@ -225,7 +225,6 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     rmagick (4.2.2)
-    ruby-filemagic (0.7.2)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
     sass-rails (6.0.0)
@@ -304,7 +303,6 @@ DEPENDENCIES
   rails (~> 6.1.0)
   rest-client
   rmagick
-  ruby-filemagic
   sass-rails (>= 6)
   selenium-webdriver
   sentry-raven
