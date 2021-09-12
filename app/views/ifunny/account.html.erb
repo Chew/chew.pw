@@ -1,0 +1,42 @@
+<style>
+  body {
+      background-color: <%= "#" + @account['cover_bg_color'] %>;
+      background-image: url(<%= @account['cover_url'] %>);
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center bottom;
+  }
+</style>
+
+<h1><span style="color: <%= "#"+@account['nick_color'] %>"><%= @account['nick'] %></span>'s Profile</h1>
+
+<p><i><%= @account['about'] %></i></p>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <img alt="<%= @account['meme_experience']['rank'] %> icon" src="<%= @account['meme_experience']['badge_url'] %>"
+           class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Meme Experience</h5>
+        <p class="card-text">
+          <b>Rank: </b> <%= @account['meme_experience']['rank'] %><br>
+          <b>Days: </b> <%= @account['meme_experience']['days'] %> / <%= @account['meme_experience']['next_milestone'] %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Statistics</h5>
+        <p class="card-text">
+          <% @account['num'].each do |item, number| %>
+            <b><%= item.titleize %>:</b> <%= number_with_delimiter number %><br>
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

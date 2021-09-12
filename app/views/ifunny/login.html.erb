@@ -1,0 +1,25 @@
+<h1>iFunny Tools Sign-in</h1>
+
+<p>
+  <i>
+    I understand entering your password may be suspicious, but I obviously won't use your credentials for anything. I really don't care.
+    Knowing iFunny, whatever I say here doesn't matter. But if you like your SOURCES, the code is <%= link_to "here", "https://github.com/Chew/chew.pw/blob/main/app/controllers/ifunny_controller.rb" %>.
+    Your token is stored in the cookie and, if removed, so will your login. I don't store anything.
+  </i>
+</p>
+
+<p>Logging in requires an email and password. Go ahead and provide them here.</p>
+
+<form action="/ifunny/login" method="POST">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token%>
+  <div class="mb-3">
+    <label for="email">E-mail</label>
+    <input class="form-control" type="text" required name="email" id="email">
+  </div>
+  <div class="mb-3">
+    <label for="password">Password</label>
+    <input class="form-control" type="password" required name="password" id="password">
+  </div>
+
+  <button type="submit" class="btn btn-primary" id="submit">Login</button>
+</form>

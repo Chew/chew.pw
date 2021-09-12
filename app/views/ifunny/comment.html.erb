@@ -1,0 +1,22 @@
+<h1>Comment Viewer</h1>
+
+<% if params['comment_id'].nil? %>
+  <%= form_tag "/ifunny/comment", method: :get do %>
+    <div class="mb-3">
+      <%= label_tag "comment_link", "Enter a link to the comment below.", class: 'form-label' %>
+      <%= text_field_tag "comment_link", '', placeholder: "Comment Link", class: 'form-control', required: true %>
+    </div>
+    <%= submit_tag "Submit", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+  <% end %>
+
+<% else %>
+  <div class="card">
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p><%= @comment['text'] %></p>
+        <footer class="blockquote-footer"><%= @comment['user']['nick'] %></footer>
+      </blockquote>
+      <p>Smiles: <%= @comment['num']['smiles'] %> - Unsmiles: <%= @comment['num']['unsmiles'] %></p>
+    </div>
+  </div>
+<% end %>

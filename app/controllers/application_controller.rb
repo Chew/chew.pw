@@ -21,6 +21,13 @@ class ApplicationController < ActionController::Base
     json_response({ success: true }, 200)
   end
 
+  # Generate a random string with a given length
+  # @return [String] A randomized string
+  def random_string(length = 25, chars = [('a'..'z'), ('A'..'Z')])
+    o = chars.map(&:to_a).flatten
+    (0...length).map { o[rand(o.length)] }.join
+  end
+
   private
 
   def set_raven_context

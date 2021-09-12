@@ -108,6 +108,17 @@ Rails.application.routes.draw do
     end
   end
 
+  scope 'ifunny' do
+    get '/', to: 'ifunny#index'
+    get '/login', to: 'ifunny#login'
+    post '/login', to: 'ifunny#authenticate'
+
+    get 'account', to: 'ifunny#account'
+    get 'comment', to: 'ifunny#comment'
+
+    get 'content/:meme_id/comment/:comment_id', to: 'ifunny#comment'
+  end
+
   get 'siri/hq/:username', to: 'api#hq'
 
   scope 'chewbotcca' do
