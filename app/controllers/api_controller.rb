@@ -1,145 +1,51 @@
+# Manages requests whose response is always JSON, never a page
+# Most is documented here: https://api.chew.pro
+# If it's not there, don't use it.
 class ApiController < ApplicationController
   include Response
   skip_before_action :verify_authenticity_token
-  before_action :goodbye_token
 
-  def goodbye_token
-    form_authenticity_token = nil
-  end
-
+  # Returns a random string of x length
+  # @return [Response, nil] JSON response of the string
   def random_string
-    many = params['length'].to_i || 25
-    many = 1000 if many > 1000
-    many = 2 if many < 2
-
-    o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
-
-
-    json_response({ "response": (0...many).map { o[rand(o.length)] }.join }, 200)
+    json_response({ response: super(params['length'] || 2) }, 200)
   end
 
-  def url
-    if params['url'].nil? || params['url'] !~ URI::DEFAULT_PARSER.make_regexp
-      json_response({"error": "Missing or invalid 'url' parameter"}, 400)
-      return
-    end
-
-    extensiontest = false
-
-    extensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
-    nourl = params['url'].downcase
-    extensions.each do |e|
-      extensiontest = true if nourl.end_with?(e)
-    end
-
-    unless extensiontest
-      json_response({"error": "Invalid or unsupported file extension"}, 400)
-      return
-    end
-
-    begin
-      image = RestClient.get(params['url']).headers[:content_type].start_with? 'image'
-    rescue SocketError, RestClient::Forbidden, OpenSSL::SSL::SSLError, Errno::ECONNREFUSED
-      json_response({"error": "Invalid url"}, 400)
-      return
-    end
-
-    unless image
-      json_response({"error": "URL isn't an image"}, 400)
-      return
-    end
-
-    json_response({"status": "ok"}, 200)
-  end
-
+  # Generates a random TRBMB phrase
   def trbmb
-    many = request.headers['amount'].to_i || 1
+    many = request.headers['amount']&.to_i || params['amount']&.to_i || 1
     many = 1000 if many > 1000
     many = 1 if many < 1
-    words = TRBMB_WORDS
-
-    words1 = words[0][13..-1].delete('"').split(',')
-
-    words2 = words[2][13..-1].delete('"').split(',')
+    words = Rails.cache.fetch("api-trbmb-words") do
+      JSON.parse(RestClient.get("https://trbmb.chew.pw/assets/json/words.json"))
+    end
 
     output = []
-    many.times do |e|
-      output += ["That really #{words1.sample} my #{words2.sample}"]
+    many.times do
+      output += ["That really #{words['word1'].sample} my #{words['word2'].sample}"]
     end
 
-    @hey = output.as_json
-    json_response(@hey)
+    json_response(output)
   end
 
+  # Fills in a given acronym
   def acronym
-    acronym = params['acronym']
-    acronym = acronym.downcase
-    letters = acronym.split("")
-    phrase = ''
+    acronym = params['acronym'].downcase.split('')
+    phrase = []
     words = {}
-    ACRONYM_LIST[1..26].each do |letter|
-      sep = letter.split(": ")
-      let = sep[0].gsub(" ", "").gsub('"', "")
-      wds = sep[1].gsub('"', "")
-      words[let] = wds.split(',')
+    acronyms = Rails.cache.fetch("api-acronyms") do
+      JSON.parse(RestClient.get("https://acronym.chew.pro/assets/json/words.json"))
     end
-    letters.each do |i|
-      if words[i].nil?
-        phrase += ''
-      else
-        phrase += words[i].sample
-        phrase += ' '
-      end
+    acronyms.each do |letter, word_list|
+      words[letter] = word_list.split(',')
+    end
+    acronym.each do |i|
+      next if words[i].nil?
+
+      phrase.push words[i].sample
     end
 
-    phrase.chomp!(' ')
-
-    json_response({ phrase: phrase }, 200)
-  end
-
-  def hq
-    name = params['username']
-
-    key = Rails.application.credentials.trbmb[:hq_key]
-
-    require 'json'
-
-    findid = RestClient.get('https://api-quiz.hype.space/users',
-                            params: { q: name },
-                            Authorization: key,
-                            'x-hq-device': 'iPhone10,4',
-                            'x-hq-stk': 'MQ==',
-                            'x-hq-deviceclass': 'phone',
-                            'x-hq-timezone': 'America/Chicago',
-                            'user-agent': 'HQ-iOS/147 CFNetwork/1085.4 Darwin/19.0.0',
-                            'x-hq-country': 'us',
-                            'x-hq-lang': 'en',
-                            'x-hq-client': 'iOS/1.4.15 b146',
-                            'Content-Type': :json)
-
-    id = JSON.parse(findid)['data'][0]['userId']
-
-    data = RestClient.get("https://api-quiz.hype.space/users/#{id}",
-                          Authorization: key,
-                          'x-hq-device': 'iPhone10,4',
-                          'x-hq-stk': 'MQ==',
-                          'x-hq-deviceclass': 'phone',
-                          'x-hq-timezone': 'America/Chicago',
-                          'user-agent': 'HQ-iOS/147 CFNetwork/1085.4 Darwin/19.0.0',
-                          'x-hq-country': 'us',
-                          'x-hq-lang': 'en',
-                          'x-hq-client': 'iOS/1.4.15 b146',
-                          'Content-Type': :json)
-
-    data = JSON.parse(data)
-
-    @hey = {
-      'username' => data['username'],
-      'wins' => data['winCount'].to_s,
-      'games' => data['gamesPlayed'].to_s,
-      'total' => data['leaderboard']['total']
-    }.as_json
-    json_response(@hey)
+    json_response({ phrase: phrase.join(' ') }, 200)
   end
 
   def chewspeak
@@ -168,35 +74,39 @@ class ApiController < ApplicationController
       output.push ar.join('')
     end
 
-    json_response({ "input": params['input'], "output": output.join(' ') }, 200)
+    json_response({ input: params['input'], output: output.join(' ') }, 200)
   end
 
+  # Generate some random Spigot Drama
   def spigot_drama
-    combinations = SPIGOT_DRAMA['combinations']
-    sentences = SPIGOT_DRAMA['sentences']
+    drama = Rails.cache.fetch("api-spigot-drama") do
+      JSON.parse(RestClient.get("https://raw.githubusercontent.com/md678685/spigot-drama-generator/master/src/data.json"))
+    end
+
+    combinations = drama['combinations']
+    sentences = drama['sentences']
 
     base64 = {}
 
-    index = 0
     sentence = sentences.sample
-    base64['sentence'] = sentences.index{|e| e == sentence}
+    base64['sentence'] = sentences.index { |e| e == sentence }
     while sentence.include? "["
-      combinations.each do |key, value|
+      combinations.each do |key, _|
         placeholder = "[#{key}]"
         replacement = combinations[key].sample
-        i = combinations[key].index{|e| e == replacement}
-        if sentence.include? placeholder
-          sentence = sentence.sub(placeholder, replacement)
-          if base64[key].nil?
-            base64[key] = [i]
-          else
-            base64[key].push i
-          end
+        i = combinations[key].index { |e| e == replacement }
+        next unless sentence.include? placeholder
+
+        sentence = sentence.sub(placeholder, replacement)
+        if base64[key].nil?
+          base64[key] = [i]
+        else
+          base64[key].push i
         end
       end
     end
 
-    json_response({"response": sentence, "permalink": "https://drama.essentialsx.net/#{Base64.encode64(base64.to_json.to_s).gsub("\n", "")}"}, 200)
+    json_response({ response: sentence, permalink: "https://drama.essentialsx.net/#{Base64.encode64(base64.to_json.to_s).gsub("\n", "")}" }, 200)
   end
 
   def randombirb
