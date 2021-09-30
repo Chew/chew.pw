@@ -8,7 +8,13 @@ class ApiController < ApplicationController
   # Returns a random string of x length
   # @return [Response, nil] JSON response of the string
   def random_string
-    json_response({ response: super(params['length'] || 2) }, 200)
+    begin
+      # Call "super", or the ApplicationController's random_string method
+      value = super(params['length']&.to_i || 16, params['kind'] || 'alphanumeric')
+      json_response({ response: value, success: true }, 200)
+    rescue ArgumentError => e
+      json_error_response e.message
+    end
   end
 
   # Generates a random TRBMB phrase
@@ -50,9 +56,9 @@ class ApiController < ApplicationController
 
   def chewspeak
     input = params['input']
+    # Ensure an input has been provided
     if input.nil?
-      json_response({ "error": "please provide a 'input' parameter" }, 400)
-      return
+      return json_error_response "missing 'input' parameter"
     end
     strings = input.split(' ')
 

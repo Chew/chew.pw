@@ -23,9 +23,18 @@ class ApplicationController < ActionController::Base
 
   # Generate a random string with a given length
   # @return [String] A randomized string
-  def random_string(length = 25, chars = [('a'..'z'), ('A'..'Z')])
-    o = chars.map(&:to_a).flatten
-    (0...length).map { o[rand(o.length)] }.join
+  # @raise [ArgumentError] if the kind is not of 'alphanumeric', 'base64' or 'uuid'
+  def random_string(length = 25, kind = 'alphanumeric')
+    case kind
+    when 'alphanumeric'
+      SecureRandom.alphanumeric length
+    when 'base64'
+      SecureRandom.base64 length
+    when 'uuid'
+      SecureRandom.uuid
+    else
+      raise ArgumentError, "Invalid kind, must be one of 'alphanumeric', 'base64' or 'uuid'"
+    end
   end
 
   private
