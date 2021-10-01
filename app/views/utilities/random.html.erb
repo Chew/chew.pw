@@ -1,0 +1,39 @@
+<% content_for :extra_head do %>
+  <%= meta_tags title: "Random String Generator",
+                description: "The simplest way to generate strings of various lengths, UUID, and more!",
+                service: "Chew's Utilities" %>
+<% end %>
+
+<h1>Random String Generator</h1>
+
+<p>Bare minimum, simple string generator.</p>
+
+<noscript>Please enable JavaScript!</noscript>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= form_for "/api/random", method: :get, html: { id: "apiRandomForm" } do %>
+      <div class="mb-3">
+        <%= label_tag "kind", "The kind of random data" %>
+        <%= select_tag "kind", options_for_select([%w[Alphanumeric alphanumeric], %w[UUID uuid]]), class: 'form-control' %>
+      </div>
+      <div class="mb-3">
+        <%= label_tag "length", "The length of the string, if needed." %>
+        <%= number_field_tag "length", 16, min: 2, max: 1000, class: 'form-control' %>
+      </div>
+
+      <%= submit_tag "Generate", class: 'btn btn-primary', data: { disable_with: false } %>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <label for="result">Result</label>
+    <textarea id="result" rows="4" class="form-control" readonly></textarea>
+    <br>
+    <button id="copy" data-bs-toggle="tooltip" title="Click to Copy" class="btn btn-primary">Copy</button>
+  </div>
+
+</div>
+
+<% content_for :extra_foot do %>
+  <%= javascript_pack_tag "random" %>
+<% end %>

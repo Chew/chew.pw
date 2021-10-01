@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     get 'image', to: 'api#url'
     get 'html', to: 'utilities#striphtml'
     post 'html/strip', to: 'utilities#strippedhtml'
+    get 'random', to: 'utilities#random'
   end
 
   scope 'api' do
