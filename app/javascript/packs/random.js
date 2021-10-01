@@ -1,5 +1,4 @@
 import ClipboardJS from 'clipboard'
-require('bootstrap')
 
 $("#apiRandomForm").on('submit', function (e) {
     e.preventDefault();
@@ -27,12 +26,5 @@ clipboard.on('success', function (e) {
 clipboard.on('error', function (e) {
     document.getElementById('copy').innerHTML = 'Copy Errored :(';
 })
-
-function initializeTooltips() {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
-}
 
 initializeTooltips();

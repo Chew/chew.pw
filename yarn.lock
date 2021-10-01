@@ -1575,9 +1575,9 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap-table@wenzhixin/bootstrap-table#develop:
+"bootstrap-table@https://github.com/wenzhixin/bootstrap-table.git":
   version "1.18.3"
-  resolved "https://codeload.github.com/wenzhixin/bootstrap-table/tar.gz/8b686a830a00fa53e60f5a62903113e5d062769c"
+  resolved "https://github.com/wenzhixin/bootstrap-table.git#24d5786b92e33a8d9e2ceabb679f7643a0f85f4c"
 
 bootstrap@^5.1.1:
   version "5.1.1"
@@ -4108,6 +4108,11 @@ jest-worker@^26.5.0:
     "@types/node" "*"
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
+
+jquery-ui@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
+  integrity sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE=
 
 jquery@^3.6.0:
   version "3.6.0"

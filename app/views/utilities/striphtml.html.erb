@@ -1,7 +1,8 @@
-<h1>HTML Stripper</h1>
+<h1>HTML to Text</h1>
 
-<form action="/util/html/strip" method="post" id="stripForm">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+<p>Enter HTML below, then click Submit to get its textual content.</p>
+
+<%= form_with url: "/util/html/strip", method: :post do %>
   <div class="row">
     <div class="col">
       <div class="form-group">
@@ -12,13 +13,5 @@
     </div>
   </div>
 
-  <button type="submit" class="btn btn-success" id="submitButton">Submit</button>
-</form>
-
-<script>
-    $("#submitButton").on("click", function() {
-        $(this).attr('disabled', true);
-        $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
-        $("#stripForm").submit();
-    });
-</script>
+  <%= submit_tag 'Submit', data: { disable_with: 'Loading...' }, class: 'btn btn-primary' %>
+<% end %>
