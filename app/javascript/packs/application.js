@@ -33,6 +33,15 @@ window.initializeTooltips = function() {
     });
 }
 
+const toastElList = [].slice.call(document.querySelectorAll('.toast'));
+const toastList = toastElList.map(function (toastEl) {
+    let toast = new bootstrap.Toast(toastEl, {})
+    toast.show();
+
+    return toast;
+});
+
+
 
 Rails.start()
 // Turbolinks.start()

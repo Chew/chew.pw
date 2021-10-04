@@ -37,3 +37,15 @@
         margin-top: 20px;
     }
 }
+
+.up-a-bit {
+    margin-top: 20px;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.toast-container {
+    z-index: 1000000;
+}
