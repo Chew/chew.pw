@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :set_raven_context
+  before_action :add_permissions_policy_header
   before_action :info
   skip_before_action :verify_authenticity_token, :only => [:flush]
   include Response
@@ -38,6 +39,29 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Adds a Permissions-Policy header to match our permissions policy
+  def add_permissions_policy_header
+    header = []
+
+    Rails.application.config.permissions_policy.directives.each do |key, values|
+      map = []
+      values.each do |value|
+        case value
+        when "'none'"
+          next
+        when "'self'"
+          map.push "self"
+        else
+          map.push "\"#{value}\""
+        end
+      end
+
+      header.push "#{key}=(#{map.join(' ')})"
+    end
+
+    response.headers['Permissions-Policy'] = header.join(" ")
+  end
 
   def set_raven_context
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
