@@ -156,11 +156,8 @@ class MinecraftController < ApplicationController
     end
 
     respond_to do |format|
-      @type = params['type']
-      @build = version
       format.html { redirect_to "/mc/jars" }
-      format.json { head :no_content }
-      format.js { render partial: 'build' }
+      format.json { render json: { type: params['type'].sub('/', '-').gsub('.', '_'), build: version } }
     end
   end
 

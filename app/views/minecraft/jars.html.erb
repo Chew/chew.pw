@@ -51,7 +51,7 @@
       <tr>
         <td>
           <%= link_to version, "/mc/jars/paper/#{version}" %> -
-          <%= link_to "[Get Build #]", "/mc/jars/build/paper/#{version}", remote: true, id: "paper/#{version}" %>
+          <%= link_to "[Get Build #]", "/mc/jars/build/paper/#{version}", id: "paper-#{version.gsub('.', '_')}" %>
         </td>
       </tr>
       <% end %>
@@ -76,27 +76,17 @@
       <tr>
         <td>
           <%= link_to "BungeeCord", "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar" %> -
-          <%= link_to "[Get Build #]", "/mc/jars/build/bungeecord", remote: true, id: 'bungeecord' %>
+          <%= link_to "[Get Build #]", "/mc/jars/build/bungeecord", id: 'bungeecord' %>
         </td>
       </tr>
+      <% %w[waterfall travertine velocity].each do |type| %>
       <tr>
         <td>
-          <%= link_to "Waterfall", "/mc/jars/waterfall" %> -
-          <%= link_to "[Get Build #]", "/mc/jars/build/waterfall", remote: true, id: 'waterfall' %>
+          <%= link_to type.capitalize, "/mc/jars/#{type}" %> -
+          <%= link_to "[Get Build #]", "/mc/jars/build/#{type}", id: type %>
         </td>
       </tr>
-      <tr>
-        <td>
-          <%= link_to "Travertine", "/mc/jars/travertine" %> -
-          <%= link_to "[Get Build #]", "/mc/jars/build/travertine", remote: true, id: 'travertine' %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <%= link_to "Velocity", "/mc/jars/velocity" %> -
-          <%= link_to "[Get Build #]", "/mc/jars/build/velocity", remote: true, id: 'velocity' %>
-        </td>
-      </tr>
+      <% end %>
       </tbody>
     </table>
   </div>
@@ -110,27 +100,20 @@
     <table class="table table-striped table-bordered table-hover" data-toggle="table">
       <thead class="table-dark">
       <tr>
-        <th>Version - <%= link_to "[Get Build #]", "/mc/jars/build/geyser", remote: true, id: 'geyser' %></th>
+        <th>Version - <%= link_to "[Get Build #]", "/mc/jars/build/geyser", id: 'geyser' %></th>
       </tr>
       </thead>
       <tbody>
       <tr>
         <td><%= link_to "Standalone", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar" %></td>
       </tr>
+      <% %w[Spigot BungeeCord Velocity Sponge].each do |type| %>
       <tr>
-        <td><%= link_to "Spigot/Paper", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/spigot/target/Geyser-Spigot.jar" %></td>
+        <td><%= link_to t(type.downcase), "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/#{type.downcase}/target/Geyser-#{type}.jar" %></td>
       </tr>
+      <% end %>
       <tr>
-        <td><%= link_to "BungeeCord", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/bungeecord/target/Geyser-BungeeCord.jar" %></td>
-      </tr>
-      <tr>
-        <td><%= link_to "Velocity", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/velocity/target/Geyser-Velocity.jar" %></td>
-      </tr>
-      <tr>
-        <td><%= link_to "Sponge", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/sponge/target/Geyser-Sponge.jar" %></td>
-      </tr>
-      <tr>
-        <td><%= link_to "Fabric", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser-Fabric/job/java-1.17/lastSuccessfulBuild/artifact/build/libs/Geyser-Fabric-1.4.0-SNAPSHOT.jar" %></td>
+        <td><%= link_to "Fabric", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser-Fabric/job/java-1.17/lastSuccessfulBuild/artifact/build/libs/Geyser-Fabric-1.4.3-SNAPSHOT.jar" %></td>
       </tr>
       </tbody>
     </table>
@@ -145,19 +128,15 @@
     <table class="table table-striped table-bordered table-hover" data-toggle="table">
       <thead class="table-dark">
       <tr>
-        <th>Version - <%= link_to "[Get Build #]", "/mc/jars/build/floodgate", remote: true, id: 'floodgate' %></th>
+        <th>Version - <%= link_to "[Get Build #]", "/mc/jars/build/floodgate", id: 'floodgate' %></th>
       </tr>
       </thead>
       <tbody>
+      <% %w[spigot bungee velocity].each do |type| %>
       <tr>
-        <td><%= link_to "Spigot/Paper", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/spigot/target/floodgate-spigot.jar" %></td>
+        <td><%= link_to t(type), "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/#{type}/target/floodgate-#{type}.jar" %></td>
       </tr>
-      <tr>
-        <td><%= link_to "BungeeCord", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/bungee/target/floodgate-bungee.jar" %></td>
-      </tr>
-      <tr>
-        <td><%= link_to "Velocity", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/velocity/target/floodgate-velocity.jar" %></td>
-      </tr>
+      <% end %>
       <tr>
         <td><%= link_to "Fabric", "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate-Fabric/job/master/lastSuccessfulBuild/artifact/build/libs/floodgate-fabric.jar" %></td>
       </tr>

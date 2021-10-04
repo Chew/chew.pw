@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+  spigot: "Spigot / Paper"
+  bungee: "BungeeCord"
+  bungeecord: "BungeeCord"
+  velocity: "Velocity"
+  sponge: "Sponge"

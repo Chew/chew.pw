@@ -9,12 +9,23 @@ jQuery.fn.outerHtml = function(newHtml){
 let initializeAllLinks = function() {
     $("a").on("click", function(e) {
         let obj = $(this);
-        console.log(obj);
         let href = obj.prop('href');
-        if (!href.includes("build")) {
+        if (!href.includes("mc/jars/build")) {
             return;
         }
         obj.outerHtml(`<span id="${obj.prop('id')}">Loading...</span>`)
+
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('accept', 'application/json');
+            }
+        });
+
+        $.get(href, function(res) {
+            $("#" + res.type).outerHtml(res.build);
+        });
+
+        e.preventDefault();
     });
 }
 
@@ -23,6 +34,9 @@ $(document).ready(function() {
     initializeAllLinks();
 
     $("#paperVersions").on('page-change.bs.table', function (e, n, s) {
-        // TODO: Fix initialization?
+        // Reinitialize the links
+        setTimeout(function() {
+            initializeAllLinks();
+        }, 100);
     });
 });
