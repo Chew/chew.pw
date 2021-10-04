@@ -48,12 +48,5 @@
     <% end %>
   </div>
 
-  <button type="submit" class="btn btn-primary">Save Settings</button>
+  <button type="submit" class="btn btn-primary" data-disable-with="Saving...">Save Settings</button>
 </form>
-
-<script>
-    $('form').submit(function () {
-        $(this).find('button[type=submit]').prop('disabled', true);
-        $(this).find('button[type=submit]').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Submitting...');
-    });
-</script>

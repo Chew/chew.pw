@@ -1,3 +1,5 @@
+require 'discordrb/webhooks'
+
 class DiscordController < ApplicationController
   def avataryeeter
     id = params['id'].to_i
@@ -31,9 +33,9 @@ class DiscordController < ApplicationController
           embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: params['footer_text'], icon_url: params['footer_url'])
         end
       end
-      flash[:webhook_status] = 'Sent!'
+      flash[:modal_js] = 'Sent!'
     rescue StandardError => e
-      flash[:webhook_status] = "Error!"
+      flash[:modal_js] = "Error! #{e.message}"
     end
 
     redirect_to "/webhooks"

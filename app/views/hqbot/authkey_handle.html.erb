@@ -8,15 +8,8 @@
       <input class="form-control" type="number" name="code" maxlength="4" placeholder="4-digit authentication code" required autocomplete="false" spellcheck="false">
       <input class="form-control" type="text" hidden name="verificationId" value="<%= @verid %>"/>
       <div class="button">
-        <button class="btn btn-success" type="submit">Submit</button>
+        <button class="btn btn-success" type="submit" data-disable-with="Submitting...">Submit</button>
       </div>
     </div>
   </form>
 </div>
-
-<script>
-    $('form').submit(function(){
-        $(this).find('button[type=submit]').prop('disabled', true);
-        $(this).find('button[type=submit]').html('Submitting...');
-    });
-</script>

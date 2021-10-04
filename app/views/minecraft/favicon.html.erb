@@ -36,12 +36,5 @@
     </div>
   </div>
 
-  <button type="submit" class="btn btn-primary" id="upload_button">Upload</button>
+  <button type="submit" class="btn btn-primary" id="upload_button" data-disable-with="Uploading...">Upload</button>
 </form>
-
-<script>
-    $('form').submit(function(){
-        $(this).find('button[type=submit]').prop('disabled', true);
-        $(this).find('button[type=submit]').html('Submitting...');
-    });
-</script>

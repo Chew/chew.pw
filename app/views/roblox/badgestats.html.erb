@@ -10,23 +10,12 @@
     </p>
     <h3>Badge Progress</h3>
     <p>Achieved: <%= achieved = @badges.count { |badge| has_badge?(@user, badge['name']) } %> (<%= (achieved / @badges.count.to_f * 100).round(2) %>%)<br />
-    Not Achieved: <%= @badges.count - achieved %></br>
+    Not Achieved: <%= @badges.count - achieved %><br />
     Total: <%= @badges.count %></p>
     <p>
-      <input type="checkbox" value="1" id="yousendit" onclick="return yousendit();" <%= 'checked' if params['achieved'] == 'true' %>/> Hide Achieved
+      <input type="checkbox" value="1" id="hideAchieved" <%= 'checked' if params['achieved'] == 'true' %>/>
+      <label for="hideAchieved">Hide Achieved</label>
     </p>
-    <script>
-    function yousendit(){
-      if(document.getElementById('yousendit').checked){
-        window.location='<%= raw request.url.gsub("&achieved=false", '') + "&achieved=true" %>';
-        return false;
-      } else if(!document.getElementById('yousendit').checked) {
-        window.location='<%= raw request.url.gsub("&achieved=true", '') + "&achieved=false" %>';
-        return false;
-      }
-      return true;
-    }
-    </script>
     <div class="table-responsive">
       <table class="table table-striped table-bordered table-hover <%= 'table-dark' if session[:dark_mode] %>">
         <thead class="table-dark">
@@ -60,3 +49,7 @@
     </div>
   </div>
 </div>
+
+<% content_for :extra_foot do %>
+  <%= javascript_pack_tag "roblox" %>
+<% end %>

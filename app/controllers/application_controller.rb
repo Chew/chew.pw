@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
       header.push "#{key}=(#{map.join(' ')})"
     end
 
-    response.headers['Permissions-Policy'] = header.join(" ")
+    response.headers['Permissions-Policy'] = header.join(", ")
   end
 
   def set_raven_context

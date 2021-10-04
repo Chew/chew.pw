@@ -70,6 +70,6 @@
 <p>This stack trace is due to a plugin being unable to enable. While the plugin jar itself is valid, code within it is not. This could be for any reason, so it's recommended to report the error to the author ask in a community support channel.</p>
 <% end %>
 <% end %>
-<textarea style="width: 100%; height: 200px" readonly><%= trace.join("\n") %></textarea><hr />
+<textarea class="log-stacktrace" readonly><%= trace.join("\n") %></textarea><hr />
 <% end %>
 <% end %>

@@ -9,6 +9,6 @@
   <%= link_to 'Back', '/util/html', class: 'btn btn-primary', id: 'backButton' %>
 </p>
 
-<label style="width: 100%;">
-  <textarea style="height: <%= (24.25 * @response.split("\n").length) + 13.75 %>px" id="content" class="form-control"><%= @response %></textarea>
+<label class="width-100">
+  <textarea rows="<%= @response.split("\n").length %>" id="content" class="form-control"><%= @response %></textarea>
 </label>
