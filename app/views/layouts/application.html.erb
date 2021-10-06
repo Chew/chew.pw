@@ -8,9 +8,6 @@
    <%= render "layouts/extra/#{@controller_name}" %>
   <% end %>
 
-  <!-- Bootstrap (5.1.1) -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/4ae5eef027.js" crossorigin="anonymous"></script>
 
@@ -18,7 +15,11 @@
   <%= stylesheet_link_tag @controller_name.to_s %>
   <%= stylesheet_link_tag "application" %>
 
-  <%= yield :extra_head %>
+  <% if content_for :extra_head %>
+    <%= yield :extra_head %>
+  <% else %>
+    <title>Chew's Website</title>
+  <% end %>
 </head>
 <body>
 

@@ -13,6 +13,7 @@
  * require_tree .
  * require_self
  *= require "bootstrap-table/dist/bootstrap-table.min"
+ *= require "bootstrap/dist/css/bootstrap"
  *= require "darkreader"
  */
 
