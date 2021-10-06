@@ -18,6 +18,7 @@ module ApplicationHelper
       tag('meta', property: 'og:title', content: "#{title} - #{service}"),
       tag('meta', property: 'twitter:title', content: "#{title} - #{service}"),
       tag('meta', property: 'description', content: description.to_s),
+      tag('meta', name: 'description', content: description.to_s),
       tag('meta', property: 'og:description', content: description.to_s),
       tag('meta', property: 'og:site_name', content: service.to_s),
       tag('meta', property: 'twitter:site', content: service.to_s),
@@ -33,7 +34,7 @@ module ApplicationHelper
   def dropdown_item(name: '', href: '#', fa_icon: nil, external: false)
     tag = "<a class=\"dropdown-item\" href=\"#{href}\""
     tag += if external || href.start_with?("http")
-             " target=\"_blank\">"
+             " target=\"_blank\" rel=\"noopener\">"
            else
              ">"
            end

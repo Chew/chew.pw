@@ -36,18 +36,15 @@
         <a href="https://steamcommunity.com/id/ChewCraft/">Steam</a>
       </div>
       <div class="col">
-        <h3>Search the Site</h3>
+        <h2>Search the Site</h2>
         <form name="search" action="//duckduckgo.com/">
           <div class="form-group">
             <div class="input-group">
-              <input type="search" class="form-control" placeholder="DuckDuckGo" name="q">
-              <input type="hidden" value="chew.pw" name="sites">
-              <input type="hidden" value="1" name="kh">
-              <input type="hidden" value="1" name="kn">
-              <input type="hidden" value="1" name="kac">
-              <input type="hidden" value="1" name="kc">
+              <label aria-hidden="true" class="visually-hidden" for="search">Enter search term</label>
+              <input id="search" type="search" class="form-control" placeholder="DuckDuckGo" name="q">
+              <%= hidden_field_tag "sites", "chew.pw" %>
               <span class="input-group-btn">
-                <button class="btn btn-primary" type="submit">
+                <button class="btn btn-primary" type="submit" aria-label="Search">
                   <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
               </span>
