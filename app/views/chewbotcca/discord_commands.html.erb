@@ -1,9 +1,8 @@
-<% content_for :extra_head do %>
-<title>Commands - Chewbotcca for Discord</title>
-<meta property="og:title" content="Commands - Chewbotcca for Discord" />
-<meta property="og:description" content="The commands for the Chewbotcca Discord bot" />
-<meta name="description" content="The commands for the Chewbotcca Discord bot" itemprop="description">
-<meta property="twitter:title" content="Commands - Chewbotcca for Discord">
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Commands",
+                description: "The commands for the Chewbotcca Discord bot",
+                service: "Chewbotcca for Discord",
+                keywords: "#{@commands.map { |command| command.command }.join(', ')}, discord, chewbotcca, bot" %>
 <% end %>
 
 <h1 id="fix">Chewbotcca Discord Commands</h1>

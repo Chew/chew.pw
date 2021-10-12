@@ -15,8 +15,8 @@
   <%= stylesheet_link_tag @controller_name.to_s %>
   <%= stylesheet_link_tag "application" %>
 
-  <% if content_for :extra_head %>
-    <%= yield :extra_head %>
+  <% if content_for :meta_tags %>
+    <%= yield :meta_tags %>
   <% else %>
     <title>Chew's Website</title>
   <% end %>

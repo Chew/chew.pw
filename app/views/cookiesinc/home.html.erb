@@ -1,2 +1,19 @@
-<h1 id="fix">Cookies Inc</h1>
-<p>Welcome</p>
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Home",
+                description: "Learn more about my Cookies Inc tools",
+                service: "Cookies Inc",
+                keywords: "cookies inc, tools, home" %>
+<% end %>
+
+<h1>Cookies Inc Tools</h1>
+
+<p>Welcome to my page for my Cookies Inc related tools.</p>
+
+<h2>My Tools</h2>
+
+<p>
+  Below are tools I've made. They are described below. You can access them by clicking the header or using the navbar.
+</p>
+
+<h3><%= link_to "Top Teams Viewer", "/cookiesinc/teams/top" %></h3>
+<p>A simple way to view the top leaders for teams in the cookie collecting contest!</p>

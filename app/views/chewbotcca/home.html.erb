@@ -1,12 +1,11 @@
-<% content_for :extra_head do %>
-<title>Home - Chewbotcca</title>
-<meta property="og:title" content="Home - Chewbotcca" />
-<meta property="og:description" content="The homepage of Chewbotcca Discord Bot" />
-<meta name="description" content="The homepage of Chewbotcca Discord Bot" itemprop="description">
-<meta property="twitter:title" content="Home - Chewbotcca">
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Home",
+                description: "The homepage of Chewbotcca",
+                service: "Chewbotcca",
+                keywords: "chewbotcca, irc, discord, slack, java, ruby" %>
 <% end %>
 
-<h1 id="fix">Chewbotcca Bots</h1>
+<h1>Chewbotcca Bots</h1>
 <p>Welcome to Chewbotcca. We made some bots, some are dead, some aren't. Most are though, don't get your hopes up.</p>
 
 <h2>Table of Bots</h2>

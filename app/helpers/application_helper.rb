@@ -12,7 +12,7 @@ module ApplicationHelper
   # @param description [String] Embed description
   # @param service [String] the service, e.g. Chewbotcca, Minecraft Tools, etc
   # @param color [String] Embed color
-  def meta_tags(title: '', description: '', service: '', color: '#F078DD')
+  def meta_tags(title: '', description: '', service: '', color: '#F078DD', keywords: 'chew')
     [
       tag.title("#{title} - #{service}"),
       tag('meta', property: 'og:title', content: "#{title} - #{service}"),
@@ -22,7 +22,8 @@ module ApplicationHelper
       tag('meta', property: 'og:description', content: description.to_s),
       tag('meta', property: 'og:site_name', content: service.to_s),
       tag('meta', property: 'twitter:site', content: service.to_s),
-      tag('meta', name: 'theme-color', content: color)
+      tag('meta', name: 'theme-color', content: color),
+      tag('meta', name: 'keywords', content: keywords.to_s)
     ].join("\n").html_safe
   end
 

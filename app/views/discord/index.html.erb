@@ -1,8 +1,9 @@
-<%= content_for :extra_head do %>
-  <% meta_tags title: "Home",
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Home",
                description: "Read more about my Discord tools here!",
                service: "Chew's Discord Tools",
-               color: "#9ba0ff" %>
+               color: "#9ba0ff",
+               keywords: "discord tools, discord, tools, webhook, webhook sender, server, server viewer, server count, connections, connections viewer" %>
 <% end %>
 
 <h1>Chew's Discord Tools</h1>
@@ -31,7 +32,8 @@
 <h3><%= link_to "Server Viewer", "/discord/servers" %></h3>
 <p>
   A quick way to overview all servers you're on in Discord. Shows them as a 3-wide grid with some basic information
-  or view as a table by clicking the eye. Sorted by creation date, by default.
+  or view as a table by clicking the eye. Sorted by creation date, by default. Additionally, you can quickly see how
+  many servers you are in, and even find the oldest servers you're in!
 </p>
 
 <h3><%= link_to "Connection Viewer", "/discord/connections" %></h3>
