@@ -122,35 +122,6 @@ class ApiController < ApplicationController
     @image = Base64.encode64(birb.body)
   end
 
-  def new_rory
-    unless request.headers["Authorization"] == Rails.application.credentials.trbmb[:rory_key]
-      json_response({}, 404)
-      return
-    end
-
-    o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
-    extension = params['rory'].split('.').last
-    string = (0...8).map { o[rand(o.length)] }.join
-    name = string + "." + extension.to_s
-
-    data = {
-      key: Rails.application.credentials.trbmb[:rory_image_key],
-      image: params['rory'],
-      name: name
-    }
-
-    imgbb = JSON.parse(RestClient.post("https://api.imgbb.com/1/upload",
-                                       data.as_json,
-                                       'Content-Type': :json))
-
-    url = imgbb['data']['url'].gsub("i.ibb.co", "img.rory.cat")
-    data = {
-      url: url
-    }
-    RestClient.post("https://rory.cat/new", data.as_json, Authorization: Rails.application.credentials.trbmb[:rory_key], 'Content-Type': :json)
-    json_response({success: true}, 201)
-  end
-
   def get_faq
     unless request.headers["Authorization"] == Rails.application.credentials.trbmb[:mcpro_faq]
       json_response( { "success": false }, 401)
