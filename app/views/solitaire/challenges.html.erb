@@ -1,0 +1,25 @@
+<h1>Daily Challenges for <%= Time.new(params['year'], params['month'], 1).strftime("%B %Y") %></h1>
+
+<% @info['DailyChallenges'].sort_by { |day| day['Date'].gsub(/\/|Date|\(|\)/, '').to_i }.each do |day| %>
+  <h2><%= Time.at(day['Date'].gsub(/\/|Date|\(|\)/, '').to_i / 1000).utc.strftime("%A %B %d, %Y") %></h2>
+
+  <div class="row">
+    <% day['Challenges'].each do |challenge| %>
+      <div class="col">
+        <h3><%= challenge['Data']['GameMode'] %></h3>
+        <p><b><%= friendly_challenge challenge['Data'] %></b></p>
+        <p>
+          Difficulty: <%= difficulty challenge['Difficulty'] %><br>
+          Type: <%= challenge['Data']['CHDEF_ChallengeName'] %>
+        </p>
+        <% if challenge['Data']['GameMode'] == 'Klondike' %>
+          <p>Draw <%=  challenge['Data']['PARAM_DRAW'] %></p>
+        <% elsif challenge['Data']['GameMode'] == 'Spider' %>
+          <p><%= challenge['Data']['PARAM_SUITS'] %> Suit(s)</p>
+        <% elsif challenge['Data']['GameMode'] == 'FreeCell' %>
+          <p>Deal: <%= challenge['Data']['CHDEF_DeckSeed#0'].gsub('$', '') %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

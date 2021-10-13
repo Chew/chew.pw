@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'solitaire/index'
   root 'front#index'
   get 'sitemap', to: 'front#sitemap'
   get 'privacy', to: 'front#privacy'
@@ -57,6 +58,8 @@ Rails.application.routes.draw do
     get ':path/callback', to: 'discord#viewer_callback'
     get 'servers', to: 'discord#servers'
     get 'connections', to: 'discord#connections'
+    get 'timestamp', to: 'discord#timestamp'
+    post 'timestamp/generate', to: 'discord#timestamp'
     scope 'webhooks' do
       get '/', to: 'discord#webhook'
       post 'send', to: 'discord#send_hook'
@@ -136,6 +139,10 @@ Rails.application.routes.draw do
       get 'support', to: 'chewbotcca#slack_support'
       get 'oauth', to: 'chewbotcca#slack_oauth'
     end
+  end
+
+  scope 'solitaire' do
+    get 'challenges/:month/:year', to: 'solitaire#challenges'
   end
 
   # Secret routes
