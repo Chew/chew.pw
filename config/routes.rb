@@ -103,8 +103,6 @@ Rails.application.routes.draw do
     post 'makeprofile', to: 'hqbot#makeprofile'
     get 'resetprofile', to: 'hqbot#resetprofile'
 
-    get 'daily', to: 'hqbot#dailycheat'
-
     scope 'authkey' do
       get '', to: 'hqbot#authkey'
       post 'verify', to: 'hqbot#authkey_handle'

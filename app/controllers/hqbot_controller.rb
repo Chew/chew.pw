@@ -177,10 +177,4 @@ class HqbotController < ApplicationController
     # Redirect home
     redirect_to '/hqbot'
   end
-
-  # "Daily Challenge" cheat by showing all (most, now) questions from HQBuff
-  def dailycheat
-    # Gather the questions
-    @questions = HqQuestion.all
-  end
 end
