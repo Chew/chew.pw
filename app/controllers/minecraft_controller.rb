@@ -134,11 +134,9 @@ class MinecraftController < ApplicationController
   def get_build
     version = "Unknown!"
     case params['type']
-    when 'velocity'
-      version = JSON.parse(RestClient.get("https://versions.velocitypowered.com/version/latest"))['version']
     when 'bungeecord'
       version = "#" + JSON.parse(RestClient.get("https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/api/json"))['id']
-    when 'paper', 'waterfall', 'travertine'
+    when 'paper', 'waterfall', 'velocity'
       mc_ver = params['version']
       if mc_ver.nil?
         mc_ver = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}"))['versions'].last
@@ -162,11 +160,6 @@ class MinecraftController < ApplicationController
   end
 
   def download_jar
-    if params['type'] == "velocity"
-      latest = JSON.parse(RestClient.get("https://versions.velocitypowered.com/version/latest"))['version']
-      redirect_to "https://versions.velocitypowered.com/download/#{latest}.jar"
-      return
-    end
     version = params['version']
     if version.nil?
       version = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}"))['versions'].last
