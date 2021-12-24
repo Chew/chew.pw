@@ -114,11 +114,15 @@ Rails.application.routes.draw do
     get '/', to: 'ifunny#index'
     get '/login', to: 'ifunny#login'
     post '/login', to: 'ifunny#authenticate'
+    get '/logout', to: 'ifunny#logout'
 
     get 'account', to: 'ifunny#account'
     get 'comment', to: 'ifunny#comment'
 
     get 'content/:meme_id/comment/:comment_id', to: 'ifunny#comment'
+
+    # Human verification
+    get 'captcha', to: 'ifunny#captcha'
   end
 
   get 'siri/hq/:username', to: 'api#hq'
