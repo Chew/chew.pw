@@ -1,0 +1,14 @@
+<h1>Please solve this captcha!</h1>
+
+<p>We got rate-limited.... nice! Please solve this captcha, then click "Go Back" to continue.</p>
+
+<p><i>If no captcha showed up, something went wrong. Go back and try again.</i></p>
+
+<p>Solved? <%= link_to "Go back", "/ifunny", class: "btn btn-primary btn-sm" %></p>
+
+<div class="row">
+  <div class="col w-100">
+    <iframe src="https://api.ifunny.mobi/verify.php?id=<%= params[:id] %>&project=iFunny" class="captcha-iframe">
+    </iframe>
+  </div>
+</div>
