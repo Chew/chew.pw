@@ -26,6 +26,10 @@ Rails.application.routes.draw do
       post 'rory', to: 'slack_api#rory'
       post 'trbmb', to: 'slack_api#trbmb'
     end
+
+    scope 'sports' do
+      get 'nfl', to: 'sports#nfl_api'
+    end
   end
 
   get 'trbmb', to: redirect("/api/trbmb")
@@ -145,6 +149,10 @@ Rails.application.routes.draw do
 
   scope 'solitaire' do
     get 'challenges/:month/:year', to: 'solitaire#challenges'
+  end
+
+  scope 'sports' do
+    get 'nfl', to: 'sports#nfl'
   end
 
   # Secret routes

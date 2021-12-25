@@ -5,6 +5,13 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token, :only => [:flush]
   include Response
 
+  # @!group Constants
+
+  # Dummy User Agent
+  DUMMY_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.113 Safari/537.36'
+
+  # @!endgroup
+
   def info
     @controller_name = request.controller_class.to_s.gsub("Controller", "").downcase
 

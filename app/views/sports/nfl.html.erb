@@ -1,0 +1,26 @@
+<h1>NFL Team Stats</h1>
+
+<p>View the NFL stats.</p>
+
+<table class="table">
+  <thead>
+  <tr>
+    <% @headers.each do |header| %>
+      <th><%= header %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @teams.each do |team| %>
+    <tr>
+      <% team.each_with_index do |data, i| %>
+        <% if i == 0 %>
+          <td><%= data.split("\n")[0] %></td>
+        <% else %>
+          <td><%= data %></td>
+        <% end %>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
