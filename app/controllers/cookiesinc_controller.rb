@@ -1,10 +1,11 @@
 class CookiesincController < ApplicationController
+  include ActionView::Helpers::TagHelper
+
   def team
     begin
       data = JSON.parse(RestClient.get("https://ccprodapi.pixelcubestudios.com/Team/#{params['id']}"))
     rescue RestClient::InternalServerError
-      @exist = false
-      return
+      return render html: tag.h1('Team does not exist'), layout: 'application'
     end
 
     @name = data['teamName']
@@ -19,7 +20,11 @@ class CookiesincController < ApplicationController
   end
 
   def neighboringteams
-    data = JSON.parse(RestClient.get("https://ccprodapi.pixelcubestudios.com/Team/NeighbouringTeams/#{params['id']}"))
+    begin
+      data = JSON.parse(RestClient.get("https://ccprodapi.pixelcubestudios.com/Team/NeighbouringTeams/#{params['id']}"))
+    rescue RestClient::InternalServerError
+      return render html: tag.h1('Team does not exist'), layout: 'application'
+    end
     @teams = data['teams']
     @name = @teams[10]['teamName']
   end
