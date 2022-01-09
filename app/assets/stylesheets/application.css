@@ -50,3 +50,7 @@
 .toast-container {
     z-index: 1000000;
 }
+
+.sponsor {
+    color: #db61a2;
+}
