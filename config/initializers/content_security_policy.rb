@@ -9,7 +9,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src    :self, :https, :data
   policy.img_src     :self, :https, :data
   policy.object_src  :none
-  policy.script_src  :self, "https://kit.fontawesome.com/", "https://static.cloudflareinsights.com/"
+  policy.script_src  :self, "https://kit.fontawesome.com/", "https://static.cloudflareinsights.com/", "https://unpkg.com/"
   policy.style_src   :self, :data,
                      "'sha256-ZL58hL5KbUHBRnMK797rN7IR+Tg9Aw61ddJ/rmxn1KM='", # FontAwesome
                      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='", # jQuery
