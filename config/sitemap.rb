@@ -25,5 +25,6 @@ SitemapGenerator::Sitemap.create do
   add '/roblox/badges', changefreq: 'monthly'
   add '/util/html', changefreq: 'weekly'
   add '/util/random', changefreq: 'weekly'
+  add '/util/wordle', changefreq: 'weekly'
   add '/vaccine', changefreq: 'daily'
 end

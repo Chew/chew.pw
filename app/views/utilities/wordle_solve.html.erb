@@ -1,0 +1,16 @@
+<h1>Possible Words</h1>
+
+<%= link_to button_tag("#{fas_icon "home"} Back".html_safe, class: "btn btn-primary"), "/util/wordle" %>
+<br>
+<hr>
+
+<div>
+  <% if @wordles.empty? %>
+  <p>No Wordles found for input! Try again?</p>
+  <% else %>
+    <% @wordles.each do |word| %>
+      <%= word %>
+      <br>
+    <% end %>
+  <% end %>
+</div>

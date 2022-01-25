@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'solitaire/index'
   root 'front#index'
   get 'sitemap', to: 'front#sitemap'
   get 'privacy', to: 'front#privacy'
@@ -13,6 +12,8 @@ Rails.application.routes.draw do
     get 'html', to: 'utilities#striphtml'
     post 'html/strip', to: 'utilities#strippedhtml'
     get 'random', to: 'utilities#random'
+    get 'wordle', to: 'utilities#wordle'
+    post 'wordle/solve', to: 'utilities#wordle_solve'
   end
 
   scope 'api' do

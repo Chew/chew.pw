@@ -41,6 +41,31 @@ const toastList = toastElList.map(function (toastEl) {
     return toast;
 });
 
+// Every time a letter is typed while this box is focused, move on to the next element
+$(".wordle-letter").keyup(function(e) {
+    // Store value of input
+    let value = $(this).val();
+
+    // Every time backspace is pressed, move on to the previous element
+    if (e.keyCode === 8) {
+        $(this).prev().focus();
+        return;
+    }
+
+    // Ensure the value is a letter a-z, remove it if it's not
+    if (value.length === 1 && !/[a-z]/i.test(value)) {
+        $(this).val('');
+    }
+
+    // make sure the input box only has one letter. if there's more than one, remove the extra ones
+    if (value.length > 1) {
+        $(this).val(value.slice(0, 1));
+        $(this).next().focus();
+    } else if (value.length === 1) {
+        // If there's only one letter, move on to the next element
+        $(this).next().focus();
+    }
+});
 
 
 Rails.start()

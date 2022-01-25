@@ -1,0 +1,57 @@
+<h1>Wordle Cheat</h1>
+
+<p>Stuck on a tough wordle? Use this nifty tool to get the right answers!</p>
+
+<form action="/util/wordle/solve" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div class="form-group">
+    <h2>Enter confirmed letters (or blank for none)</h2>
+    <p>Letters here are green, and are confirmed to be in this spot.</p>
+    <!-- 5 input boxes, one for each letter -->
+    <input type="text" name="confirmed[]" value="" class="wordle-letter">
+    <input type="text" name="confirmed[]" value="" class="wordle-letter">
+    <input type="text" name="confirmed[]" value="" class="wordle-letter">
+    <input type="text" name="confirmed[]" value="" class="wordle-letter">
+    <input type="text" name="confirmed[]" value="" class="wordle-letter">
+  </div>
+
+  <br>
+
+  <div class="row">
+    <div class="form-group col-md-6">
+      <h2>Enter confirmed/required letters (or blank for none)</h2>
+      <p>Letters here are yellow, and they must appear in the word.</p>
+      <!-- normal input box -->
+      <input type="text" name="required" value="" class="form-control">
+    </div>
+    <div class="form-group col-md-6">
+      <h2>Enter possible letters (any letter that is not greyed out)</h2>
+      <p>Letters here are unused, and not ruled out. The word can contain these letters.</p>
+      <!-- normal input box -->
+      <input type="text" name="can" value="" class="form-control">
+    </div>
+  </div>
+
+  <br>
+
+  <div class="form-group w-100">
+    <%= submit_tag "Submit", class: "btn btn-primary btn-block", data: { disable_with: "Submitting..." } %>
+  </div>
+</form>
+
+<hr>
+
+<h2>What is Wordle?</h2>
+
+<p>
+  Wordle is a brand new game taking the internet by storm. If you've ever played Hit and Blow and love word puzzles,
+  you'll catch on very easily!<br>
+  You must guess the word in as few guesses as possible, but only up to 6 tries. If you guess the word, you win!<br>
+  Every word you try, you are given 3 colors. A green means the letter is in the word, and it's the right spot! If this
+  happens, you can enter it in the right spot above.<br>
+  If you get a yellow letter, this means the letter is in the word, but it may be there more than once.
+  You can enter these letters in the "confirmed/required" box above.<br>
+  Any other letter, dark grey, means the letter is not in the word.<br>
+  Enter any letters you can play into the "possible letters" box above.
+  This means any letter that you haven't tried yet.
+</p>
