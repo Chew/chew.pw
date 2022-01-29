@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get 'random', to: 'utilities#random'
     get 'wordle', to: 'utilities#wordle'
     post 'wordle/solve', to: 'utilities#wordle_solve'
+    get 'wordle/all', to: 'utilities#wordle_all'
   end
 
   scope 'api' do

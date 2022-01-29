@@ -1,0 +1,38 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Wordle - All Words",
+                description: "View all words, past and present, for Wordle.",
+                service: "Wordle Tools",
+                keywords: "wordle, wordle words, wordle word, wordle word for #{Time.now.strftime("%B %-d")}"
+  %>
+<% end %>
+
+<h1>Wordle - All Words</h1>
+
+<p>The ultimate cheat. This page has every single word for the next 5 years. It ruins the fun though! Only use this as a last resort!</p>
+
+<!-- button to jump to #today -->
+<a href="#today" class="btn btn-primary">Jump to Today</a>
+
+<hr>
+
+<div class="row">
+  <div class="col">
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="table-dark">
+      <tr>
+        <th>Date</th>
+        <th>Word</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% LA.each_with_index do |word, i| %>
+        <% day = Time.new(2021, 6, 19) + i.days %>
+        <tr class="<%= 'table-success' if day.today? %>">
+          <td id="<%= 'today' if day.today? %>"><%= day.strftime("%B %-d, %Y") %></td>
+          <td><%= word %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -33,6 +33,8 @@ window.initializeTooltips = function() {
     });
 }
 
+window.initializeTooltips();
+
 const toastElList = [].slice.call(document.querySelectorAll('.toast'));
 const toastList = toastElList.map(function (toastEl) {
     let toast = new bootstrap.Toast(toastEl, {})
