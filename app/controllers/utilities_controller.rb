@@ -24,11 +24,26 @@ class UtilitiesController < ApplicationController
     @response = Nokogiri::HTML.parse(params['input']).text
   end
 
+  def wordle
+    if session["wordle_confirmed"].nil? || session["wordle_confirmed"].length != 5
+      session["wordle_confirmed"] = ["", "", "", "", ""]
+    end
+  end
+
   def wordle_solve
     confirmed = params['confirmed'].map(&:downcase).delete_if { |x| x.blank? }
     required = (params['required'].downcase.split('') + confirmed).uniq.delete_if { |x| x.blank? }
-    can = (params['can'].downcase.split('') + required).uniq.delete_if { |x| x.blank? }
+    alphabet = ('a'..'z').to_a
+    if params['can'].to_s.length.positive?
+      can = (params['can'].downcase.split('') + required).uniq.delete_if { |x| x.blank? }
+    else
+      can = alphabet - params['cant'].downcase.split('')
+    end
     pattern = params['confirmed'].map {|e| e.length == 1 ? e : "*" }
+
+    %w[confirmed required can cant].each do |param|
+      session["wordle_#{param}"] = params[param]
+    end
 
     possible = LA + TA
     likely = []
@@ -77,6 +92,6 @@ class UtilitiesController < ApplicationController
       pattern: pattern,
     }
 
-    @wordles = likely
+    @wordles = likely.sort
   end
 end

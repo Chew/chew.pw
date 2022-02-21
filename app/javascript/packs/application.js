@@ -69,6 +69,35 @@ $(".wordle-letter").keyup(function(e) {
     }
 });
 
+const can = $("input[name='can']");
+const cant = $("input[name='cant']");
+
+// Listen for the #invertButtonToBlacklist button click
+$("#invertButtonToBlacklist").click(function(e) {
+    e.preventDefault();
+    // Move the value of can to cant, then remove the value of cant
+    let canVal = can.val();
+    cant.val(canVal);
+    can.val('');
+    $("#letter-whitelist").addClass('d-none');
+    $("#letter-blacklist").removeClass('d-none');
+});
+
+$("#invertButtonToWhitelist").click(function(e) {
+    e.preventDefault();
+    // Move the value of cant to can, then remove the value of can
+    let cantVal = cant.val();
+    can.val(cantVal);
+    cant.val('');
+    $("#letter-blacklist").addClass('d-none');
+    $("#letter-whitelist").removeClass('d-none');
+});
+
+$("#clear-fields").click(function(e) {
+    e.preventDefault();
+    // clear all non-hidden, non-submit input values inside the form tag
+    $("input:not(:submit):not(:hidden)").val('');
+});
 
 Rails.start()
 // Turbolinks.start()
