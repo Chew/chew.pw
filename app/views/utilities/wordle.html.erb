@@ -9,7 +9,7 @@
 
 <p>Stuck on a tough wordle? Use this nifty tool to get the right answers!</p>
 
-<p><i>Note that this site is for the NY Times Wordle.</i></p>
+<p><i>Note that this site is based on the NY Times Wordle word list. <%= link_to "Learn More", "#what-words-are-used" %></i></p>
 
 <%= button_to "All Wordles", "/util/wordle/all", class: "btn btn-danger", form_class: 'd-inline',
               'data-bs-toggle': 'tooltip', title: "This page shows ALL wordle answers. Use as a last resort.",
@@ -86,4 +86,22 @@
   Any other letter, dark grey, means the letter is not in the word.<br>
   Enter any letters you can play into the "possible letters" box above.
   This means any letter that you haven't tried yet.
+</p>
+
+<h2 id="what-words-are-used">What words are used?</h2>
+<p>
+  The word list is taken from the Wordle source code, meaning it is the same as the original game.
+  Every possible word is included, and the words are in alphabetical order, but they're not necessarily possible answers.
+</p>
+
+<h2>Compatibility with Dordle and Quordle?</h2>
+<p>
+  While this site doesn't pull words from either game's dataset, I have been able to play it with success.
+  You can simply use the same rules as Wordle, and the possible words all seem possible.
+</p>
+
+<h2>I found an issue! How can I report it?</h2>
+<p>
+  I prefer all bugs and requests flow through <%= link_to "GitHub", "https://github.com/Chew/chew.pw" %> to help me
+  track and solve issues.
 </p>
