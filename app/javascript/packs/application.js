@@ -24,6 +24,12 @@ $(document).ready(function() {
         $(this).attr('data-bs-toggle', $(this).attr('data-toggle')); //does the switch
         $(this).removeAttr('data-toggle'); //clears out the old one if you need to
     });
+
+    // If cant has a value, click the #invertButtonToWhitelist button
+    if (cant.val() !== '') {
+        can.val(cant.val());
+        invertButtonToBlackList(null);
+    }
 });
 
 window.initializeTooltips = function() {
@@ -73,25 +79,29 @@ const can = $("input[name='can']");
 const cant = $("input[name='cant']");
 
 // Listen for the #invertButtonToBlacklist button click
-$("#invertButtonToBlacklist").click(function(e) {
-    e.preventDefault();
+const invertButtonToBlackList = function(e) {
+    if (e) e.preventDefault();
     // Move the value of can to cant, then remove the value of cant
     let canVal = can.val();
     cant.val(canVal);
     can.val('');
     $("#letter-whitelist").addClass('d-none');
     $("#letter-blacklist").removeClass('d-none');
-});
+};
 
-$("#invertButtonToWhitelist").click(function(e) {
-    e.preventDefault();
+$("#invertButtonToBlacklist").click(invertButtonToBlackList);
+
+const invertButtonToWhitelist = function(e) {
+    if (e) e.preventDefault();
     // Move the value of cant to can, then remove the value of can
     let cantVal = cant.val();
     can.val(cantVal);
     cant.val('');
     $("#letter-blacklist").addClass('d-none');
     $("#letter-whitelist").removeClass('d-none');
-});
+};
+
+$("#invertButtonToWhitelist").click(invertButtonToWhitelist);
 
 $("#clear-fields").click(function(e) {
     e.preventDefault();
