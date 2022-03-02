@@ -2,6 +2,8 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
 
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
 body {
 	background-color: cornflowerblue;
 }
@@ -23,4 +25,8 @@ body {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.wordle-guess {
+	font-family: 'JetBrains Mono', 'Menlo', monospace;
 }
