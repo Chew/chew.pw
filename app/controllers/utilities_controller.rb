@@ -39,10 +39,14 @@ class UtilitiesController < ApplicationController
     else
       can = alphabet - params['cant'].downcase.split('')
     end
-    pattern = params['confirmed'].map {|e| e.length == 1 ? e : "*" }
+    can += confirmed
+    can += required
+    can.uniq!
+    puts "Can #{can}"
+    pattern = params['confirmed'].map(&:downcase).map {|e| e.length == 1 ? e : "*" }
 
     %w[confirmed required can cant].each do |param|
-      session["wordle_#{param}"] = params[param]
+      session["wordle_#{param}"] = params[param].is_a?(Array) ? params[param].map(&:downcase) : params[param].downcase
     end
 
     possible = LA + TA
@@ -55,20 +59,14 @@ class UtilitiesController < ApplicationController
         no = true unless letters.include?(letter)
       end
 
-      if no
-        # puts "Not #{word} due to missing required letters: #{required.join(', ')}"
-        next
-      end
+      next if no
 
       letters.each do |letter|
         # word must include only letters from "can"
         no = true unless can.include?(letter)
       end
 
-      if no
-        puts "Not #{word} due to missing can letters: #{can.join(', ')}"
-        next
-      end
+      next if no
 
       pattern.each_with_index do |star, i|
         next if star == "*"
@@ -76,13 +74,9 @@ class UtilitiesController < ApplicationController
         no = true unless letters[i] == star
       end
 
-      if no
-        puts "Not #{word} due to missing pattern: #{pattern.join(', ')}"
-        next
-      end
+      next if no
 
       likely.push word
-      puts "Possible: #{word}"
     end
 
     @info = {

@@ -42,7 +42,7 @@
       <!-- normal input box -->
       <input type="text" name="required" value="<%= session["wordle_required"] %>" class="form-control">
     </div>
-    <div class="form-group col-md-6" id="letter-whitelist">
+    <div class="form-group col-md-6 d-none" id="letter-whitelist">
       <h2>Enter possible letters (any letter that is not greyed out)
         <span data-bs-toggle="tooltip" title="Switch to letters as a blacklist, not whitelist.">
           <%= link_to "Invert?", "#", id: "invertButtonToBlacklist" %>
@@ -52,7 +52,7 @@
       <!-- normal input box -->
       <input type="text" name="can" value="<%= session["wordle_can"] %>" class="form-control">
     </div>
-    <div class="form-group col-md-6 d-none" id="letter-blacklist">
+    <div class="form-group col-md-6" id="letter-blacklist">
       <h2>Enter not-possible letters (any letter that <b>IS</b> greyed out)
         <span data-bs-toggle="tooltip" title="Switch to letters as a whitelist, not blacklist.">
           <%= link_to "Invert?", "#", id: "invertButtonToWhitelist" %>
