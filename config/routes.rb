@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get 'wordle', to: 'utilities#wordle'
     post 'wordle/solve', to: 'utilities#wordle_solve'
     get 'wordle/all', to: 'utilities#wordle_all'
+    get 'bases', to: 'utilities#bases'
   end
 
   scope 'api' do

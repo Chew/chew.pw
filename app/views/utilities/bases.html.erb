@@ -1,0 +1,50 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Base Converter",
+                description: "The simplest way to convert bases!",
+                service: "Chew's Utilities",
+                keywords: 'base converter, bases, base, binary, decimal, hexadecimal' %>
+<% end %>
+
+<h1>Base Converter</h1>
+
+<p>Bare minimum bases converter.</p>
+
+<p>Useful bases:</p>
+<ul>
+  <li>Base 2 - Binary</li>
+  <li>Base 8 - Octal</li>
+  <li>Base 10 - Decimal</li>
+  <li>Base 16 - Hexadecimal</li>
+</ul>
+
+<noscript>Please enable JavaScript!</noscript>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= label_tag "number", "The number to convert" %>
+    <%= number_field_tag "number", nil, class: 'form-control' %>
+  </div>
+
+  <div class="col-md-3">
+    <%= label_tag "from_base", "Base to convert from" %>
+    <%= number_field_tag "from_base", 10, class: 'form-control' %>
+  </div>
+
+  <div class="col-md-3">
+    <%= label_tag "to_base", "Base to convert to" %>
+    <%= number_field_tag "to_base", 2, class: 'form-control' %>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= label_tag "result", "Result" %>
+    <%= text_field_tag "result", nil, class: 'form-control', readonly: true %>
+  </div>
+</div>
+
+<% content_for :extra_foot do %>
+  <%= javascript_pack_tag "base" %>
+<% end %>
