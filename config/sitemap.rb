@@ -27,5 +27,6 @@ SitemapGenerator::Sitemap.create do
   add '/util/random', changefreq: 'weekly'
   add '/util/wordle', changefreq: 'weekly'
   add '/util/wordle/all', changefreq: 'daily'
+  add '/util/bases', changefreq: 'daily'
   add '/vaccine', changefreq: 'daily'
 end
