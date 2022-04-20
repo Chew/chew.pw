@@ -11,12 +11,10 @@ Rails.application.config.content_security_policy do |policy|
   policy.object_src  :none
   policy.script_src  :self, "https://kit.fontawesome.com/", "https://static.cloudflareinsights.com/", "https://unpkg.com/"
   policy.style_src   :self, :data,
-                     "'sha256-ZL58hL5KbUHBRnMK797rN7IR+Tg9Aw61ddJ/rmxn1KM='", # FontAwesome
+                     "https://kit.fontawesome.com/", # FontAwesome
                      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='", # jQuery
-                     "'sha256-MXyhvROK5NPdD/GM8XvD4RINec6NWZGt2IYTCOSA58U='",
-                     "'sha256-UaNj+Lkd0Ve9xWLT8IIZ6z/CnurU4zSsdsdeZBmO1T4='",
-                     "'sha256-xki8cLj1Xqy3Yl+Wl07e+T2CY2262x64+IbxKYZwUB0='", # FontAwesome
-                     "'sha256-M7MQ3JVtuBkf+5P34FXC+2KeNJf+5L0bP5B6wIv6XIM='", # FontAwesome
+                     "'sha256-c9m4gMlhqZ076YhLm4WUpwJSWZ3QLWlhT5327sZKH5o='",
+                     "'sha256-lS0A3YMp01XLzFsb2kKqPUc8ywS60/0gCeQvVpUO3DY='",
                      "https://fonts.googleapis.com/" # Google Fonts
   # If you are using webpack-dev-server then specify webpack-dev-server host
   # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
