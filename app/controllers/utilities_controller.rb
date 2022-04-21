@@ -32,7 +32,8 @@ class UtilitiesController < ApplicationController
 
   def wordle_solve
     confirmed = params['confirmed'].map(&:downcase).delete_if { |x| x.blank? }
-    required = (params['required'].downcase.split('') + confirmed).uniq.delete_if { |x| x.blank? }
+    required_map = params['required'].map(&:downcase)
+    required = (required_map.join('').downcase.split('') + confirmed).uniq.delete_if { |x| x.blank? }
     alphabet = ('a'..'z').to_a
     if params['can'].to_s.length.positive?
       can = (params['can'].downcase.split('') + required).uniq.delete_if { |x| x.blank? }
@@ -72,6 +73,16 @@ class UtilitiesController < ApplicationController
         next if star == "*"
 
         no = true unless letters[i] == star
+      end
+
+      # Check the required map to make sure the letters are in the right spot
+      letters.each_with_index do |letter, i|
+        next if required_map[i] == ""
+
+        if required_map[i].include?(letter)
+          no = true
+          puts "#{letter} is in the wrong spot in the word #{word}"
+        end
       end
 
       next if no

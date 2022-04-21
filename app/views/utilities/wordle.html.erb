@@ -12,7 +12,7 @@
 <p><i>Note that this site is based on the NY Times Wordle word list. <%= link_to "Learn More", "#what-words-are-used" %></i></p>
 
 <%= button_to "All Wordles", "/util/wordle/all", class: "btn btn-danger", form_class: 'd-inline',
-              'data-bs-toggle': 'tooltip', title: "This page shows ALL wordle answers. Use as a last resort.",
+              'data-bs-toggle': 'tooltip', title: "This page shows ALL NY Times Wordle answers. Use as a last resort.",
               method: :get %>
 
 <%= button_tag "Clear Fields", class: "btn btn-primary d-inline", id: "clear-fields",
@@ -22,43 +22,50 @@
 
 <form action="/util/wordle/solve" method="post" class="clearable">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <div class="form-group">
-    <h2>Enter confirmed letters (or blank for none)</h2>
-    <p>Letters here are green, and are confirmed to be in this spot.</p>
-    <!-- 5 input boxes, one for each letter -->
-    <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][0] %>" class="wordle-letter">
-    <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][1] %>" class="wordle-letter">
-    <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][2] %>" class="wordle-letter">
-    <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][3] %>" class="wordle-letter">
-    <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][4] %>" class="wordle-letter">
-  </div>
-
-  <br>
-
   <div class="row">
-    <div class="form-group col-md-6">
-      <h2>Enter confirmed/required letters (or blank for none)</h2>
-      <p>Letters here are yellow, and they must appear in the word.</p>
-      <!-- normal input box -->
-      <input type="text" name="required" value="<%= session["wordle_required"] %>" class="form-control">
+    <div class="form-group col-md-3">
+      <h2>Enter Green Letters</h2>
+      <p>Letters here are green, and are confirmed to be in this spot. If you don't have any, leave this blank.</p>
+      <!-- 5 input boxes, one for each letter -->
+      <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][0] %>" class="wordle-letter">
+      <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][1] %>" class="wordle-letter">
+      <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][2] %>" class="wordle-letter">
+      <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][3] %>" class="wordle-letter">
+      <input type="text" name="confirmed[]" value="<%= session["wordle_confirmed"][4] %>" class="wordle-letter">
     </div>
-    <div class="form-group col-md-6 d-none" id="letter-whitelist">
-      <h2>Enter possible letters (any letter that is not greyed out)
+
+    <div class="form-group col-md-5">
+      <h2>Enter Yellow Letters</h2>
+      <p>Yellow letters are confirmed, and they must appear in the word, but in a different spot.</p>
+      <p>Put the letters in the box for the column they appear in. E.g., "A" in the first column, put it in the first box.</p>
+      <!-- normal input box -->
+      <div class="d-inline">
+        <input type="text" name="required[]" value="<%= session["wordle_required"][0] %>" class="d-inline form-control w-20">
+        <input type="text" name="required[]" value="<%= session["wordle_required"][1] %>" class="d-inline form-control w-20">
+        <input type="text" name="required[]" value="<%= session["wordle_required"][2] %>" class="d-inline form-control w-20">
+        <input type="text" name="required[]" value="<%= session["wordle_required"][3] %>" class="d-inline form-control w-20">
+        <input type="text" name="required[]" value="<%= session["wordle_required"][4] %>" class="d-inline form-control w-20">
+      </div>
+    </div>
+    <div class="form-group col-md-4 d-none" id="letter-whitelist">
+      <h2>Enter potential letters</h2>
+      <p>
+        Letters here are unused, and not ruled out. The word can contain these letters.
         <span data-bs-toggle="tooltip" title="Switch to letters as a blacklist, not whitelist.">
           <%= link_to "Invert?", "#", id: "invertButtonToBlacklist" %>
         </span>
-      </h2>
-      <p>Letters here are unused, and not ruled out. The word can contain these letters.</p>
+      </p>
       <!-- normal input box -->
       <input type="text" name="can" value="<%= session["wordle_can"] %>" class="form-control">
     </div>
-    <div class="form-group col-md-6" id="letter-blacklist">
-      <h2>Enter not-possible letters (any letter that <b>IS</b> greyed out)
+    <div class="form-group col-md-4" id="letter-blacklist">
+      <h2>Enter Grey Letters</h2>
+      <p>
+        Letters here have been ruled out. The word <b>cannot</b> contain these letters.
         <span data-bs-toggle="tooltip" title="Switch to letters as a whitelist, not blacklist.">
           <%= link_to "Invert?", "#", id: "invertButtonToWhitelist" %>
         </span>
-      </h2>
-      <p>Letters here have been ruled out. The word <b>cannot</b> contain these letters.</p>
+      </p>
       <!-- normal input box -->
       <input type="text" name="cant" value="<%= session["wordle_cant"] %>" class="form-control">
     </div>
@@ -94,9 +101,9 @@
   Every possible word is included, and the words are in alphabetical order, but they're not necessarily possible answers.
 </p>
 
-<h2>Compatibility with Dordle and Quordle?</h2>
+<h2>Compatibility with Dordle and Quordle and other derivatives?</h2>
 <p>
-  While this site doesn't pull words from either game's dataset, I have been able to play it with success.
+  While this site doesn't pull words from any other game's dataset, I have been able to play them with success.
   You can simply use the same rules as Wordle, and the possible words all seem possible.
 </p>
 
