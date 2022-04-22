@@ -25,9 +25,8 @@ class UtilitiesController < ApplicationController
   end
 
   def wordle
-    if session["wordle_confirmed"].nil? || session["wordle_confirmed"].length != 5
-      session["wordle_confirmed"] = ["", "", "", "", ""]
-    end
+    session["wordle_confirmed"] = ["", "", "", "", ""] if session["wordle_confirmed"].nil? || session["wordle_confirmed"].length != 5
+    session["wordle_required"] = ["", "", "", "", ""] if session["wordle_required"].nil? || session["wordle_required"].length != 5
   end
 
   def wordle_solve
