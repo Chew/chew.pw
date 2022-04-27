@@ -1,16 +1,19 @@
 <h1>Possible Words</h1>
 
+<p>Found <%= @wordles.count %> possible words.</p>
+
 <%= link_to button_tag("#{fas_icon "home"} Back".html_safe, class: "btn btn-primary"), "/util/wordle" %>
 <br>
 <hr>
 
-<div class="wordle-guess">
+<div class="row">
   <% if @wordles.empty? %>
-  <p>No Wordles found for input! Try again?</p>
+    <p>No possible words found for input! Try again?</p>
   <% else %>
     <% @wordles.each do |word| %>
-      <%= word %>
-      <br>
+      <div class="col wordle-guess">
+        <%= word %>
+      </div>
     <% end %>
   <% end %>
 </div>
