@@ -1,7 +1,13 @@
 <h1>Info for Team <%= @team_name %></h1>
 
-<%= @win_sum %><br>
-<%= @above500 %>
+<h2>Above/Below 500</h2>
+
+<span id="win_sum" class="visually-hidden"><%= @win_sum.join(' ') %></span>
+<span id="above_500" class="visually-hidden"><%= @above500.join(' ') %></span>
+
+<canvas id="myChart" width="1080" height="400"></canvas>
+
+<h2>Schedule</h2>
 
 <table class="table">
   <thead>
@@ -29,3 +35,7 @@
   <% end %>
   </tbody>
 </table>
+
+<% content_for :extra_foot do %>
+  <%= javascript_pack_tag "sports" %>
+<% end %>

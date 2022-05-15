@@ -9,6 +9,7 @@
     "@rails/webpacker": "^5.4",
     "bootstrap": "^5.1.1",
     "bootstrap-table": "https://github.com/wenzhixin/bootstrap-table.git",
+    "chart.js": "^3.7.1",
     "clipboard": "^2.0.8",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",
