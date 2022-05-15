@@ -84,14 +84,29 @@ class SportsController < ApplicationController
     @win_sum = []
     @team_name = ""
     @above500 = []
-    @scores['dates'].each do |date|
-      date['games'].each do |game|
-        next unless game['status']['detailedState'] == 'Final'
+    current_wins = 0
+    total_games = 0
 
+    # Iterate through all the days
+    @scores['dates'].each do |date|
+      # Iterate over the games that day (can be multiple)
+      date['games'].each do |game|
+        # We only care about completed games
+        next unless ['Final', 'Completed Early'].include? game['status']['detailedState']
+
+        # Get if we're home or away
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
+
+        # Set the team name
         @team_name = game['teams'][team]['team']['name']
-        @win_sum.push(game['teams'][team]['leagueRecord']['wins'] - game['teams'][team]['leagueRecord']['losses'])
-        @above500.push game['teams'][team]['leagueRecord']['pct'].to_f
+
+        # Update the current wins and total games
+        game['teams'][team]['isWinner'] ? current_wins += 1 : current_wins -= 1
+        total_games += 1
+
+        # Store the win summary
+        @win_sum.push current_wins
+        @above500.push (current_wins / total_games.to_f).round(3)
       end
     end
   end

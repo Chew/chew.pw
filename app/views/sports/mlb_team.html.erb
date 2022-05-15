@@ -18,7 +18,7 @@
   <% @scores['dates'].each do |date| %>
     <% date['games'].each do |game| %>
       <tr>
-        <td><%= game['officialDate'] %></td>
+        <td><%= date['date'] %></td>
         <td><%= game['teams']['away']['team']['name'] %></td>
         <td><%= game['teams']['home']['team']['name'] %></td>
         <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>
