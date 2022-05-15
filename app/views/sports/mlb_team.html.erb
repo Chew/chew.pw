@@ -5,10 +5,11 @@
 <span id="win_sum" class="visually-hidden"><%= @win_sum.join(' ') %></span>
 <span id="above_500" class="visually-hidden"><%= @above500.join(' ') %></span>
 
-<canvas id="myChart" width="1080" height="400"></canvas>
+<canvas id="myChart" width="800" height="400"></canvas>
 
 <h2>Schedule</h2>
 
+<div class="table-responsive">
 <table class="table">
   <thead>
   <tr>
@@ -35,6 +36,7 @@
   <% end %>
   </tbody>
 </table>
+</div>
 
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports" %>
