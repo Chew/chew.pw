@@ -1,0 +1,3 @@
+module SportsHelper
+  def mlb_game_state: (Integer team_id, untyped game) -> String
+end

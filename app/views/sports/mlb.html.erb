@@ -1,0 +1,26 @@
+<h1>MLB Team Stats</h1>
+
+<p>Baseball but epic</p>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Team</th>
+    <th>Wins</th>
+    <th>Losses</th>
+    <th>Ratio</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @info.each do |division| %>
+    <% division['teamRecords'].each do |team| %>
+    <tr>
+      <td><%= link_to team['team']['name'], "/sports/mlb/team/#{team['team']['id']}" %></td>
+      <td><%= team['wins'] %></td>
+      <td><%= team['losses'] %></td>
+      <td><%= team['winningPercentage'] %></td>
+    </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>

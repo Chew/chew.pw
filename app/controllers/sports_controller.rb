@@ -71,4 +71,28 @@ class SportsController < ApplicationController
 
     json_response table
   end
+
+  def mlb
+    data = JSON.parse(RestClient.get('https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2022&standingsTypes=regularSeason', 'User-Agent': DUMMY_USER_AGENT))
+
+    @info = data['records']
+  end
+
+  def mlb_team
+    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&hydrate=team(venue(timezone)),venue(timezone),game(seriesStatus,seriesSummary,seriesStatus,seriesSummary,linescore&season=2022&startDate=2022-04-08&endDate=2022-10-05&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref", 'User-Agent': DUMMY_USER_AGENT))
+
+    @win_sum = []
+    @team_name = ""
+    @above500 = []
+    @scores['dates'].each do |date|
+      date['games'].each do |game|
+        next unless game['status']['detailedState'] == 'Final'
+
+        team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
+        @team_name = game['teams'][team]['team']['name']
+        @win_sum.push(game['teams'][team]['leagueRecord']['wins'] - game['teams'][team]['leagueRecord']['losses'])
+        @above500.push game['teams'][team]['leagueRecord']['pct'].to_f
+      end
+    end
+  end
 end

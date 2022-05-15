@@ -156,6 +156,12 @@ Rails.application.routes.draw do
 
   scope 'sports' do
     get 'nfl', to: 'sports#nfl'
+    scope 'mlb' do
+      get '/', to: 'sports#mlb'
+      scope 'team' do
+        get ':team_id', to: 'sports#mlb_team'
+      end
+    end
   end
 
   # Secret routes

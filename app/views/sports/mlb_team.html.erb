@@ -1,0 +1,31 @@
+<h1>Info for Team <%= @team_name %></h1>
+
+<%= @win_sum %><br>
+<%= @above500 %>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Date</th>
+    <th>Away Team</th>
+    <th>Home Team</th>
+    <th>Score</th>
+    <th>State</th>
+    <th>Result</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @scores['dates'].each do |date| %>
+    <% date['games'].each do |game| %>
+      <tr>
+        <td><%= game['officialDate'] %></td>
+        <td><%= game['teams']['away']['team']['name'] %></td>
+        <td><%= game['teams']['home']['team']['name'] %></td>
+        <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>
+        <td><%= game['status']['detailedState'] %></td>
+        <td><%= mlb_game_state params[:team_id].to_i, game %></td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
