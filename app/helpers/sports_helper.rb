@@ -1,11 +1,18 @@
 module SportsHelper
   def mlb_game_state(team_id, game)
-    is_home = game['teams']['away']['team']['id'].to_i == team_id
+    is_home = game['teams']['home']['team']['id'].to_i == team_id
+
+    away_score = game['teams']['away']['score']
+    home_score = game['teams']['home']['score']
 
     if ['Final', 'Completed Early'].include? game['status']['detailedState']
-      is_home && game['teams']['home']['score'].to_i > game['teams']['away']['score'].to_i ? 'Win' : 'Loss'
+      if is_home
+        home_score > away_score ? "Win" : "Loss"
+      else
+        away_score > home_score ? "Win" : "Loss"
+      end
     else
-      "Unknown"
+      "N/A"
     end
   end
 end
