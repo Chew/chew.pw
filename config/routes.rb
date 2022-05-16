@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   get 'sitemap', to: 'front#sitemap'
   get 'privacy', to: 'front#privacy'
 
-  get 'birb', to: 'api#randombirb'
-
   post 'cache/flush', to: 'application#flush'
 
   scope 'util' do
@@ -76,7 +74,6 @@ Rails.application.routes.draw do
   scope 'mc' do
     get '/', to: 'minecraft#index'
     get 'enchant', to: 'minecraft#mc-enchantment'
-    get 'pro/status', to: redirect('/mcpro/status')
     scope 'jars' do
       get '', to: 'minecraft#jars'
       scope 'build' do
@@ -165,7 +162,7 @@ Rails.application.routes.draw do
   end
 
   # Secret routes
-  (1..4).each do |i|
+  (1..2).each do |i|
     post Rails.application.credentials.routes["post#{i}".to_sym], to: Rails.application.credentials.routes["to#{i}".to_sym]
   end
 

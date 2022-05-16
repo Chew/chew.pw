@@ -114,20 +114,4 @@ class ApiController < ApplicationController
 
     json_response({ response: sentence, permalink: "https://drama.essentialsx.net/#{Base64.encode64(base64.to_json.to_s).gsub("\n", "")}" }, 200)
   end
-
-  def randombirb
-    birb = RestClient.get("http://birb.proximy.st/")
-    @id = birb.cookies['Id']
-    @permalink = birb.cookies['Permalink']
-    @image = Base64.encode64(birb.body)
-  end
-
-  def get_faq
-    unless request.headers["Authorization"] == Rails.application.credentials.trbmb[:mcpro_faq]
-      json_response( { "success": false }, 401)
-      return
-    end
-
-    json_response(McproFaq.search(params['search']), 200)
-  end
 end
