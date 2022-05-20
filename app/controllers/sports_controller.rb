@@ -82,7 +82,11 @@ class SportsController < ApplicationController
     @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&hydrate=team(venue(timezone)),venue(timezone),game(seriesStatus,seriesSummary,seriesStatus,seriesSummary,linescore&season=2022&startDate=2022-04-08&endDate=2022-10-05&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref", 'User-Agent': DUMMY_USER_AGENT))
 
     @win_sum = []
-    @team_name = ""
+    @team = {
+      "name" => "",
+      "wins" => 0,
+      "losses" => 0,
+    }
     @above500 = []
     current_wins = 0
     total_games = 0
@@ -98,10 +102,16 @@ class SportsController < ApplicationController
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
 
         # Set the team name
-        @team_name = game['teams'][team]['team']['name']
+        @team['name'] = game['teams'][team]['team']['name']
 
         # Update the current wins and total games
-        game['teams'][team]['isWinner'] ? current_wins += 1 : current_wins -= 1
+        if game['teams'][team]['isWinner']
+          current_wins += 1
+          @team['wins'] += 1
+        else
+          current_wins -= 1
+          @team['losses'] += 1
+        end
         total_games += 1
 
         # Store the win summary
@@ -109,5 +119,7 @@ class SportsController < ApplicationController
         @above500.push (current_wins / total_games.to_f).round(3)
       end
     end
+
+    @team['to500'] = current_wins
   end
 end
