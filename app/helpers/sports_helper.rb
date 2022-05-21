@@ -5,7 +5,7 @@ module SportsHelper
     away_score = game['teams']['away']['score']
     home_score = game['teams']['home']['score']
 
-    if ['Final', 'Completed Early'].include? game['status']['detailedState']
+    if ['Final', 'Completed Early', 'Game Over'].include? game['status']['detailedState']
       if is_home
         home_score > away_score ? "Win" : "Loss"
       else

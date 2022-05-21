@@ -96,7 +96,7 @@ class SportsController < ApplicationController
       # Iterate over the games that day (can be multiple)
       date['games'].each do |game|
         # We only care about completed games
-        next unless ['Final', 'Completed Early'].include? game['status']['detailedState']
+        next unless ['Final', 'Completed Early', 'Game Over'].include? game['status']['detailedState']
 
         # Get if we're home or away
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
