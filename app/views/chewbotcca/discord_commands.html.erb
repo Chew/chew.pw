@@ -48,7 +48,7 @@
     <tbody>
       <% @commands.each do |command| %>
         <tr>
-          <td><code>%^<%= command.command %></code></td>
+          <td><code><%= command.invocation %></code></td>
           <td><%= command.args || "None" %></td>
           <td><%= command.aliases || "None" %></td>
           <td><%= command.flags || "None" %></td>

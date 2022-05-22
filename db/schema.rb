@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2020_12_05_194150) do
     t.text "module"
     t.text "bot_permissions"
     t.text "user_permissions"
+    t.boolean "slash", default: true, null: false
     t.index ["command"], name: "command", unique: true
   end
 
