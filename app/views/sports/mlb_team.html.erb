@@ -33,7 +33,11 @@
   <% @scores['dates'].each do |date| %>
     <% date['games'].each do |game| %>
       <tr>
-        <td><%= date['date'] %></td>
+        <% if %w[Postponed Scheduled Pre-Game].include? game['status']['detailedState'] %>
+          <td><%= date['date'] %></td>
+        <% else %>
+          <td><%= link_to date['date'], "/sports/mlb/game/#{game['gamePk']}" %></td>
+        <% end %>
         <td><%= link_to game['teams']['away']['team']['name'], "/sports/mlb/team/#{game['teams']['away']['team']['id']}" %></td>
         <td><%= link_to game['teams']['home']['team']['name'], "/sports/mlb/team/#{game['teams']['home']['team']['id']}" %></td>
         <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>

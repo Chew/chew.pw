@@ -1,0 +1,124 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "#{@away['teamName']} @ #{@home['teamName']} on #{@game['gameData']['datetime']['officialDate']} - MLB Game Breakdown",
+                description:
+                  "",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball #{@away['name']} #{@home['name']}" %>
+<% end %>
+
+<h1>Game Information</h1>
+
+<p><%= link_to @away['name'], "/sports/mlb/team/#{@away['id']}" %> @ <%= link_to @home['name'], "/sports/mlb/team/#{@home['id']}" %>
+  on <%= @game['gameData']['datetime']['officialDate'] %></p>
+
+<p>Game Status: <%= @game['gameData']['status']['detailedState'] %></p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <li>Plays Table of Contents - Shows a summary of every batter.</li>
+  <li>Plays - A breakdown of every batter.</li>
+  <li>Pitching Breakdown - A breakdown of pitches, such as total balls, etc.</li>
+</ul>
+
+<h2>Plays Table of Contents</h2>
+
+<ol>
+  <% @game['liveData']['linescore']['currentInning'].times do |i| %>
+    <li><%= (i + 1).ordinalize %> Inning</li>
+    <ul>
+      <li>Top</li>
+      <ul>
+        <% plays = @game['liveData']['plays']['playsByInning'][i]['top'] %>
+        <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
+          <% play['playEvents'].each do |event| %>
+            <% next if event['details']['eventType'].nil? %>
+            <li><i><%= event['details']['description'] %></i></li>
+          <% end %>
+          <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}" %></li>
+        <% end %>
+      </ul>
+      <% if @game['liveData']['linescore']['currentInning'] > (i+1) or (@game['liveData']['linescore']['currentInning'] == i+1 and @game['liveData']['linescore']['inningState'] == "Bottom") %>
+        <li>Bottom</li>
+        <ul>
+          <% plays = @game['liveData']['plays']['playsByInning'][i]['bottom'] %>
+          <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
+            <% play['playEvents'].each do |event| %>
+              <% next if event['details']['eventType'].nil? %>
+              <li><i><%= event['details']['description'] %></i></li>
+            <% end %>
+            <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}" %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </ul>
+  <% end %>
+</ol>
+
+<h2>Plays</h2>
+
+<% @game['liveData']['linescore']['currentInning'].times do |i| %>
+  <h3><%= (i + 1).ordinalize %> Inning</h3>
+
+  <hr>
+
+  <h4>Top</h4>
+
+  <%
+    plays_inning = @game['liveData']['plays']['playsByInning'][i]
+    first_bottom = plays_inning['bottom'][0]
+    start_index = plays_inning['startIndex']
+    end_index = plays_inning['endIndex']
+  %>
+  <% @game['liveData']['plays']['allPlays'][start_index..end_index].each_with_index do |play, ind| %>
+    <% if first_bottom == start_index + ind %>
+      <hr>
+      <h4>Bottom</h4>
+    <% end %>
+
+    <h5 id="play-<%= ind + start_index %>"><%= play['result']['description'] %></h5>
+
+    <p>Event: <%= play['result']['event'] %></p>
+
+    <p>Score: <%= play['result']['awayScore'] %> - <%= play['result']['homeScore'] %></p>
+
+    <p>Play Events:</p>
+    <ol>
+      <% play['playEvents'].each_with_index do |event| %>
+        <% next if event['details']['eventType'] == 'game_advisory' %>
+      <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>><%= event['details']['description'] %></li>
+      <% end %>
+    </ol>
+  <% end %>
+
+  <hr>
+<% end %>
+
+<h2>Pitch Breakdown</h2>
+
+<h3>Batting Results</h3>
+
+<p>The end result of a given batting cycle, based on the pitcher.</p>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Pitch Type</th>
+    <% @pitchers.each do |pitcher| %>
+      <th><%= pitcher.split(' ').last %></th>
+    <% end %>
+    <th>Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @results.each do |kind, amount| %>
+  <tr>
+    <td><%= kind %></td>
+    <% @pitchers.each do |pitcher| %>
+      <td><%= @results_by_pitcher[pitcher][kind] || 0 %></td>
+    <% end %>
+    <td><%= amount %></td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -122,4 +122,36 @@ class SportsController < ApplicationController
 
     @team['to500'] = current_wins
   end
+
+  def mlb_game
+    @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))
+
+    # Teams
+    @away = @game['gameData']['teams']['away']
+    @home = @game['gameData']['teams']['home']
+
+    @results = {}
+    @results_by_pitcher = {}
+    @pitchers = []
+    @pitches = {}
+    @pitches_by_pitcher = {}
+    @game['liveData']['plays']['allPlays'].each do |play|
+      event = play['result']['event']
+      pitcher = play['matchup']['pitcher']['fullName']
+
+      # Add or set to 1 if it's a new pitch
+      @results[event] ||= 0
+      @results[event] += 1
+
+      # Get pitcher stats
+      @results_by_pitcher[pitcher] ||= {}
+      @results_by_pitcher[pitcher][event] ||= 0
+      @results_by_pitcher[pitcher][event] += 1
+
+      # Add to the pitcher list
+      @pitchers.push pitcher
+    end
+
+    @pitchers = @pitchers.uniq
+  end
 end

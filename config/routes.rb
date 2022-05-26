@@ -158,6 +158,7 @@ Rails.application.routes.draw do
       scope 'team' do
         get ':team_id', to: 'sports#mlb_team'
       end
+      get 'game/:game_id', to: 'sports#mlb_game'
     end
   end
 
