@@ -29,4 +29,5 @@ SitemapGenerator::Sitemap.create do
   add '/util/wordle/all', changefreq: 'daily'
   add '/util/bases', changefreq: 'daily'
   add '/vaccine', changefreq: 'daily'
+  add '/sports/mlb', changefreq: 'daily'
 end
