@@ -135,9 +135,11 @@ class SportsController < ApplicationController
     @pitchers = []
     @pitches = {}
     @pitches_by_pitcher = {}
+    @pitches_by_batter = {}
     @game['liveData']['plays']['allPlays'].each do |play|
       event = play['result']['event']
       pitcher = play['matchup']['pitcher']['fullName']
+      batter = play['matchup']['batter']['fullName']
 
       # Add or set to 1 if it's a new pitch
       @results[event] ||= 0
@@ -148,8 +150,26 @@ class SportsController < ApplicationController
       @results_by_pitcher[pitcher][event] ||= 0
       @results_by_pitcher[pitcher][event] += 1
 
+      @pitches_by_pitcher[pitcher] ||= {}
+      @pitches_by_batter[batter] ||= {}
+
       # Add to the pitcher list
       @pitchers.push pitcher
+
+      play['playEvents'].each do |play_event|
+        next unless play_event['isPitch']
+
+        kind = play_event['details']['description']
+
+        @pitches_by_pitcher[pitcher][kind] ||= 0
+        @pitches_by_pitcher[pitcher][kind] += 1
+
+        @pitches_by_batter[batter][kind] ||= 0
+        @pitches_by_batter[batter][kind] += 1
+
+        @pitches[kind] ||= 0
+        @pitches[kind] += 1
+      end
     end
 
     @pitchers = @pitchers.uniq

@@ -13,15 +13,51 @@
 
 <p>Game Status: <%= @game['gameData']['status']['detailedState'] %></p>
 
+<p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] %> - <%= @game['liveData']['linescore']['teams']['home']['runs'] %></p>
+
 <h2>Table of Contents</h2>
 
 <ul>
-  <li>Plays Table of Contents - Shows a summary of every batter.</li>
-  <li>Plays - A breakdown of every batter.</li>
+  <li><%= header_link "Scorecard" %></li>
+  <li><%= header_link "Plays Table of Contents" %> - Shows a summary of every batter.</li>
+  <li><%= header_link "Plays" %> - A breakdown of every batter.</li>
   <li>Pitching Breakdown - A breakdown of pitches, such as total balls, etc.</li>
 </ul>
 
-<h2>Plays Table of Contents</h2>
+<h2 id="scorecard">Scorecard</h2>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Team</th>
+    <% total_innings(@game).times do |i| %>
+      <th><%= i + 1 %></th>
+    <% end %>
+    <th>R</th>
+    <th>H</th>
+    <th>E</th>
+    <th>LOB</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% %w[away home].each do |team| %>
+    <tr>
+      <td><%= instance_variable_get("@#{team}")['teamName'] %></td>
+      <% @game['liveData']['linescore']['innings'].each do |inning| %>
+        <td><%= inning[team]['runs'] || 0 %></td>
+      <% end %>
+      <% (9 - @game['liveData']['linescore']['currentInning']).times do |_| %>
+        <td>0</td>
+      <% end %>
+      <% @game['liveData']['linescore']['teams'][team].each do |name, amount| %>
+        <td><%= amount %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h2 id="<%= "Plays Table of Contents".parameterize %>">Plays Table of Contents</h2>
 
 <ol>
   <% @game['liveData']['linescore']['currentInning'].times do |i| %>
@@ -55,7 +91,7 @@
   <% end %>
 </ol>
 
-<h2>Plays</h2>
+<h2 id="plays">Plays</h2>
 
 <% @game['liveData']['linescore']['currentInning'].times do |i| %>
   <h3><%= (i + 1).ordinalize %> Inning</h3>
@@ -85,7 +121,7 @@
     <p>Play Events:</p>
     <ol>
       <% play['playEvents'].each_with_index do |event| %>
-        <% next if event['details']['eventType'] == 'game_advisory' %>
+        <% next if %w[game_advisory pitching_substitution defensive_switch offensive_substitution].include? event['details']['eventType'] %>
       <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>><%= event['details']['description'] %></li>
       <% end %>
     </ol>
@@ -119,6 +155,33 @@
     <% end %>
     <td><%= amount %></td>
   </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<h3>Types of Pitches</h3>
+
+<p><i>Note: In the rare occurrence a pitcher is switched out mid-at-bat, the prior pitcher's throws will be counted towards the relief-pitcher.</i></p>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Pitch Type</th>
+    <% @pitchers.each do |pitcher| %>
+      <th><%= pitcher.split(' ').last %></th>
+    <% end %>
+    <th>Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @pitches.sort.each do |kind, amount| %>
+    <tr>
+      <td><%= kind %></td>
+      <% @pitchers.each do |pitcher| %>
+        <td><%= @pitches_by_pitcher[pitcher][kind] || 0 %></td>
+      <% end %>
+      <td><%= amount %></td>
+    </tr>
   <% end %>
   </tbody>
 </table>

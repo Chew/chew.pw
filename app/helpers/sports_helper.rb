@@ -15,4 +15,11 @@ module SportsHelper
       "N/A"
     end
   end
+
+  # Total innings for a game
+  def total_innings(game)
+    line_score = game['liveData']['linescore']
+
+    line_score['scheduledInnings'] > line_score['currentInning'] ? line_score['scheduledInnings'] : line_score['currentInning']
+  end
 end

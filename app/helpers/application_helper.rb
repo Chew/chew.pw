@@ -67,4 +67,11 @@ module ApplicationHelper
     tag += "</li>"
     tag.html_safe
   end
+
+  # Creates a clickable link to a parameterized title.
+  # @param name [String] the name (shown in navbar)
+  # @return [String] the link
+  def header_link(name)
+    link_to name, "##{name.parameterize}"
+  end
 end
