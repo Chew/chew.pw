@@ -8,12 +8,14 @@
 
 <h1>Game Information</h1>
 
-<p><%= link_to @away['name'], "/sports/mlb/team/#{@away['id']}" %> @ <%= link_to @home['name'], "/sports/mlb/team/#{@home['id']}" %>
+<p><%= link_to @away['name'], "/sports/mlb/team/#{@away['id']}" %>
+  @ <%= link_to @home['name'], "/sports/mlb/team/#{@home['id']}" %>
   on <%= @game['gameData']['datetime']['officialDate'] %></p>
 
 <p>Game Status: <%= @game['gameData']['status']['detailedState'] %></p>
 
-<p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] %> - <%= @game['liveData']['linescore']['teams']['home']['runs'] %></p>
+<p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] %>
+  - <%= @game['liveData']['linescore']['teams']['home']['runs'] %></p>
 
 <h2>Table of Contents</h2>
 
@@ -26,6 +28,15 @@
 
 <h2 id="scorecard">Scorecard</h2>
 
+<label>
+  Showing:
+  <select id="scorecard-type">
+    <option value="0">Runs</option>
+    <option value="1">Hits</option>
+    <option value="2">Errors</option>
+    <option value="3">Left On Base</option>
+  </select>
+</label>
 <table class="table">
   <thead>
   <tr>
@@ -44,18 +55,28 @@
     <tr>
       <td><%= instance_variable_get("@#{team}")['teamName'] %></td>
       <% @game['liveData']['linescore']['innings'].each do |inning| %>
-        <td><%= inning[team]['runs'] || 0 %></td>
+        <td id="<%= "#{team}-#{inning}" %>" class="valued-inning">
+          <span class="shown-value"><%= inning[team]['runs'] || 0 %></span>
+          <span class="extra-data visually-hidden"><%= inning[team].map {|_, v| v }.join(',') %></span>
+        </td>
       <% end %>
       <% (9 - @game['liveData']['linescore']['currentInning']).times do |_| %>
-        <td>0</td>
+        <td>-</td>
       <% end %>
-      <% @game['liveData']['linescore']['teams'][team].each do |name, amount| %>
-        <td><%= amount %></td>
+      <% @game['liveData']['linescore']['teams'][team].each do |_, amount| %>
+        <td><b><%= amount %></b></td>
       <% end %>
     </tr>
   <% end %>
   </tbody>
 </table>
+
+<!--<h3>Game Progress Graph</h3>-->
+
+<span id="home-info" class="visually-hidden"><%= @inning_info['home'].join('/') %></span>
+<span id="away-info" class="visually-hidden"><%= @inning_info['away'].join('/') %></span>
+
+<!--<canvas id="progress-graph" width="800" height="400"></canvas>-->
 
 <h2 id="<%= "Plays Table of Contents".parameterize %>">Plays Table of Contents</h2>
 
@@ -74,7 +95,7 @@
           <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}" %></li>
         <% end %>
       </ul>
-      <% if @game['liveData']['linescore']['currentInning'] > (i+1) or (@game['liveData']['linescore']['currentInning'] == i+1 and @game['liveData']['linescore']['inningState'] == "Bottom") %>
+      <% if @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningState'] == "Bottom") %>
         <li>Bottom</li>
         <ul>
           <% plays = @game['liveData']['plays']['playsByInning'][i]['bottom'] %>
@@ -106,28 +127,51 @@
     start_index = plays_inning['startIndex']
     end_index = plays_inning['endIndex']
   %>
-  <% @game['liveData']['plays']['allPlays'][start_index..end_index].each_with_index do |play, ind| %>
-    <% if first_bottom == start_index + ind %>
-      <hr>
-      <h4>Bottom</h4>
-    <% end %>
-
-    <h5 id="play-<%= ind + start_index %>"><%= play['result']['description'] %></h5>
-
-    <p>Event: <%= play['result']['event'] %></p>
-
-    <p>Score: <%= play['result']['awayScore'] %> - <%= play['result']['homeScore'] %></p>
-
-    <p>Play Events:</p>
-    <ol>
-      <% play['playEvents'].each_with_index do |event| %>
-        <% next if %w[game_advisory pitching_substitution defensive_switch offensive_substitution].include? event['details']['eventType'] %>
-      <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>><%= event['details']['description'] %></li>
+  <div class="row">
+    <% @game['liveData']['plays']['allPlays'][start_index..end_index].each_with_index do |play, ind| %>
+      <% if first_bottom == start_index + ind %>
+        </div>
+        <hr>
+        <h4>Bottom</h4>
+        <div class="row">
       <% end %>
-    </ol>
-  <% end %>
+      <div class="col-md-3" id="play-<%= ind + start_index %>">
+        <div class="card">
+          <!--      <img src="..." class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 class="card-title"><%= play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat." %></h5>
 
-  <hr>
+            <p class="card-text">Event: <%= play['result']['event'] %></p>
+            <p class="card-text">Score: <%= play['result']['awayScore'] %> - <%= play['result']['homeScore'] %></p>
+
+            <p class="card-text">Play Events:</p>
+            <ol>
+              <% hit_data = nil %>
+              <% play['playEvents'].each do |event| %>
+                <% next unless event['isPitch'] or event['type'] == 'pickoff' %>
+                <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>>
+                  <span class="<%= play_class event %>"><%= event['details']['description'] %></span></li>
+                <% unless event['hitData'].nil? %>
+                  <% hit_data = event['hitData'] %>
+                <% end %>
+              <% end %>
+            </ol>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">P: <%= play['matchup']['pitcher']['fullName'] %></small>
+            <% if hit_data %>
+              <small class="text-muted">
+                <br><i>Ball left the bat at a speed of <%= hit_data['launchSpeed'] %> mph
+                at a <%= hit_data['launchAngle'] %>&deg; angle, and travelled <%= hit_data['totalDistance'] %> feet.</i>
+              </small>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+
+    <hr>
 <% end %>
 
 <h2>Pitch Breakdown</h2>
@@ -148,20 +192,21 @@
   </thead>
   <tbody>
   <% @results.each do |kind, amount| %>
-  <tr>
-    <td><%= kind %></td>
-    <% @pitchers.each do |pitcher| %>
-      <td><%= @results_by_pitcher[pitcher][kind] || 0 %></td>
-    <% end %>
-    <td><%= amount %></td>
-  </tr>
+    <tr>
+      <td><%= kind %></td>
+      <% @pitchers.each do |pitcher| %>
+        <td><%= @results_by_pitcher[pitcher][kind] || 0 %></td>
+      <% end %>
+      <td><%= amount %></td>
+    </tr>
   <% end %>
   </tbody>
 </table>
 
 <h3>Types of Pitches</h3>
 
-<p><i>Note: In the rare occurrence a pitcher is switched out mid-at-bat, the prior pitcher's throws will be counted towards the relief-pitcher.</i></p>
+<p><i>Note: In the rare occurrence a pitcher is switched out mid-at-bat, the prior pitcher's throws will be counted
+  towards the relief-pitcher.</i></p>
 
 <table class="table">
   <thead>
@@ -185,3 +230,7 @@
   <% end %>
   </tbody>
 </table>
+
+<% content_for :extra_foot do %>
+  <%= javascript_pack_tag "sports/game_charts" %>
+<% end %>

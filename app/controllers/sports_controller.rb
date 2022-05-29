@@ -157,7 +157,7 @@ class SportsController < ApplicationController
       @pitchers.push pitcher
 
       play['playEvents'].each do |play_event|
-        next unless play_event['isPitch']
+        next unless play_event['isPitch'] || play_event['type'] == 'pickoff'
 
         kind = play_event['details']['description']
 
@@ -173,5 +173,20 @@ class SportsController < ApplicationController
     end
 
     @pitchers = @pitchers.uniq
+
+    @inning_info = {
+      'away' => [],
+      'home' => [],
+    }
+
+    @game['liveData']['linescore']['innings'].each do |inning|
+      %w[home away].each do |team|
+        details = []
+        inning[team].each do |_, value|
+          details.push value
+        end
+        @inning_info[team].push details.join(',')
+      end
+    end
   end
 end

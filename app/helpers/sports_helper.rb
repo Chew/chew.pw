@@ -22,4 +22,16 @@ module SportsHelper
 
     line_score['scheduledInnings'] > line_score['currentInning'] ? line_score['scheduledInnings'] : line_score['currentInning']
   end
+
+  # Determines the class to use to render the play
+  def play_class(play)
+    run = play['details']['description'].include? 'run(s)'
+
+    return "ball" if play['details']['isBall']
+    return "strike" if play['details']['isStrike']
+    return "in-play #{run ? "bold" : ""}" if play['details']['isInPlay']
+    return "pickoff" if play['type'] == 'pickoff'
+
+    ""
+  end
 end

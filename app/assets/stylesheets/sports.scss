@@ -5,3 +5,24 @@
 .not-play {
 	list-style-type: disc;
 }
+
+// For scoring plays
+.bold {
+	font-weight: bold;
+}
+
+.foul, .strike {
+	color: #d23d33;
+}
+
+.ball {
+	color: #4fc94f;
+}
+
+.in-play {
+	color: #427ee6;
+}
+
+.pickoff {
+	color: #979797;
+}
