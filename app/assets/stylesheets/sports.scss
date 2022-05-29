@@ -6,23 +6,28 @@
 	list-style-type: disc;
 }
 
+.no-list-type {
+	list-style-type: none;
+	margin-left: -2rem;
+}
+
 // For scoring plays
 .bold {
 	font-weight: bold;
 }
 
-.foul, .strike {
-	color: #d23d33;
+.strike, .strike:hover {
+	color: #d23d33!important;
 }
 
-.ball {
-	color: #4fc94f;
+.ball, .ball:hover {
+	color: #4fc94f!important;
 }
 
-.in-play {
-	color: #427ee6;
+.in-play, .in-play:hover {
+	color: #427ee6!important;
 }
 
-.pickoff {
-	color: #979797;
+.pickoff, .pickoff:hover {
+	color: #979797!important;
 }

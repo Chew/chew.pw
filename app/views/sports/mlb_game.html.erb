@@ -114,25 +114,45 @@
 
             <p class="card-text">Play Events:</p>
             <ol>
-              <% hit_data = nil %>
-              <% play['playEvents'].each do |event| %>
+              <% play['playEvents'].each_with_index do |event, pe_index| %>
                 <% next unless event['isPitch'] or event['type'] == 'pickoff' %>
                 <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>>
-                  <span class="<%= play_class event %>"><%= event['details']['description'] %></span></li>
-                <% unless event['hitData'].nil? %>
-                  <% hit_data = event['hitData'] %>
-                <% end %>
+                  <a class="<%= play_class event %>" data-bs-toggle="collapse" href="#<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>" role="button" aria-expanded="false" aria-controls="<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>">
+                    <%= event['details']['description'] %>
+                  </a>
+                </li>
+                <div class="collapse no-list-type" id="<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>">
+                  <div class="card card-body">
+                    <% if event['type'] == 'pickoff' %>
+                      Pick-off attempts do not have pitch data :(
+                    <% else %>
+                      Speed: <%= event['pitchData']['startSpeed'] %>mph -> <%= event['pitchData']['endSpeed'] %>mph.
+                      <br>
+                      Break Angle: <%= event['pitchData']['breaks']['breakAngle'] %>&deg;.
+                      <br>
+                      <% if event['pitchData']['breaks']['breakLength'] %>
+                        Break Length: <%= event['pitchData']['breaks']['breakLength'] %>ft.
+                        <br>
+                      <% end %>
+                      <% if event['pitchData']['breaks']['spinRate'] %>
+                        Spin Rate: <%= event['pitchData']['breaks']['spinRate'] %>.
+                        <br>
+                      <% end %>
+                      Spin Direction: <%= event['pitchData']['breaks']['spinDirection'] %>.
+
+                      <% if event['hitData'] %>
+                        <hr>
+                        Ball left the bat at a speed of <%= event['hitData']['launchSpeed'] %> mph
+                        at a <%= event['hitData']['launchAngle'] %>&deg; angle, and travelled <%= event['hitData']['totalDistance'] %> feet.
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
             </ol>
           </div>
           <div class="card-footer">
             <small class="text-muted">P: <%= play['matchup']['pitcher']['fullName'] %></small>
-            <% if hit_data %>
-              <small class="text-muted">
-                <br><i>Ball left the bat at a speed of <%= hit_data['launchSpeed'] %> mph
-                at a <%= hit_data['launchAngle'] %>&deg; angle, and travelled <%= hit_data['totalDistance'] %> feet.</i>
-              </small>
-            <% end %>
           </div>
         </div>
       </div>
@@ -148,6 +168,7 @@
 
 <p>The end result of a given batting cycle, based on the pitcher.</p>
 
+<div class="table-responsive">
 <table class="table">
   <thead>
   <tr>
@@ -170,12 +191,14 @@
   <% end %>
   </tbody>
 </table>
+</div>
 
 <h3>Types of Pitches</h3>
 
 <p><i>Note: In the rare occurrence a pitcher is switched out mid-at-bat, the prior pitcher's throws will be counted
   towards the relief-pitcher.</i></p>
 
+<div class="table-responsive">
 <table class="table">
   <thead>
   <tr>
@@ -198,6 +221,7 @@
   <% end %>
   </tbody>
 </table>
+</div>
 
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports/game_charts" %>
