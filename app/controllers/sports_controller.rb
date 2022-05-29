@@ -73,9 +73,12 @@ class SportsController < ApplicationController
   end
 
   def mlb
-    data = JSON.parse(RestClient.get('https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2022&standingsTypes=regularSeason', 'User-Agent': DUMMY_USER_AGENT))
+    @info = JSON.parse(RestClient.get('https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=2022&standingsTypes=regularSeason', 'User-Agent': DUMMY_USER_AGENT))['records']
 
-    @info = data['records']
+    # Get today's date in Pacific Time (PDT) with MM/DD/YYYY format
+    date = Time.now.in_time_zone("America/Los_Angeles").strftime("%m/%d/%Y")
+
+    @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&sportId=1&date=#{date}&sortBy=gameDate&hydrate=game(content(summary,media(epg))),linescore(runners),flags,team,review"))
   end
 
   def mlb_team

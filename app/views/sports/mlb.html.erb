@@ -7,9 +7,39 @@
 
 <h1>Chew's MLB Stats</h1>
 
-<p>Baseball stats but epic</p>
+<p>
+  With this site, you can view information in unique ways. On a team page, you can see a team's 500 chart.
+  Viewing a game shows a lot of information about the game, even some stuff Gameday doesn't show!
+</p>
 
-<h2>Team Standings</h2>
+<h2>Table of Contents</h2>
+<ul>
+  <li><%= link_to "Today's Schedule", "#schedule" %></li>
+  <li><%= link_to "Team Standings", "#standings" %></li>
+</ul>
+
+<h2 id="schedule">Today's Schedule</h2>
+<p>Games today: <%= @schedule['totalGames'] %> (<%= @schedule['totalGamesInProgress'] %> in-progress)</p>
+
+<div class="row">
+  <% @schedule['dates'][0]['games'].each do |game| %>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title"><%= game['teams']['away']['team']['clubName'] %> @ <%= game['teams']['home']['team']['clubName'] %></h2>
+          <p><%= link_to "Game State: #{game['status']['detailedState']}", "/sports/mlb/game/#{game['gamePk']}" %></p>
+          <% if ['Final', 'Completed Early', 'Game Over', 'In Progress'].include? game['status']['detailedState'] %>
+            <%= render partial: 'scorecard', locals: { game: game['linescore'], home: game['teams']['home']['team'], away: game['teams']['away']['team'] } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<hr>
+
+<h2 id="standings">Team Standings</h2>
 
 <div class="table-responsive">
 <table class="table table-striped table-bordered table-hover" data-toggle="table" data-search="true">

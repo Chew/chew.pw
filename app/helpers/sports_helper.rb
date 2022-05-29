@@ -17,9 +17,7 @@ module SportsHelper
   end
 
   # Total innings for a game
-  def total_innings(game)
-    line_score = game['liveData']['linescore']
-
+  def total_innings(line_score)
     line_score['scheduledInnings'] > line_score['currentInning'] ? line_score['scheduledInnings'] : line_score['currentInning']
   end
 

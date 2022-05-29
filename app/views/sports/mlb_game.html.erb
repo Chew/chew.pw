@@ -37,39 +37,7 @@
     <option value="3">Left On Base</option>
   </select>
 </label>
-<table class="table">
-  <thead>
-  <tr>
-    <th>Team</th>
-    <% total_innings(@game).times do |i| %>
-      <th><%= i + 1 %></th>
-    <% end %>
-    <th>R</th>
-    <th>H</th>
-    <th>E</th>
-    <th>LOB</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% %w[away home].each do |team| %>
-    <tr>
-      <td><%= instance_variable_get("@#{team}")['teamName'] %></td>
-      <% @game['liveData']['linescore']['innings'].each do |inning| %>
-        <td id="<%= "#{team}-#{inning}" %>" class="valued-inning">
-          <span class="shown-value"><%= inning[team]['runs'] || 0 %></span>
-          <span class="extra-data visually-hidden"><%= inning[team].map {|_, v| v }.join(',') %></span>
-        </td>
-      <% end %>
-      <% (9 - @game['liveData']['linescore']['currentInning']).times do |_| %>
-        <td>-</td>
-      <% end %>
-      <% @game['liveData']['linescore']['teams'][team].each do |_, amount| %>
-        <td><b><%= amount %></b></td>
-      <% end %>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<%= render partial: 'scorecard', locals: { game: @game['liveData']['linescore'], home: @home, away: @away } %>
 
 <!--<h3>Game Progress Graph</h3>-->
 
