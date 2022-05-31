@@ -63,7 +63,7 @@
           <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}" %></li>
         <% end %>
       </ul>
-      <% if @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningState'] == "Bottom") %>
+      <% if @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningHalf'] == "Bottom") %>
         <li>Bottom</li>
         <ul>
           <% plays = @game['liveData']['plays']['playsByInning'][i]['bottom'] %>
@@ -96,12 +96,14 @@
     end_index = plays_inning['endIndex']
   %>
   <div class="row">
+    <% last_out = 0 %>
     <% @game['liveData']['plays']['allPlays'][start_index..end_index].each_with_index do |play, ind| %>
       <% if first_bottom == start_index + ind %>
         </div>
         <hr>
         <h4>Bottom</h4>
         <div class="row">
+        <% last_out = 0 %>
       <% end %>
       <div class="col-md-3" id="play-<%= ind + start_index %>">
         <div class="card">
@@ -109,10 +111,14 @@
           <div class="card-body">
             <h5 class="card-title"><%= play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat." %></h5>
 
-            <p class="card-text">Event: <%= play['result']['event'] %></p>
-            <p class="card-text">Score: <%= play['result']['awayScore'] %> - <%= play['result']['homeScore'] %></p>
+            <p class="card-text">
+              Event: <%= play['result']['event'] %><br>
+              Score: <%= play['result']['awayScore'] %> - <%= play['result']['homeScore'] %><br>
+              Outs: <%= play['count']['outs'] %> <% if play['count']['outs'] - last_out > 0 %> (+<%= play['count']['outs'] - last_out %>)<% end %>
+              <% last_out = play['count']['outs'] %>
+            </p>
 
-            <p class="card-text">Play Events:</p>
+            <span class="card-text">Play Events:</span>
             <ol>
               <% play['playEvents'].each_with_index do |event, pe_index| %>
                 <% next unless event['isPitch'] or event['type'] == 'pickoff' %>
@@ -125,7 +131,11 @@
                   <div class="card card-body">
                     <% if event['type'] == 'pickoff' %>
                       Pick-off attempts do not have pitch data :(
+                    <% elsif event['details']['description'] == "Automatic Ball" %>
+                      Automatic Balls are not pitches, so there is no pitch data.
                     <% else %>
+                      Count: <%= event['count']['balls'] %> - <%= event['count']['strikes'] %>
+                      <hr>
                       Speed: <%= event['pitchData']['startSpeed'] %>mph -> <%= event['pitchData']['endSpeed'] %>mph.
                       <br>
                       Break Angle: <%= event['pitchData']['breaks']['breakAngle'] %>&deg;.
@@ -138,7 +148,9 @@
                         Spin Rate: <%= event['pitchData']['breaks']['spinRate'] %>.
                         <br>
                       <% end %>
-                      Spin Direction: <%= event['pitchData']['breaks']['spinDirection'] %>.
+                      <% if event['pitchData']['breaks']['spinDirection'] %>
+                        Spin Direction: <%= event['pitchData']['breaks']['spinDirection'] %>.
+                      <% end %>
 
                       <% if event['hitData'] %>
                         <hr>
@@ -150,6 +162,18 @@
                 </div>
               <% end %>
             </ol>
+            <span class="card-text">Position Changes:</span>
+            <ul>
+              <% reaches = 0 %>
+              <% play['runners'].sort_by {|e| e['movement']['start'] || "0B"}.each do |runner| %>
+                <% next if runner['movement']['start'] == runner['movement']['end'] %>
+                <% reaches += 1 %>
+                <li><%= runner['details']['runner']['fullName'] %> (<%= runner['movement']['start'] || "none" %> -> <%= runner['movement']['end'] || "out" %>)</li>
+              <% end %>
+              <% if reaches.zero? %>
+                <li>No position changes</li>
+              <% end %>
+            </ul>
           </div>
           <div class="card-footer">
             <small class="text-muted">P: <%= play['matchup']['pitcher']['fullName'] %></small>
