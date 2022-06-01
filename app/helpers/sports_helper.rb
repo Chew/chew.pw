@@ -32,4 +32,29 @@ module SportsHelper
 
     ""
   end
+
+  # Finds the game status for a given game
+  def game_status(game)
+    line_score = game['liveData'].nil? ? game['linescore'] : game['liveData']['linescore']
+
+    inning = line_score.nil? ? 0 : line_score['currentInning']
+
+    status = game['gameData'].nil? ? game['status'] : game['gameData']['status']
+
+    if ['Final', 'Completed Early', 'Game Over'].include? status['detailedState']
+      return inning == 9 ? "Final" : "Final/#{inning}"
+    end
+
+    if %w[Pre-Game Warmup Scheduled].include? status['detailedState']
+      # get the start date in eastern time.
+      starts = Time.parse(game['gameDate']).in_time_zone('Eastern Time (US & Canada)')
+      return "#{status['detailedState']} (Starts: #{starts.strftime('%-l:%M %p')} ET)"
+    end
+
+    return status['detailedState'] if line_score.nil?
+
+    inning_state = line_score['inningState']
+
+    "#{inning_state} #{inning.ordinalize}"
+  end
 end

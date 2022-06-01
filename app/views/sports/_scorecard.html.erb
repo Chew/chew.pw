@@ -16,9 +16,10 @@
     <% %w[away home].each do |team| %>
       <tr>
         <td><%= link_to local_assigns[:"#{team}"]['clubName'], "/sports/mlb/team/#{local_assigns[:"#{team}"]['id']}" %></td>
-        <% game['innings'].each do |inning| %>
+        <% game['innings'].each_with_index do |inning, inning_number| %>
           <td id="<%= "#{team}-#{inning}" %>" class="valued-inning">
-            <span class="shown-value"><%= inning[team]['runs'] || 0 %></span>
+            <% current = ((inning_number + 1 == game['currentInning']) and ((team == 'away' and game['inningState'] == 'Top') or (team == 'home' and game['inningState'] == 'Bottom'))) %>
+            <span class="shown-value <% if current && !state.include?("Final") %> mark bold <% end %> <% if inning[team]['runs'] == 0 %> pickoff <% end %>"><%= inning[team]['runs'] || (current ? 0 : '-') %></span>
             <span class="extra-data visually-hidden"><%= inning[team].map { |_, v| v }.join(',') %></span>
           </td>
         <% end %>
