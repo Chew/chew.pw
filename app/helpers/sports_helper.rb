@@ -69,32 +69,30 @@ module SportsHelper
     x = pitch_data['coordinates']['pX'] # ft
 
     # A baseball's diameter in inches is 1.43; convert it to feet add that to the height
-    diameter = 1.43 # inches
-    diameter_in_feet = diameter / 12.0
-    radius = diameter_in_feet / 2.0
+    radius = 1.437 / 12.0 # convert to feet
 
     # Ball is above the zone
-    if (z + radius) >= pitch_data['strikeZoneTop']
-      return false
+    if (z - radius) >= pitch_data['strikeZoneTop']
+      return false #"above by #{z - pitch_data['strikeZoneTop']} ft"
     end
     # Ball is below the zone
-    if (z - radius) <= pitch_data['strikeZoneBottom']
-      return false
+    if (z + radius) <= pitch_data['strikeZoneBottom']
+      return false #"below by #{(z - pitch_data['strikeZoneBottom']).round(2)} ft"
     end
 
     # Check if the ball is out/in the zone based on X-axis.
-    strike_zone = 17.5/2 # inches
+    strike_zone = 17/2 # inches
     strike_zone_in_feet = strike_zone / 12.0
 
-    # Ball is to the left of the zone
-    if (x + radius) >= strike_zone_in_feet
-      return false
-    end
     # Ball is to the right of the zone
-    if (x - radius) <= strike_zone_in_feet
-      return false
+    if (x - radius) >= strike_zone_in_feet
+      return false #"right by #{(x + radius - strike_zone_in_feet).round(2)} feet"
+    end
+    # Ball is to the left of the zone
+    if (x + radius) <= -strike_zone_in_feet
+      return false # "left by #{(x - radius + strike_zone_in_feet).round(2)} feet"
     end
 
-    true
+    true #"in"
   end
 end

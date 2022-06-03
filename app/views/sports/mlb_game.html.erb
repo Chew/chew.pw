@@ -167,9 +167,20 @@
                         <hr>
                         Plate Position: (<%= event['pitchData']['coordinates']['pX'] %>, <%= event['pitchData']['coordinates']['pZ'] %>)
                         <br>
-                        Zone: <%= event['pitchData']['zone'] %>
-                        <br>
-                        In the zone? <%= in_the_zone? event['pitchData'] %>
+                        <div class="d-inline">
+                          In the zone?
+                          <% if in_the_zone?(event['pitchData']) and event['details']['call']['description'].start_with? "Ball" %>
+                            <span class="strike"><i class="fas fa-xmark"></i> Yes</span>
+                          <% elsif !in_the_zone?(event['pitchData']) and event['details']['call']['description'].start_with? "Ball" %>
+                            <span class="ball"><i class="fas fa-check"></i> No</span>
+                          <% elsif in_the_zone?(event['pitchData']) and event['details']['call']['description'] == "Called Strike" %>
+                            <span class="ball"><i class="fas fa-check"></i> Yes</span>
+                          <% elsif !in_the_zone?(event['pitchData']) and event['details']['call']['description'] == "Called Strike" %>
+                            <span class="strike"><i class="fas fa-xmark"></i> No</span>
+                          <% else %>
+                            <%= in_the_zone?(event['pitchData']) ? "Yes" : "No" %>
+                          <% end %>
+                        </div>
                       <% end %>
                     <% end %>
                   </div>

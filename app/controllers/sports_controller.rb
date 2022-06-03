@@ -210,15 +210,15 @@ class SportsController < ApplicationController
       play['playEvents'].each_with_index do |event, event_index|
         next unless event['isPitch'] || event['pitchData'].nil?
 
-        if event['details']['isBall']
+        if event['details']['isBall'] and event['details']['call']['description'] != "Hit By Pitch"
           @total_balls += 1
           if in_the_zone? event['pitchData']
-            @blunder_balls.push "play-#{play_index}-pitch-#{event_index}"
+            @blunder_balls.push "play-#{play_index}-pitch-#{event_index+1}"
           end
         elsif event['details']['isStrike'] and event['details']['call']['description'] == "Called Strike"
           @total_strikes += 1
           unless in_the_zone? event['pitchData']
-            @blunder_strikes.push "play-#{play_index}-pitch-#{event_index}"
+            @blunder_strikes.push "play-#{play_index}-pitch-#{event_index+1}"
           end
         end
       end
