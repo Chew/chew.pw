@@ -161,6 +161,13 @@
                         Ball left the bat at a speed of <%= event['hitData']['launchSpeed'] %> mph
                         at a <%= event['hitData']['launchAngle'] %>&deg; angle, and travelled <%= event['hitData']['totalDistance'] %> feet.
                       <% end %>
+
+                      <% if event['pitchData']['coordinates'] %>
+                        <hr>
+                        Plate Position: (<%= event['pitchData']['coordinates']['pX'] %>, <%= event['pitchData']['coordinates']['pZ'] %>)
+                        <br>
+                        Zone: <%= event['pitchData']['zone'] %>
+                      <% end %>
                     <% end %>
                   </div>
                 </div>
@@ -250,7 +257,7 @@
   </tbody>
   <tfoot>
   <tr>
-    <td>Total</td>
+    <td>Total (Excl. Pick-off Attempts)</td>
     <% @pitchers.each do |pitcher| %>
       <td><%= @pitches_by_pitcher[pitcher].sum {|e, i| e.include?("Pickoff") ? 0 : i} %></td>
     <% end %>
@@ -259,6 +266,27 @@
   </tfoot>
 </table>
 </div>
+
+<h2>Umpire Blunders <span class="badge bg-secondary">Beta</span></h2>
+
+<p>A breakdown of all balls and called strikes to determine if they were accurate or not.</p>
+
+<p><i>
+  Note:  This is based on MLBStats's "zone" parameter. By assumption and minor testing, it appears to correlate to which
+  zone the ball was thrown in. 1-9 is in the zone, and anything above is out. Using this, balls that were thrown in the
+  zone but were not called are counted as "blunders", and the same is true with strikes out of the zone. Since this
+  behavior is not documented, data here may potentially be inaccurate!
+</i></p>
+
+<p>This game's <abbr title="Home Plate">HP</abbr> Umpire: <%= @game['liveData']['boxscore']['officials'].find {|ump| ump['officialType'] == "Home Plate"}['official']['fullName'] %></p>
+
+<h3>Balls</h3>
+
+<p>Of the <%= @total_balls %> balls, <%= @blunder_balls %> were actually in the zone.</p>
+
+<h3>Strikes</h3>
+
+<p>Of the <%= @total_strikes %> called strikes, <%= @blunder_strikes %> were actually out of the zone.</p>
 
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports/game_charts" %>

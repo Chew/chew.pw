@@ -133,6 +133,7 @@ class SportsController < ApplicationController
     @away = @game['gameData']['teams']['away']
     @home = @game['gameData']['teams']['home']
 
+    # Handle results for the pitching/batting cycle.
     @results = {}
     @results_by_pitcher = {}
     @pitchers = []
@@ -159,11 +160,15 @@ class SportsController < ApplicationController
       # Add to the pitcher list
       @pitchers.push pitcher
 
+      # Iterate through the play events
       play['playEvents'].each do |play_event|
+        # Ignore if it's not a pitch or pick-off
         next unless play_event['isPitch'] || play_event['type'] == 'pickoff'
 
+        # Grab the kind
         kind = play_event['details']['description']
 
+        # Update the pitching counts
         @pitches_by_pitcher[pitcher][kind] ||= 0
         @pitches_by_pitcher[pitcher][kind] += 1
 
@@ -175,8 +180,10 @@ class SportsController < ApplicationController
       end
     end
 
+    # Make sure the pitchers are unique
     @pitchers = @pitchers.uniq
 
+    # Grab the inning info for future graph usage
     @inning_info = {
       'away' => [],
       'home' => [],
@@ -189,6 +196,29 @@ class SportsController < ApplicationController
           details.push value
         end
         @inning_info[team].push details.join(',')
+      end
+    end
+
+    # Umpire blunder information
+    @total_balls = 0
+    @total_strikes = 0
+    @blunder_balls = 0
+    @blunder_strikes = 0
+    @game['liveData']['plays']['allPlays'].each do |play|
+      play['playEvents'].each do |event|
+        next unless event['isPitch'] || event['pitchData'].nil?
+
+        if event['details']['isBall']
+          @total_balls += 1
+          if event['pitchData']['zone'] <= 9
+            @blunder_balls += 1
+          end
+        elsif event['details']['isStrike'] and event['details']['call']['description'] == "Called Strike"
+          @total_strikes += 1
+          if event['pitchData']['zone'] > 9
+            @blunder_strikes += 1
+          end
+        end
       end
     end
   end

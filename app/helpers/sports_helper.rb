@@ -47,7 +47,8 @@ module SportsHelper
 
     if %w[Pre-Game Warmup Scheduled].include? status['detailedState']
       # get the start date in eastern time.
-      starts = Time.parse(game['gameDate']).in_time_zone('Eastern Time (US & Canada)')
+      time = game['gameDate'] || game['gameData']['datetime']['dateTime']
+      starts = Time.parse(time).in_time_zone('Eastern Time (US & Canada)')
       return "#{status['detailedState']} (Starts: #{starts.strftime('%-l:%M %p')} ET)"
     end
 
