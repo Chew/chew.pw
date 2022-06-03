@@ -1,4 +1,6 @@
 class SportsController < ApplicationController
+  include SportsHelper
+
   # @return [Nokogiri::HTML::Document]
   def retrieve_nfl_stats(year = 2021, season = "REG")
     data = Rails.cache.fetch('sports-nfl', expires_in: 1.day) do
@@ -202,21 +204,21 @@ class SportsController < ApplicationController
     # Umpire blunder information
     @total_balls = 0
     @total_strikes = 0
-    @blunder_balls = 0
-    @blunder_strikes = 0
-    @game['liveData']['plays']['allPlays'].each do |play|
-      play['playEvents'].each do |event|
+    @blunder_balls = []
+    @blunder_strikes = []
+    @game['liveData']['plays']['allPlays'].each_with_index do |play, play_index|
+      play['playEvents'].each_with_index do |event, event_index|
         next unless event['isPitch'] || event['pitchData'].nil?
 
         if event['details']['isBall']
           @total_balls += 1
-          if event['pitchData']['zone'] <= 9
-            @blunder_balls += 1
+          if in_the_zone? event['pitchData']
+            @blunder_balls.push "play-#{play_index}-pitch-#{event_index}"
           end
         elsif event['details']['isStrike'] and event['details']['call']['description'] == "Called Strike"
           @total_strikes += 1
-          if event['pitchData']['zone'] > 9
-            @blunder_strikes += 1
+          unless in_the_zone? event['pitchData']
+            @blunder_strikes.push "play-#{play_index}-pitch-#{event_index}"
           end
         end
       end

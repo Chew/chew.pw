@@ -58,4 +58,43 @@ module SportsHelper
 
     "#{inning_state} #{inning.ordinalize}"
   end
+
+  # Checks to see if a pitch is in the strike zone.
+  def in_the_zone?(pitch_data)
+    # 1-9 is always in the zone.
+    return true if pitch_data['zone'] <= 9
+
+    # Check if the ball is out/in the zone based on Z-axis.
+    z = pitch_data['coordinates']['pZ'] # ft
+    x = pitch_data['coordinates']['pX'] # ft
+
+    # A baseball's diameter in inches is 1.43; convert it to feet add that to the height
+    diameter = 1.43 # inches
+    diameter_in_feet = diameter / 12.0
+    radius = diameter_in_feet / 2.0
+
+    # Ball is above the zone
+    if (z + radius) >= pitch_data['strikeZoneTop']
+      return false
+    end
+    # Ball is below the zone
+    if (z - radius) <= pitch_data['strikeZoneBottom']
+      return false
+    end
+
+    # Check if the ball is out/in the zone based on X-axis.
+    strike_zone = 17.5/2 # inches
+    strike_zone_in_feet = strike_zone / 12.0
+
+    # Ball is to the left of the zone
+    if (x + radius) >= strike_zone_in_feet
+      return false
+    end
+    # Ball is to the right of the zone
+    if (x - radius) <= strike_zone_in_feet
+      return false
+    end
+
+    true
+  end
 end

@@ -23,7 +23,8 @@
   <li><%= header_link "Scorecard" %></li>
   <li><%= header_link "Plays Table of Contents" %> - Shows a summary of every batter.</li>
   <li><%= header_link "Plays" %> - A breakdown of every batter.</li>
-  <li>Pitching Breakdown - A breakdown of pitches, such as total balls, etc.</li>
+  <li><%= header_link "Pitch Breakdown" %> - A breakdown of pitches, such as total balls, etc.</li>
+  <li><%= header_link "Umpire Blunders" %> - Find all the missed balls/strikes! (BETA)</li>
 </ul>
 
 <h2 id="scorecard">Scorecard</h2>
@@ -167,6 +168,8 @@
                         Plate Position: (<%= event['pitchData']['coordinates']['pX'] %>, <%= event['pitchData']['coordinates']['pZ'] %>)
                         <br>
                         Zone: <%= event['pitchData']['zone'] %>
+                        <br>
+                        In the zone? <%= in_the_zone? event['pitchData'] %>
                       <% end %>
                     <% end %>
                   </div>
@@ -197,7 +200,7 @@
     <hr>
 <% end %>
 
-<h2>Pitch Breakdown</h2>
+<h2 id="pitch-breakdown">Pitch Breakdown</h2>
 
 <h3>Batting Results</h3>
 
@@ -267,26 +270,33 @@
 </table>
 </div>
 
-<h2>Umpire Blunders <span class="badge bg-secondary">Beta</span></h2>
+<h2 id="umpire-blunders">Umpire Blunders <span class="badge bg-secondary">Beta</span></h2>
 
 <p>A breakdown of all balls and called strikes to determine if they were accurate or not.</p>
 
 <p><i>
-  Note:  This is based on MLBStats's "zone" parameter. By assumption and minor testing, it appears to correlate to which
-  zone the ball was thrown in. 1-9 is in the zone, and anything above is out. Using this, balls that were thrown in the
-  zone but were not called are counted as "blunders", and the same is true with strikes out of the zone. Since this
-  behavior is not documented, data here may potentially be inaccurate!
+  Note: As I have to draw the strike-zone myself, these may be inaccurate. If it is, let me know!
 </i></p>
 
 <p>This game's <abbr title="Home Plate">HP</abbr> Umpire: <%= @game['liveData']['boxscore']['officials'].find {|ump| ump['officialType'] == "Home Plate"}['official']['fullName'] %></p>
 
 <h3>Balls</h3>
 
-<p>Of the <%= @total_balls %> balls, <%= @blunder_balls %> were actually in the zone.</p>
+<p>Of the <%= @total_balls %> balls, <%= @blunder_balls.count %> were actually in the zone:</p>
+<ol>
+  <% @blunder_balls.each do |blunder| %>
+    <li><%= link_to blunder.split('-').map{|e| e.capitalize}.join(' '), "##{blunder.split('-')[0..1].join('-')}" %></li>
+  <% end %>
+</ol>
 
 <h3>Strikes</h3>
 
-<p>Of the <%= @total_strikes %> called strikes, <%= @blunder_strikes %> were actually out of the zone.</p>
+<p>Of the <%= @total_strikes %> called strikes, <%= @blunder_strikes.count %> were actually out of the zone:</p>
+<ol>
+  <% @blunder_strikes.each do |blunder| %>
+    <li><%= link_to blunder.split('-').map{|e| e.capitalize}.join(' '), "##{blunder.split('-')[0..1].join('-')}" %></li>
+  <% end %>
+</ol>
 
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports/game_charts" %>
