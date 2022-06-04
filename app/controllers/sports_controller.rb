@@ -1,4 +1,5 @@
 class SportsController < ApplicationController
+  include ActionView::Helpers::UrlHelper
   include SportsHelper
 
   # @return [Nokogiri::HTML::Document]
@@ -210,15 +211,18 @@ class SportsController < ApplicationController
       play['playEvents'].each_with_index do |event, event_index|
         next unless event['isPitch'] || event['pitchData'].nil?
 
+        # Top/Bottom Inning - Pitcher to Batter - Pitch x
+        play_description = "#{play['about']['halfInning'].capitalize} #{play['about']['inning'].ordinalize} - #{play['matchup']['pitcher']['fullName']} to #{play['matchup']['batter']['fullName']} - Pitch #{event_index+1}"
+
         if event['details']['isBall'] and event['details']['call']['description'] != "Hit By Pitch"
           @total_balls += 1
           if in_the_zone? event['pitchData']
-            @blunder_balls.push "play-#{play_index}-pitch-#{event_index+1}"
+            @blunder_balls.push(link_to(play_description, "#play-#{play_index}").html_safe)
           end
         elsif event['details']['isStrike'] and event['details']['call']['description'] == "Called Strike"
           @total_strikes += 1
           unless in_the_zone? event['pitchData']
-            @blunder_strikes.push "play-#{play_index}-pitch-#{event_index+1}"
+            @blunder_strikes.push(link_to(play_description, "#play-#{play_index}").html_safe)
           end
         end
       end

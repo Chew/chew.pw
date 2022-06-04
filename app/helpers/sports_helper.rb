@@ -71,6 +71,8 @@ module SportsHelper
     z = pitch_data['coordinates']['pZ'] # ft
     x = pitch_data['coordinates']['pX'] # ft
 
+    return nil if z.nil? or x.nil?
+
     # A baseball's diameter in inches is 1.43; convert it to feet add that to the height
     radius = 1.437 / 12.0 # convert to feet
 

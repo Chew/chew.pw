@@ -1,7 +1,7 @@
 <% content_for :meta_tags do %>
   <%= meta_tags title: "#{@away['teamName']} @ #{@home['teamName']} on #{@game['gameData']['datetime']['officialDate']} - MLB Game Breakdown",
                 description:
-                  "",
+                  "View the breakdown of the #{@away['teamName']} @ #{@home['teamName']} game on #{@game['gameData']['datetime']['officialDate']}. View each play, pitch breakdown, umpire blunders, and more.",
                 service: "Chew's MLB Stats",
                 keywords: "sports mlb baseball #{@away['name']} #{@home['name']}" %>
 <% end %>
@@ -296,7 +296,7 @@
 <p>Of the <%= @total_balls %> balls, <%= @blunder_balls.count %> were actually in the zone:</p>
 <ol>
   <% @blunder_balls.each do |blunder| %>
-    <li><%= link_to blunder.split('-').map{|e| e.capitalize}.join(' '), "##{blunder.split('-')[0..1].join('-')}" %></li>
+    <li><%= blunder %></li>
   <% end %>
 </ol>
 
@@ -305,7 +305,7 @@
 <p>Of the <%= @total_strikes %> called strikes, <%= @blunder_strikes.count %> were actually out of the zone:</p>
 <ol>
   <% @blunder_strikes.each do |blunder| %>
-    <li><%= link_to blunder.split('-').map{|e| e.capitalize}.join(' '), "##{blunder.split('-')[0..1].join('-')}" %></li>
+    <li><%= blunder %></li>
   <% end %>
 </ol>
 
