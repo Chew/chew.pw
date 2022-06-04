@@ -18,7 +18,7 @@ module SportsHelper
 
   # Total innings for a game
   def total_innings(line_score)
-    line_score['scheduledInnings'] > line_score['currentInning'] ? line_score['scheduledInnings'] : line_score['currentInning']
+    line_score['scheduledInnings'] > (line_score['currentInning'] || 0) ? line_score['scheduledInnings'] : line_score['currentInning']
   end
 
   # Determines the class to use to render the play

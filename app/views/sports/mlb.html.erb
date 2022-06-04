@@ -27,7 +27,11 @@
       <div class="card">
         <div class="card-body">
           <h2 class="card-title"><%= game['teams']['away']['team']['clubName'] %> @ <%= game['teams']['home']['team']['clubName'] %></h2>
-          <p><%= link_to "Game State: #{game_status game}", "/sports/mlb/game/#{game['gamePk']}" %></p>
+          <% if %w[Postponed Scheduled Pre-Game].include? game['status']['detailedState'] %>
+            <p>Game State: <%= game_status game %></p>
+          <% else %>
+            <p><%= link_to "Game State: #{game_status game}", "/sports/mlb/game/#{game['gamePk']}" %></p>
+          <% end %>
           <% if ['Final', 'Completed Early', 'Game Over', 'In Progress'].include? game['status']['detailedState'] %>
             <%= render partial: 'scorecard', locals: { game: game['linescore'], home: game['teams']['home']['team'], away: game['teams']['away']['team'], state: game_status(game) } %>
           <% end %>

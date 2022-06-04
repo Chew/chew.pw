@@ -50,7 +50,7 @@
 <h2 id="<%= "Plays Table of Contents".parameterize %>">Plays Table of Contents</h2>
 
 <ol>
-  <% @game['liveData']['linescore']['currentInning'].times do |i| %>
+  <% (@game['liveData']['linescore']['currentInning'] || 0).times do |i| %>
     <li><%= (i + 1).ordinalize %> Inning</li>
     <ul>
       <li>Top</li>
@@ -83,7 +83,7 @@
 
 <h2 id="plays">Plays</h2>
 
-<% @game['liveData']['linescore']['currentInning'].times do |i| %>
+<% (@game['liveData']['linescore']['currentInning'] || 0).times do |i| %>
   <h3><%= (i + 1).ordinalize %> Inning</h3>
 
   <hr>
@@ -289,7 +289,7 @@
   Note: As I have to draw the strike-zone myself, these may be inaccurate. If it is, let me know!
 </i></p>
 
-<p>This game's <abbr title="Home Plate">HP</abbr> Umpire: <%= @game['liveData']['boxscore']['officials'].find {|ump| ump['officialType'] == "Home Plate"}['official']['fullName'] %></p>
+<p>This game's <abbr title="Home Plate">HP</abbr> Umpire: <%= @umpire %></p>
 
 <h3>Balls</h3>
 

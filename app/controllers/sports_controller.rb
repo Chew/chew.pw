@@ -223,5 +223,9 @@ class SportsController < ApplicationController
         end
       end
     end
+
+    # HP Umpire info
+    umpire = @game['liveData']['boxscore']['officials'].find {|ump| ump['officialType'] == "Home Plate"}
+    umpire.nil? ? @umpire = "Unknown" : @umpire = umpire['official']['fullName']
   end
 end
