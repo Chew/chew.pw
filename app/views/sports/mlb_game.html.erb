@@ -163,7 +163,7 @@
                         at a <%= event['hitData']['launchAngle'] %>&deg; angle, and travelled <%= event['hitData']['totalDistance'] %> feet.
                       <% end %>
 
-                      <% if event['pitchData']['coordinates'] %>
+                      <% unless event['pitchData']['coordinates'].empty? %>
                         <hr>
                         Plate Position: (<%= event['pitchData']['coordinates']['pX'] %>, <%= event['pitchData']['coordinates']['pZ'] %>)
                         <br>

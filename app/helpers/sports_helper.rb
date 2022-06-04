@@ -62,7 +62,10 @@ module SportsHelper
   # Checks to see if a pitch is in the strike zone.
   def in_the_zone?(pitch_data)
     # 1-9 is always in the zone.
-    return true if pitch_data['zone'] <= 9
+    return true if pitch_data['zone'] and pitch_data['zone'] <= 9
+
+    # Sometimes we don't have pitch coordinates.
+    return nil if pitch_data['coordinates'].nil? or pitch_data['coordinates'].empty?
 
     # Check if the ball is out/in the zone based on Z-axis.
     z = pitch_data['coordinates']['pZ'] # ft
