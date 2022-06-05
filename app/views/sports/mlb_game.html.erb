@@ -126,6 +126,12 @@
                 <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>>
                   <a class="<%= play_class event %>" data-bs-toggle="collapse" href="#<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>" role="button" aria-expanded="false" aria-controls="<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>">
                     <%= event['details']['description'] %>
+                    <% if bad_call?(event) %>
+                      <span class="<%= event['details']['isStrike'] ? "ball" : "strike" %>" data-bs-toggle="tooltip"
+                            title="Ball was <%= in_the_zone?(event['pitchData']) == true ? "in" : "out of" %> the zone">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                      </span>
+                    <% end %>
                   </a>
                 </li>
                 <div class="collapse no-list-type" id="<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>">
@@ -169,16 +175,16 @@
                         <br>
                         <div class="d-inline">
                           In the zone?
-                          <% if in_the_zone?(event['pitchData']) and event['details']['call']['description'].start_with? "Ball" %>
+                          <% if in_the_zone?(event['pitchData']) == true and event['details']['call']['description'].start_with? "Ball" %>
                             <span class="strike"><i class="fas fa-xmark"></i> Yes</span>
-                          <% elsif !in_the_zone?(event['pitchData']) and event['details']['call']['description'].start_with? "Ball" %>
+                          <% elsif in_the_zone?(event['pitchData']) != true and event['details']['call']['description'].start_with? "Ball" %>
                             <span class="ball"><i class="fas fa-check"></i> No</span>
-                          <% elsif in_the_zone?(event['pitchData']) and event['details']['call']['description'] == "Called Strike" %>
+                          <% elsif in_the_zone?(event['pitchData']) == true and event['details']['call']['description'] == "Called Strike" %>
                             <span class="ball"><i class="fas fa-check"></i> Yes</span>
-                          <% elsif !in_the_zone?(event['pitchData']) and event['details']['call']['description'] == "Called Strike" %>
-                            <span class="strike"><i class="fas fa-xmark"></i> No</span>
+                          <% elsif in_the_zone?(event['pitchData']) != true and event['details']['call']['description'] == "Called Strike" %>
+                            <span class="strike"><i class="fas fa-xmark"></i> No, <%= in_the_zone?(event['pitchData']) %></span>
                           <% else %>
-                            <%= in_the_zone?(event['pitchData']) ? "Yes" : "No" %>
+                            <%= in_the_zone?(event['pitchData']) == true ? "Yes" : "No" %>
                           <% end %>
                         </div>
                       <% end %>
