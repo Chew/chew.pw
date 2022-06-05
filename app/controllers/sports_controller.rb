@@ -208,11 +208,11 @@ class SportsController < ApplicationController
     @blunder_balls = []
     @blunder_strikes = []
     @game['liveData']['plays']['allPlays'].each_with_index do |play, play_index|
-      play['playEvents'].each_with_index do |event, event_index|
+      play['playEvents'].each do |event|
         next unless event['isPitch'] || event['pitchData'].nil?
 
         # Top/Bottom Inning - Pitcher to Batter - Pitch x
-        play_description = "#{play['about']['halfInning'].capitalize} #{play['about']['inning'].ordinalize} - #{play['matchup']['pitcher']['fullName']} to #{play['matchup']['batter']['fullName']} - Pitch #{event_index+1}"
+        play_description = "#{play['about']['halfInning'].capitalize} #{play['about']['inning'].ordinalize} - #{play['matchup']['pitcher']['fullName']} to #{play['matchup']['batter']['fullName']} - Pitch #{event['pitchNumber']}"
 
         if event['details']['isBall'] and event['details']['call']['description'] != "Hit By Pitch"
           @total_balls += 1

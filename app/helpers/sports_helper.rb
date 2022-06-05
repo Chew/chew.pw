@@ -97,7 +97,7 @@ module SportsHelper
     end
     # Ball is to the left of the zone
     if (x + radius) <= -strike_zone_in_feet
-      return "left by #{(((x + radius) + strike_zone_in_feet) * 12).round(3)} in."
+      return "left by #{-(((x + radius) + strike_zone_in_feet) * 12).round(3)} in."
     end
 
     true #"in"
