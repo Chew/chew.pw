@@ -23,8 +23,10 @@
             <span class="extra-data visually-hidden"><%= inning[team].map { |_, v| v }.join(',') %></span>
           </td>
         <% end %>
-        <% (9 - (game['currentInning'] || 0)).times do |_| %>
-          <td>-</td>
+        <% if !state.include?("Final") and game['currentInning'] < 9 %>
+          <% (9 - (game['currentInning'] || 0)).times do |_| %>
+            <td>-</td>
+          <% end %>
         <% end %>
         <% game['teams'][team].each do |_, amount| %>
           <td><b><%= amount %></b></td>

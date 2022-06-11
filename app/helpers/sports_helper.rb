@@ -41,7 +41,7 @@ module SportsHelper
 
     status = game['gameData'].nil? ? game['status'] : game['gameData']['status']
 
-    if ['Final', 'Completed Early', 'Game Over'].include? status['detailedState']
+    if ['Final', 'Game Over'].include?(status['detailedState']) || status['detailedState'].start_with?('Completed Early')
       return inning == 9 ? "Final" : "Final/#{inning}"
     end
 
@@ -62,29 +62,30 @@ module SportsHelper
   # Checks to see if a pitch is in the strike zone.
   # If it's in the zone, it will return true.
   # If it's not in the zone, it will return how far away it is.
+  # @return [Array<Boolean,String>] an array of if the ball is in the zone, and if not, how far away, or nil if it's irrelevant or incalculable
   def in_the_zone?(pitch_data)
     # 1-9 is always in the zone.
-    return true if pitch_data['zone'] and pitch_data['zone'] <= 9
+    return [true, nil] if pitch_data['zone'] and pitch_data['zone'] <= 9
 
     # Sometimes we don't have pitch coordinates.
-    return nil if pitch_data['coordinates'].nil? or pitch_data['coordinates'].empty?
+    return [nil] if pitch_data['coordinates'].nil? or pitch_data['coordinates'].empty?
 
     # Check if the ball is out/in the zone based on Z-axis.
     z = pitch_data['coordinates']['pZ'] # ft
     x = pitch_data['coordinates']['pX'] # ft
 
-    return nil if z.nil? or x.nil?
+    return [nil] if z.nil? or x.nil?
 
     # A baseball's diameter in inches is 1.43; convert it to feet add that to the height
     radius = 1.437 / 12.0 # convert to feet
 
     # Ball is above the zone
     if (z - radius) >= pitch_data['strikeZoneTop']
-      return "above by #{(((z - radius) - pitch_data['strikeZoneTop']) * 12).round(3)} in."
+      return [false, "above by #{(((z - radius) - pitch_data['strikeZoneTop']) * 12).round(3)} in."]
     end
     # Ball is below the zone
     if (z + radius) <= pitch_data['strikeZoneBottom']
-      return "below by #{(((z + radius) - pitch_data['strikeZoneBottom']) * 12).round(3)} in."
+      return [false, "below by #{(((z + radius) - pitch_data['strikeZoneBottom']) * 12).round(3)} in."]
     end
 
     # Check if the ball is out/in the zone based on X-axis.
@@ -93,14 +94,14 @@ module SportsHelper
 
     # Ball is to the right of the zone
     if (x - radius) >= strike_zone_in_feet
-      return "right by #{(((x - radius) - strike_zone_in_feet) * 12).round(3)} in."
+      return [false, "right by #{(((x - radius) - strike_zone_in_feet) * 12).round(3)} in."]
     end
     # Ball is to the left of the zone
     if (x + radius) <= -strike_zone_in_feet
-      return "left by #{-(((x + radius) + strike_zone_in_feet) * 12).round(3)} in."
+      return [false, "left by #{-(((x + radius) + strike_zone_in_feet) * 12).round(3)} in."]
     end
 
-    true #"in"
+    [true, nil] #"in"
   end
 
   # Returns if this ball was a bad umpire call.
@@ -111,13 +112,17 @@ module SportsHelper
       return nil unless play_event['details']['call']['description'].start_with? 'Ball'
 
       # If a ball is in the zone, it's a bad call.
-      in_the_zone?(play_event['pitchData']) == true
+      zone = in_the_zone?(play_event['pitchData'])
+
+      zone.nil? ? nil : zone[0]
     elsif play_event['details']['isStrike']
       # Only care about called strikes.
       return nil unless play_event['details']['call']['description'] == "Called Strike"
 
       # If a strike is out of the zone, it's a bad call.
-      return in_the_zone?(play_event['pitchData']) != true
+      zone = in_the_zone?(play_event['pitchData'])
+
+      zone.nil? ? nil : !zone[0]
     else
       nil
     end

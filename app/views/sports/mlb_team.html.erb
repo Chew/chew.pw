@@ -41,8 +41,8 @@
         <td><%= link_to game['teams']['away']['team']['name'], "/sports/mlb/team/#{game['teams']['away']['team']['id']}" %></td>
         <td><%= link_to game['teams']['home']['team']['name'], "/sports/mlb/team/#{game['teams']['home']['team']['id']}" %></td>
         <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>
-        <td><%= game['status']['detailedState'] %></td>
         <td><%= mlb_game_state params[:team_id].to_i, game %></td>
+        <td><%= game['status']['detailedState'] %><% if game['status']['reason'] %>: <%= game['status']['reason'] %><% end %></td>
       </tr>
     <% end %>
   <% end %>
