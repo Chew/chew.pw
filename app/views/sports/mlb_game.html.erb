@@ -279,9 +279,9 @@
   <tr>
     <td>Total (Excl. Pick-off Attempts)</td>
     <% @pitchers.each do |pitcher| %>
-      <td><%= @pitches_by_pitcher[pitcher].sum {|e, i| e.include?("Pickoff") ? 0 : i} %></td>
+      <td><%= @pitches_by_pitcher[pitcher].sum {|e, i| (e.include?("Pickoff") || e.include?("Automatic")) ? 0 : i} %></td>
     <% end %>
-    <td><%= @pitches.sum {|e, i| e.include?("Pickoff") ? 0 : i} %></td>
+    <td><%= @pitches.sum {|e, i| e.include?("Pickoff") || e.include?("Automatic") ? 0 : i} %></td>
   </tr>
   </tfoot>
 </table>
