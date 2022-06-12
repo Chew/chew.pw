@@ -96,18 +96,18 @@
     start_index = plays_inning['startIndex']
     end_index = plays_inning['endIndex']
   %>
-  <div class="row">
+  <div class="row row-cols-1 row-cols-md-4 g-4">
     <% last_out = 0 %>
     <% @game['liveData']['plays']['allPlays'][start_index..end_index].each_with_index do |play, ind| %>
       <% if first_bottom == start_index + ind %>
         </div>
         <hr>
         <h4>Bottom</h4>
-        <div class="row">
+        <div class="row row-cols-md-4 g-4">
         <% last_out = 0 %>
       <% end %>
-      <div class="col-md-3" id="play-<%= ind + start_index %>">
-        <div class="card">
+      <div class="col" id="play-<%= ind + start_index %>">
+        <div class="card h-100 <%= "border-primary" if play['about']['isScoringPlay'] %> <%= "border-danger" if play['count']['outs'] - last_out > 0 and not play['about']['isScoringPlay'] %>">
           <!--      <img src="..." class="card-img-top" alt="...">-->
           <div class="card-body">
             <h5 class="card-title"><%= play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat." %></h5>
