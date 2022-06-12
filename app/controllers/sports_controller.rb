@@ -143,7 +143,13 @@ class SportsController < ApplicationController
     @pitches = {}
     @pitches_by_pitcher = {}
     @pitches_by_batter = {}
-    @game['liveData']['plays']['allPlays'].each do |play|
+
+    # Umpire blunder information
+    @total_balls = 0
+    @total_strikes = 0
+    @blunder_balls = []
+    @blunder_strikes = []
+    @game['liveData']['plays']['allPlays'].each_with_index do |play, play_index|
       event = play['result']['event']
       pitcher = play['matchup']['pitcher']['fullName']
       batter = play['matchup']['batter']['fullName']
@@ -166,20 +172,38 @@ class SportsController < ApplicationController
       # Iterate through the play events
       play['playEvents'].each do |play_event|
         # Ignore if it's not a pitch or pick-off
-        next unless play_event['isPitch'] || play_event['type'] == 'pickoff'
+        if play_event['isPitch'] or play_event['type'] == 'pickoff'
+          # Grab the kind
+          kind = play_event['details']['description']
 
-        # Grab the kind
-        kind = play_event['details']['description']
+          # Update the pitching counts
+          @pitches_by_pitcher[pitcher][kind] ||= 0
+          @pitches_by_pitcher[pitcher][kind] += 1
 
-        # Update the pitching counts
-        @pitches_by_pitcher[pitcher][kind] ||= 0
-        @pitches_by_pitcher[pitcher][kind] += 1
+          @pitches_by_batter[batter][kind] ||= 0
+          @pitches_by_batter[batter][kind] += 1
 
-        @pitches_by_batter[batter][kind] ||= 0
-        @pitches_by_batter[batter][kind] += 1
+          @pitches[kind] ||= 0
+          @pitches[kind] += 1
+        end
 
-        @pitches[kind] ||= 0
-        @pitches[kind] += 1
+        # Check for blunders
+        if play_event['isPitch'] and !play_event['pitchData'].nil?
+          # Top/Bottom Inning - Pitcher to Batter - Pitch x
+          play_description = "#{play['about']['halfInning'].capitalize} #{play['about']['inning'].ordinalize} - #{play['matchup']['pitcher']['fullName']} to #{play['matchup']['batter']['fullName']} - Pitch #{play_event['pitchNumber']}"
+
+          if play_event['details']['isBall'] and play_event['details']['call']['description'] != "Hit By Pitch"
+            @total_balls += 1
+            if bad_call? play_event
+              @blunder_balls.push(link_to(play_description, "#play-#{play_index}").html_safe)
+            end
+          elsif play_event['details']['isStrike'] and play_event['details']['call']['description'] == "Called Strike"
+            @total_strikes += 1
+            if bad_call? play_event
+              @blunder_strikes.push(link_to(play_description, "#play-#{play_index}").html_safe)
+            end
+          end
+        end
       end
     end
 
@@ -199,32 +223,6 @@ class SportsController < ApplicationController
           details.push value
         end
         @inning_info[team].push details.join(',')
-      end
-    end
-
-    # Umpire blunder information
-    @total_balls = 0
-    @total_strikes = 0
-    @blunder_balls = []
-    @blunder_strikes = []
-    @game['liveData']['plays']['allPlays'].each_with_index do |play, play_index|
-      play['playEvents'].each do |event|
-        next unless event['isPitch'] || event['pitchData'].nil?
-
-        # Top/Bottom Inning - Pitcher to Batter - Pitch x
-        play_description = "#{play['about']['halfInning'].capitalize} #{play['about']['inning'].ordinalize} - #{play['matchup']['pitcher']['fullName']} to #{play['matchup']['batter']['fullName']} - Pitch #{event['pitchNumber']}"
-
-        if event['details']['isBall'] and event['details']['call']['description'] != "Hit By Pitch"
-          @total_balls += 1
-          if bad_call? event
-            @blunder_balls.push(link_to(play_description, "#play-#{play_index}").html_safe)
-          end
-        elsif event['details']['isStrike'] and event['details']['call']['description'] == "Called Strike"
-          @total_strikes += 1
-          if bad_call? event
-            @blunder_strikes.push(link_to(play_description, "#play-#{play_index}").html_safe)
-          end
-        end
       end
     end
 
