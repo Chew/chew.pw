@@ -61,7 +61,7 @@
             <% next if event['details']['eventType'].nil? %>
             <li><i><%= event['details']['description'] %></i></li>
           <% end %>
-          <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}" %></li>
+          <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
         <% end %>
       </ul>
       <% if @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningHalf'] == "Bottom") %>
@@ -73,7 +73,7 @@
               <% next if event['details']['eventType'].nil? %>
               <li><i><%= event['details']['description'] %></i></li>
             <% end %>
-            <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}" %></li>
+            <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
           <% end %>
         </ul>
       <% end %>
