@@ -196,10 +196,37 @@
             <span class="card-text">Position Changes:</span>
             <ul>
               <% reaches = 0 %>
-              <% play['runners'].sort_by {|e| e['movement']['start'] || "0B"}.each do |runner| %>
+              <% play['runners'].sort_by {|e| e['movement']['start'] || "0B"}.each_with_index do |runner, run_index| %>
                 <% next if runner['movement']['start'] == runner['movement']['end'] %>
                 <% reaches += 1 %>
-                <li><%= runner['details']['runner']['fullName'] %> (<%= runner['movement']['start'] || "none" %> -> <%= runner['movement']['end'] || "out" %>)</li>
+
+                <li>
+                  <a class="<%= movement_class runner %>" data-bs-toggle="collapse" href="#<%= "play-#{ind + start_index}-runner-#{run_index}" %>" role="button" aria-expanded="false" aria-controls="<%= "play-#{ind + start_index}-runner-#{run_index}" %>">
+                    <%= runner['details']['runner']['fullName'] %> (<%= runner['movement']['start'] || "none" %> -> <%= runner['movement']['end'] || "out" %>)
+                  </a>
+                </li>
+                <div class="collapse no-list-type" id="<%= "play-#{ind + start_index}-runner-#{run_index}" %>">
+                  <div class="card card-body">
+                    Details: <%= runner['details']['event'] %>
+                    <br>
+                    <% if runner['movement']['isOut'] %>
+                      Out Number: <%= runner['movement']['outNumber'] %>
+                      <br>
+                    <% end %>
+                    <% if runner['details']['isScoringEvent'] %>
+                      Run Type: <%= runner['details']['earned'] ? "Earned" : "Unearned" %>
+                      <br>
+                    <% end %>
+                    <% unless runner['credits'].empty? %>
+                      Credits:
+                      <ul>
+                        <% runner['credits'].each do |credit| %>
+                        <li><%= @players[credit['player']['id']] %> - <%= credit['position']['name'] %></li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                  </div>
+                </div>
               <% end %>
               <% if reaches.zero? %>
                 <li>No position changes</li>
