@@ -139,7 +139,9 @@ class SportsController < ApplicationController
     # Handle results for the pitching/batting cycle.
     @results = {}
     @results_by_pitcher = {}
+    @results_by_batter = {}
     @pitchers = []
+    @batters = []
     @pitches = {}
     @pitches_by_pitcher = {}
     @pitches_by_batter = {}
@@ -163,11 +165,17 @@ class SportsController < ApplicationController
       @results_by_pitcher[pitcher][event] ||= 0
       @results_by_pitcher[pitcher][event] += 1
 
+      # Get batter stats
+      @results_by_batter[batter] ||= {}
+      @results_by_batter[batter][event] ||= 0
+      @results_by_batter[batter][event] += 1
+
       @pitches_by_pitcher[pitcher] ||= {}
       @pitches_by_batter[batter] ||= {}
 
-      # Add to the pitcher list
+      # Add to the pitcher and batter list
       @pitchers.push pitcher
+      @batters.push batter
 
       # Iterate through the play events
       play['playEvents'].each do |play_event|
@@ -209,6 +217,7 @@ class SportsController < ApplicationController
 
     # Make sure the pitchers are unique
     @pitchers = @pitchers.uniq
+    @batters = @batters.uniq
 
     # Grab the inning info for future graph usage
     @inning_info = {
@@ -229,5 +238,13 @@ class SportsController < ApplicationController
     # HP Umpire info
     umpire = @game['liveData']['boxscore']['officials'].find {|ump| ump['officialType'] == "Home Plate"}
     umpire.nil? ? @umpire = "Unknown" : @umpire = umpire['official']['fullName']
+
+    # Player mapping
+    @players = {}
+    %w[home away].each do |team|
+      @game['liveData']['boxscore']['teams'][team]['players'].each do |_, player_info|
+        @players[player_info['person']['id']] = player_info['person']['fullName']
+      end
+    end
   end
 end
