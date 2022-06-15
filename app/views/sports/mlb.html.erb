@@ -24,9 +24,16 @@
 <div class="row">
   <% @schedule['dates'][0]['games'].each do |game| %>
     <div class="col-md-6">
-      <div class="card">
+      <div class="card <%= "border-success" if game['flags']['perfectGame'] %> <%= "border-success" if game['flags']['noHitter'] and not game['flags']['perfectGame'] %>">
         <div class="card-body">
+          <span class="d-inline">
           <h2 class="card-title"><%= game['teams']['away']['team']['clubName'] %> @ <%= game['teams']['home']['team']['clubName'] %></h2>
+            <% if game['flags']['perfectGame'] %>
+            <p class="text-success bold float-end">Perfect Game (<%= game['flags']['homeTeamPerfectGame'] ? game['teams']['home']['team']['clubName'] : game['teams']['away']['team']['clubName'] %>)!</p>
+          <% elsif game['flags']['noHitter'] %>
+            <p class="text-danger bold float-end">No Hitter (<%= game['flags']['homeTeamNoHitter'] ? game['teams']['home']['team']['clubName'] : game['teams']['away']['team']['clubName'] %>)!</p>
+          <% end %>
+          </span>
           <% if %w[Postponed Scheduled Pre-Game].include? game['status']['detailedState'] %>
             <p>Game State: <%= game_status game %></p>
           <% else %>
