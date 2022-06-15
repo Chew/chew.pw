@@ -33,6 +33,14 @@ module SportsHelper
     ""
   end
 
+  # Find the class to use for player movement
+  def movement_class(event)
+    return "in-play" if event['details']['isScoringEvent']
+    return "strike" if event['movement']['end'].nil?
+
+    "pickoff"
+  end
+
   # Finds the game status for a given game
   def game_status(game)
     line_score = game['liveData'].nil? ? game['linescore'] : game['liveData']['linescore']
