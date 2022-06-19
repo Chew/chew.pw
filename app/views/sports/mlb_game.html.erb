@@ -49,6 +49,9 @@
 
 <h2 id="<%= "Plays Table of Contents".parameterize %>">Plays Table of Contents</h2>
 
+<% if @game['liveData']['plays']['allPlays'].empty? %>
+  <p>There are no recorded plays for this game.</p>
+<% else %>
 <ol>
   <% (@game['liveData']['linescore']['currentInning'] || 0).times do |i| %>
     <li><%= (i + 1).ordinalize %> Inning</li>
@@ -341,6 +344,8 @@
     <li><%= blunder %></li>
   <% end %>
 </ol>
+
+<% end %>
 
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports/game_charts" %>
