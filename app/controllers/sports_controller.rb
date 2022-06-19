@@ -85,7 +85,7 @@ class SportsController < ApplicationController
   end
 
   def mlb_team
-    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&hydrate=team(venue(timezone)),venue(timezone),game(seriesStatus,seriesSummary,seriesStatus,seriesSummary,linescore&season=2022&startDate=2022-04-08&endDate=2022-10-05&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref", 'User-Agent': DUMMY_USER_AGENT))
+    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref&gameTypes=R", 'User-Agent': DUMMY_USER_AGENT))
 
     @win_sum = []
     @team = {
