@@ -9,6 +9,10 @@ module SportsHelper
       return "Unknown"
     end
 
+    if away_score == home_score
+      return "Tie"
+    end
+
     if ['Final', 'Completed Early', 'Game Over'].include? game['status']['detailedState']
       if is_home
         home_score > away_score ? "Win" : "Loss"

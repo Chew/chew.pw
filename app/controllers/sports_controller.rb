@@ -85,7 +85,8 @@ class SportsController < ApplicationController
   end
 
   def mlb_team
-    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref&gameTypes=R", 'User-Agent': DUMMY_USER_AGENT))
+    @team_info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?season=#{params[:season] || Time.now.year}&hydrate=team(roster(person(stats(seasonStats(splits(teamStats))))))", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
+    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=#{@team_info['sport']['id']}&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref", 'User-Agent': DUMMY_USER_AGENT))
 
     @win_sum = []
     @team = {
@@ -103,6 +104,9 @@ class SportsController < ApplicationController
       date['games'].each do |game|
         # We only care about completed games
         next unless ['Final', 'Completed Early', 'Game Over'].include? game['status']['detailedState']
+
+        # We only care about regular season games
+        next unless game['seriesDescription'] == 'Regular Season'
 
         # Get if we're home or away
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'

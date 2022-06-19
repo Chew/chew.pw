@@ -8,15 +8,84 @@
 
 <h1>Info for Team <%= @team['name'] %></h1>
 
-<h2>Above/Below 500</h2>
+<h2>Table of Contents</h2>
+
+<ul>
+  <li><%= header_link "Team Info" %></li>
+  <li><%= header_link "Above/Below 500" %></li>
+  <li>
+    <%= header_link "Schedule" %>
+    <ul>
+      <% @scores['dates'].map {|date| date['games'].map {|game| game['seriesDescription']}}.flatten.uniq.each do |series| %>
+        <% next if series == "All-Star Game" %>
+        <li><%= header_link series %></li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="team-info">Team Info</h2>
+
+<div class="row">
+  <div class="col">
+    <h3>Division</h3>
+    <p><%= @team_info['division']['name'] %></p>
+  </div>
+
+  <div class="col">
+    <h3>League</h3>
+    <p><%= @team_info['league']['name'] %></p>
+  </div>
+
+  <div class="col">
+    <h3>Sport</h3>
+    <p><%= @team_info['sport']['name'] %></p>
+  </div>
+
+  <div class="col">
+    <h3>Venue</h3>
+    <p><%= @team_info['venue']['name'] %>, <%= @team_info['locationName'] %></p>
+  </div>
+
+  <div class="col">
+    <h3>First Year Of Play</h3>
+    <p><%= @team_info['firstYearOfPlay'] %></p>
+  </div>
+</div>
+
+<h2 id=<%= "Above/Below 500".parameterize %>>Above/Below 500</h2>
+<p>See how far a team is above or below 500.</p>
 
 <span id="win_sum" class="visually-hidden"><%= @win_sum.join(' ') %></span>
 <span id="above_500" class="visually-hidden"><%= @above500.join(' ') %></span>
 
 <canvas id="myChart" width="800" height="400"></canvas>
 
-<h2>Schedule</h2>
+<hr>
 
+<h2 id="schedule">Schedule for <%= params[:season] || Time.now.year %></h2>
+
+<!--Year Switcher-->
+<label for="season">Select a Season</label>
+<div class="row">
+  <div class="col-2">
+    <form action="/sports/mlb/team/<%= params[:team_id] %>" method="get" class="input-group">
+      <select name="season" id="season" class="form-control">
+        <% (@team_info['firstYearOfPlay'].to_i .. Time.now.year).reverse_each do |season| %>
+          <option value="<%= season %>"<%= season.to_i == (params[:season].to_i || Time.now.year) ? ' selected' : '' %>><%= season %></option>
+        <% end %>
+      </select>
+      <input type="submit" value="Go" class="btn btn-primary">
+    </form>
+  </div>
+</div>
+
+<br>
+
+<% @scores['dates'].map {|date| date['games'].map {|game| game['seriesDescription']}}.flatten.uniq.each do |series| %>
+  <% next if series == "All-Star Game" %>
+  <hr>
+  <h3 id="<%= series.parameterize %>"><%= series %></h3>
 <div class="table-responsive">
 <table class="table">
   <thead>
@@ -32,6 +101,8 @@
   <tbody>
   <% @scores['dates'].each do |date| %>
     <% date['games'].each do |game| %>
+      <% next unless game['seriesDescription'] == series %>
+      <% next if game['teams']['away']['team']['name'].nil? %>
       <% state = mlb_game_state params[:team_id].to_i, game %>
       <tr class="<% if state == "Win" %> table-success <% elsif state == "Loss" %> table-danger <% else %> table-secondary <% end %> ">
         <% if %w[Postponed Scheduled Pre-Game].include? game['status']['detailedState'] %>
@@ -39,8 +110,8 @@
         <% else %>
           <td><%= link_to date['date'], "/sports/mlb/game/#{game['gamePk']}" %></td>
         <% end %>
-        <td class="<% "bold" if game['teams']['away']['team']['id'] == params['id'] %>>"><%= link_to game['teams']['away']['team']['name'], "/sports/mlb/team/#{game['teams']['away']['team']['id']}" %></td>
-        <td><%= link_to game['teams']['home']['team']['name'], "/sports/mlb/team/#{game['teams']['home']['team']['id']}" %></td>
+        <td><%= link_to game['teams']['away']['team']['name'], "/sports/mlb/team/#{game['teams']['away']['team']['id']}", class: ("bold" if game['teams']['away']['team']['id'] == params['team_id'].to_i) %></td>
+        <td class="<%= "bold" if game['teams']['home']['team']['id'] == params['team_id'].to_i %>"><%= link_to game['teams']['home']['team']['name'], "/sports/mlb/team/#{game['teams']['home']['team']['id']}" %></td>
         <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>
         <td><%= state %></td>
         <td><%= game['status']['detailedState'] %><% if game['status']['reason'] %>: <%= game['status']['reason'] %><% end %></td>
@@ -50,6 +121,7 @@
   </tbody>
 </table>
 </div>
+<% end %>
 
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports/team_win_chart" %>
