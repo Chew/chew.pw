@@ -17,6 +17,8 @@
 <p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] %>
   - <%= @game['liveData']['linescore']['teams']['home']['runs'] %></p>
 
+<p>Venue: <%= @game['gameData']['venue']['name'] %> (<%= @game['gameData']['venue']['location']['city'] %>, <%= @game['gameData']['venue']['location']['state'] %>)</p>
+
 <h2>Table of Contents</h2>
 
 <ul>
