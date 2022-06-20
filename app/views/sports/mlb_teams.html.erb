@@ -1,0 +1,22 @@
+<h1>Baseball Teams</h1>
+
+<p>Shows all teams in MLB's database.</p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <% @sports.each do |sport| %>
+    <li><%= link_to sport, "##{sport.parameterize}" %></li>
+  <% end %>
+</ul>
+
+<% @sports.each do |sport| %>
+  <h2 id="<%= sport.parameterize %>"><%= sport %></h2>
+
+  <ul>
+    <% @teams.each do |team| %>
+      <% next unless team['sport']['name'] == sport %>
+      <li><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></li>
+    <% end %>
+  </ul>
+<% end %>
