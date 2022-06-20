@@ -1,3 +1,10 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "All MLB Teams and Affiliates",
+                description: "View every team MLB has, including: #{@sports.join(', ')}",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball #{@sports.join(', ')}" %>
+<% end %>
+
 <h1>Baseball Teams</h1>
 
 <p>Shows all teams in MLB's database.</p>
@@ -5,13 +12,61 @@
 <h2>Table of Contents</h2>
 
 <ul>
-  <% @sports.each do |sport| %>
-    <li><%= link_to sport, "##{sport.parameterize}" %></li>
-  <% end %>
+  <li><%= header_link "Major League Teams and Affiliates" %></li>
+  <li>
+    Other Teams
+    <ul>
+      <% @sports.each do |sport| %>
+        <% next if @affiliates.include? sport %>
+        <li><%= link_to sport, "##{sport.parameterize}" %></li>
+      <% end %>
+    </ul>
+  </li>
 </ul>
 
+<h2 id="<%= "Major League Teams and Affiliates".parameterize %>">Major League Teams and Affiliates</h2>
+
+<p>
+  Shows every MLB team and their affiliates: <%= @affiliates[1..-1].join(", ") %>.
+  Use the column dropdown to show specific teams.
+  Teams are sorted alphabetically by major league team, and are not biased towards any particular team or opinion.
+</p>
+
+<div class="table-responsive">
+  <table class="table" data-toggle="table" data-search="true" data-show-columns-toggle-all="true" data-show-columns="true">
+    <thead>
+      <tr>
+        <% @affiliates.each do |sport| %>
+          <th <% if sport == "Rookie" %> data-visible="false" <% end %>><%= sport == "Major League Baseball" ? "Majors" : sport %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+    <% @teams.find_all { |e| e['sport']['id'] == 1 }.each do |team| %>
+      <tr>
+        <td><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></td>
+        <% @affiliates.each do |sport| %>
+          <% next if sport == "Major League Baseball" %>
+          <% teams = @teams.find_all { |e| e['sport']['name'] == sport and e['parentOrgName'] == team['name'] } %>
+          <td>
+            <% teams.each do |affiliate| %>
+              <%= link_to affiliate['name'], "/sports/mlb/team/#{affiliate['id']}" %><br>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<hr>
+
+<h2>Other Teams</h2>
+
 <% @sports.each do |sport| %>
-  <h2 id="<%= sport.parameterize %>"><%= sport %></h2>
+  <% next if @affiliates.include? sport %>
+
+  <h3 id="<%= sport.parameterize %>"><%= sport %></h3>
 
   <ul>
     <% @teams.each do |team| %>

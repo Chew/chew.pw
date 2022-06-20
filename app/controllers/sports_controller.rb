@@ -255,21 +255,23 @@ class SportsController < ApplicationController
   def mlb_teams
     @teams = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams?season=#{params[:season] || Time.now.year}", 'User-Agent': DUMMY_USER_AGENT))['teams']
 
-    @sports = @teams.map {|e| e['sport']['name']}.uniq.sort_by do |item|
-      # Sort Order: Major League Baseball, Triple-A, Double-A, Single-A, College Baseball, then alphabetically
-      case item
-      when 'Major League Baseball'
-        0
-      when 'Triple-A'
-        1
-      when 'Double-A'
-        2
-      when 'Single-A'
-        3
-      when 'College Baseball'
-        4
+    # Sort the teams by either the parentOrgName (if it exists) or the name
+    @teams.sort_by! do |team|
+      if team['parentOrgName'].nil?
+        team['name']
       else
-        5
+        team['parentOrgName']
+      end
+    end
+
+    # Major League Affiliate teams. Minor teams + rookie.
+    @affiliates = ["Major League Baseball", "Triple-A", "Double-A", "High-A", "Single-A", "Rookie"]
+
+    @sports = @teams.map {|e| e['sport']['name']}.uniq.sort_by do |item|
+      if @affiliates.include? item
+        @affiliates.index item
+      else
+        item[0].ord
       end
     end
   end
