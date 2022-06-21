@@ -14,8 +14,8 @@
 
 <p>Game Status: <%= game_status @game %></p>
 
-<p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] %>
-  - <%= @game['liveData']['linescore']['teams']['home']['runs'] %></p>
+<p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] || 0 %>
+  - <%= @game['liveData']['linescore']['teams']['home']['runs'] || 0 %></p>
 
 <p>Venue: <%= @game['gameData']['venue']['name'] %> (<%= @game['gameData']['venue']['location']['city'] %>, <%= @game['gameData']['venue']['location']['state'] %>)</p>
 
