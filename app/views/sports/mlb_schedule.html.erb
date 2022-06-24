@@ -1,3 +1,10 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "MLB Game Schedule for #{@date.strftime('%A, %B %d, %Y')}",
+                description: "View all the games played in Major League Baseball on #{@date.strftime('%A, %B %d, %Y')}",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball" %>
+<% end %>
+
 <h1>Game Schedule</h1>
 
 <p>Viewing schedule for: <%= Time.parse(params[:date] || Time.now.to_s).strftime("%A %B %d, %Y") %></p>
