@@ -6,8 +6,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <%= navbar_item name: "NFL", href: "/sports/nfl", fa_icon: "fas fa-football" %>
-        <%= navbar_item name: "MLB", href: "/sports/mlb", fa_icon: "fas fa-baseball" %>
+        <%#= navbar_item name: "NFL", href: "/sports/nfl", fa_icon: "fas fa-football" %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="teamsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-baseball"></i> MLB
+          </a>
+          <div class="dropdown-menu" aria-labelledby="teamsDropdown">
+            <%= dropdown_item name: "Home", href: "/sports/mlb", fa_icon: "fas fa-home" %>
+            <%= dropdown_item name: "Teams", href: "/sports/mlb/teams", fa_icon: "fa-solid fa-people-group" %>
+          </div>
+        </li>
       </ul>
 
       <%= render "/layouts/navs/chew" %>
