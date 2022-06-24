@@ -3,7 +3,7 @@
                 description:
                   "View the breakdown of the #{@away['teamName']} @ #{@home['teamName']} game on #{@game['gameData']['datetime']['officialDate']}. View each play, pitch breakdown, umpire blunders, and more.",
                 service: "Chew's MLB Stats",
-                keywords: "sports mlb baseball #{@away['name']} #{@home['name']}" %>
+                keywords: "sports mlb baseball #{@away['name']} #{@home['name']} #{@game['gameData']['datetime']['officialDate']}" %>
 <% end %>
 
 <h1>Game Information</h1>
@@ -22,12 +22,25 @@
 <h2>Table of Contents</h2>
 
 <ul>
-  <li><%= header_link "Scorecard" %></li>
+  <li><%= header_link "Notable Events" %> - Notable events such as no-hitters, immaculate innings, batting the cycle, etc.</li>
+  <li><%= header_link "Scorecard" %> - The scorecard of the game. Can switch to see hits/errors/left on base per inning!</li>
   <li><%= header_link "Plays Table of Contents" %> - Shows a summary of every batter.</li>
-  <li><%= header_link "Plays" %> - A breakdown of every batter.</li>
+  <li><%= header_link "Plays" %> - A breakdown of every plate appearance.</li>
   <li><%= header_link "Pitch Breakdown" %> - A breakdown of pitches, such as total balls, etc.</li>
   <li><%= header_link "Umpire Blunders" %> - Find all the missed balls/strikes! (BETA)</li>
 </ul>
+
+<h2 id="notable-events">Notable Events</h2>
+
+<% if @notable.empty? %>
+  <p>No notable events found.</p>
+<% else %>
+  <ul>
+    <% @notable.each do |notable| %>
+      <li><%= notable %></li>
+    <% end %>
+  </ul>
+<% end %>
 
 <h2 id="scorecard">Scorecard</h2>
 

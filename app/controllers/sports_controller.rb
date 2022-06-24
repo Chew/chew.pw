@@ -144,6 +144,7 @@ class SportsController < ApplicationController
     @results = {}
     @results_by_pitcher = {}
     @results_by_batter = {}
+    @results_by_inning = {}
     @pitchers = []
     @batters = []
     @pitches = {}
@@ -159,6 +160,7 @@ class SportsController < ApplicationController
       event = play['result']['event']
       pitcher = play['matchup']['pitcher']['fullName']
       batter = play['matchup']['batter']['fullName']
+      inning = "#{play['about']['halfInning'].capitalize} of the #{play['about']['inning'].ordinalize}"
 
       # Add or set to 1 if it's a new pitch
       @results[event] ||= 0
@@ -173,6 +175,11 @@ class SportsController < ApplicationController
       @results_by_batter[batter] ||= {}
       @results_by_batter[batter][event] ||= 0
       @results_by_batter[batter][event] += 1
+
+      # Get inning stats
+      @results_by_inning[inning] ||= {}
+      @results_by_inning[inning][event] ||= 0
+      @results_by_inning[inning][event] += 1
 
       @pitches_by_pitcher[pitcher] ||= {}
       @pitches_by_batter[batter] ||= {}
@@ -248,6 +255,39 @@ class SportsController < ApplicationController
     %w[home away].each do |team|
       @game['liveData']['boxscore']['teams'][team]['players'].each do |_, player_info|
         @players[player_info['person']['id']] = player_info['person']['fullName']
+      end
+    end
+
+    # Notable Events
+    @notable = []
+
+    # Check for no hitters or perfect game
+    flags = @game['gameData']['flags']
+    @notable.push("Perfect Game (#{flags['awayTeamPerfectGame'] ? @away['clubName'] : @home['clubName']})") if flags['perfectGame']
+    @notable.push("No Hitter (#{flags['awayTeamNoHitter'] ? @away['clubName'] : @home['clubName']})") if flags['noHitter']
+
+    # Check for batting the cycle
+    @results_by_batter.each do |player, results|
+      if results['Single'] and results['Double'] and results['Triple'] and results['Home Run']
+        @notable.push("#{player} batted the cycle")
+      end
+    end
+
+    # Check for immaculate innings (innings where there were 3 strikeouts, and nothing else)
+    @results_by_inning.each do |inning, results|
+      if results['Strikeout'] and results['Strikeout'] == 3 and results.values.sum == 3
+        # Check to make sure there were only 9 pitches in the inning
+        play_index = @game['liveData']['plays']['playsByInning'][inning.split(' ').last.to_i - 1][inning.split(' ').first.downcase]
+        range = (play_index.first .. play_index.last)
+
+        total_plays = 0
+
+        @game['liveData']['plays']['allPlays'][range].each do |play|
+          # Check pitchIndex to make sure it's 3 in length
+          total_plays += play['pitchIndex'].length
+        end
+
+        @notable.push "#{inning} was an immaculate inning" if total_plays == 9
       end
     end
   end
