@@ -315,4 +315,10 @@ class SportsController < ApplicationController
       end
     end
   end
+
+  def mlb_schedule
+    date = params[:date] || Time.now.strftime("%m/%d/%Y")
+
+    @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&sportId=1&date=#{date}&sortBy=gameDate&hydrate=game,linescore(runners),flags,team,review,alerts,homeRuns"))
+  end
 end

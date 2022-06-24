@@ -20,30 +20,12 @@
 
 <h2 id="schedule">Today's Schedule</h2>
 <p>Games today: <%= @schedule['totalGames'] %> (<%= @schedule['totalGamesInProgress'] %> in-progress)</p>
+<p><%= link_to "Schedule Time-Machine", "/sports/mlb/schedule" %></p>
 
 <div class="row">
   <% @schedule['dates'][0]['games'].each do |game| %>
     <div class="col-md-6">
-      <div class="card <%= "border-success" if game['flags']['perfectGame'] %> <%= "border-success" if game['flags']['noHitter'] and not game['flags']['perfectGame'] %>">
-        <div class="card-body">
-          <span class="d-inline">
-          <h2 class="card-title"><%= game['teams']['away']['team']['clubName'] %> @ <%= game['teams']['home']['team']['clubName'] %></h2>
-            <% if game['flags']['perfectGame'] %>
-            <p class="text-success bold float-end">Perfect Game (<%= game['flags']['homeTeamPerfectGame'] ? game['teams']['home']['team']['clubName'] : game['teams']['away']['team']['clubName'] %>)!</p>
-          <% elsif game['flags']['noHitter'] %>
-            <p class="text-danger bold float-end">No Hitter (<%= game['flags']['homeTeamNoHitter'] ? game['teams']['home']['team']['clubName'] : game['teams']['away']['team']['clubName'] %>)!</p>
-          <% end %>
-          </span>
-          <% if %w[Postponed Scheduled Pre-Game].include? game['status']['detailedState'] %>
-            <p>Game State: <%= game_status game %></p>
-          <% else %>
-            <p><%= link_to "Game State: #{game_status game}", "/sports/mlb/game/#{game['gamePk']}" %></p>
-          <% end %>
-          <% if %w[Top Bottom Final End Middle].include?(game_status(game).split(' ').first || "Unknown") || ((game['linescore'] || {"currentInning": 0})['currentInning'] || 0) > 1 %>
-            <%= render partial: 'scorecard', locals: { game: game['linescore'], home: game['teams']['home']['team'], away: game['teams']['away']['team'], state: game_status(game) } %>
-          <% end %>
-        </div>
-      </div>
+      <%= render partial: 'game', locals: { game: game } %>
     </div>
   <% end %>
 </div>

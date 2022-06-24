@@ -1,0 +1,26 @@
+<h1>Game Schedule</h1>
+
+<p>Viewing schedule for: <%= Time.parse(params[:date] || Time.now.to_s).strftime("%A %B %d, %Y") %></p>
+
+<!-- Date picker (can go back to 1/1/1901 all the way up to today) -->
+
+<form class="row row-cols-lg-auto g-3 align-items-center" action="/sports/mlb/schedule" method="get">
+  <div class="col-12">
+    <label for="date">Pick a Date</label>
+    <input id="date" class="form-control" type="date" name="date" value="<%= (Time.parse(params[:date] || Time.now.to_s)).strftime("%Y-%m-%d") %>">
+  </div>
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">View Schedule</button>
+  </div>
+</form>
+
+<hr>
+
+<div class="row">
+  <% @schedule['dates'][0]['games'].each do |game| %>
+    <div class="col-md-6">
+      <%= render partial: 'game', locals: { game: game } %>
+    </div>
+  <% end %>
+</div>
