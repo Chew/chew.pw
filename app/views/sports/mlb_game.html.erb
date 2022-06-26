@@ -1,7 +1,7 @@
 <% content_for :meta_tags do %>
-  <%= meta_tags title: "#{@away['teamName']} @ #{@home['teamName']} on #{@game['gameData']['datetime']['officialDate']} - MLB Game Breakdown",
+  <%= meta_tags title: "#{@away['teamName']} @ #{@home['teamName']} on #{friendly_date(@game['gameData']['datetime']['officialDate'])} - MLB Game Breakdown",
                 description:
-                  "#{@summary}. View the breakdown of the #{@away['teamName']} @ #{@home['teamName']} game on #{@game['gameData']['datetime']['officialDate']}. View each play, pitch breakdown, umpire blunders, and more.",
+                  "#{@summary} View the breakdown of the #{@away['teamName']} @ #{@home['teamName']} game on #{@game['gameData']['datetime']['officialDate']}. View each play, pitch breakdown, umpire blunders, and more.",
                 service: "Chew's MLB Stats",
                 keywords: "sports mlb baseball #{@away['name']} #{@home['name']} #{@game['gameData']['datetime']['officialDate']}" %>
 <% end %>
