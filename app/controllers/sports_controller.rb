@@ -85,18 +85,25 @@ class SportsController < ApplicationController
   end
 
   def mlb_team
-    @team_info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?season=#{params[:season] || Time.now.year}&hydrate=team(roster(person(stats(seasonStats(splits(teamStats))))))", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
-    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=#{@team_info['sport']['id']}&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref", 'User-Agent': DUMMY_USER_AGENT))
+    begin
+      @team_info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?season=#{params[:season] || Time.now.year}&hydrate=team(roster(person(stats(seasonStats(splits(teamStats))))))", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
+    rescue RestClient::NotFound
+      # Render the sports layout with a "team not found" message
+      return render html: "#{tag.h1("Team Not Found")}#{tag.p("Could not find the team you specified.")}#{link_to("View All Teams", "/sports/mlb/teams")}".html_safe,
+             layout: 'application', status: 404
+    end
+
+    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=#{@team_info['sport']['id']}&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref&hydrate=flags", 'User-Agent': DUMMY_USER_AGENT))
 
     @win_sum = []
     @team = {
-      "name" => "",
+      "name" => @team_info['name'],
       "wins" => 0,
       "losses" => 0,
     }
     @above500 = []
     current_wins = 0
-    total_games = 0
+    @total_games = 0
 
     # Iterate through all the days
     @scores['dates'].each do |date|
@@ -111,9 +118,6 @@ class SportsController < ApplicationController
         # Get if we're home or away
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
 
-        # Set the team name
-        @team['name'] = game['teams'][team]['team']['name']
-
         # Update the current wins and total games
         if game['teams'][team]['isWinner']
           current_wins += 1
@@ -122,11 +126,11 @@ class SportsController < ApplicationController
           current_wins -= 1
           @team['losses'] += 1
         end
-        total_games += 1
+        @total_games += 1
 
         # Store the win summary
         @win_sum.push current_wins
-        @above500.push (current_wins / total_games.to_f).round(3)
+        @above500.push (current_wins / @total_games.to_f).round(3)
       end
     end
 
@@ -135,6 +139,12 @@ class SportsController < ApplicationController
 
   def mlb_game
     @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))
+
+    # Game does not exist
+    if @game['gamePk'] == 0
+      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified.")}#{link_to("View Today's Schedule", "/sports/mlb/schedule")}".html_safe,
+                  layout: 'application', status: 404
+    end
 
     # Teams
     @away = @game['gameData']['teams']['away']

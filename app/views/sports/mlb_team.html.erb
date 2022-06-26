@@ -51,10 +51,15 @@
 <h2 id=<%= "Above/Below 500".parameterize %>>Above/Below 500</h2>
 <p>See how far a team is above or below 500.</p>
 
+<% if @total_games > 0 %>
 <span id="win_sum" class="visually-hidden"><%= @win_sum.join(' ') %></span>
 <span id="above_500" class="visually-hidden"><%= @above500.join(' ') %></span>
 
 <canvas id="myChart" width="800" height="400"></canvas>
+
+<% else %>
+  <p>There are currently no games, so no chart will be rendered.</p>
+<% end %>
 
 <hr>
 
