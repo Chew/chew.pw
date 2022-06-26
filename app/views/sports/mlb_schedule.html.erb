@@ -1,13 +1,13 @@
 <% content_for :meta_tags do %>
-  <%= meta_tags title: "MLB Game Schedule for #{Time.parse(params[:date] || Time.now.to_s).strftime('%A, %B %d, %Y')}",
-                description: "View all the games played in Major League Baseball on #{Time.parse(params[:date] || Time.now.to_s).strftime('%A, %B %d, %Y')}",
+  <%= meta_tags title: "MLB Game Schedule for #{friendly_date(params[:date] || Time.now.to_s)}",
+                description: "View all the games played in Major League Baseball on #{friendly_date(params[:date] || Time.now.to_s)}",
                 service: "Chew's MLB Stats",
                 keywords: "sports mlb baseball" %>
 <% end %>
 
 <h1>Game Schedule</h1>
 
-<p>Viewing schedule for: <%= Time.parse(params[:date] || Time.now.to_s).strftime("%A %B %d, %Y") %></p>
+<p>Viewing schedule for: <%= friendly_date(params[:date] || Time.now.to_s) %></p>
 
 <!-- Date picker (can go back to 1/1/1901 all the way up to today) -->
 
@@ -24,6 +24,9 @@
 
 <hr>
 
+<% if @schedule['dates'].empty? %>
+  <p>There are no games scheduled for this date.</p>
+<% else %>
 <div class="row">
   <% @schedule['dates'][0]['games'].each do |game| %>
     <div class="col-md-6">
@@ -31,3 +34,4 @@
     </div>
   <% end %>
 </div>
+<% end %>

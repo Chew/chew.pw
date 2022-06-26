@@ -1,7 +1,7 @@
 <% content_for :meta_tags do %>
   <%= meta_tags title: "#{@away['teamName']} @ #{@home['teamName']} on #{@game['gameData']['datetime']['officialDate']} - MLB Game Breakdown",
                 description:
-                  "View the breakdown of the #{@away['teamName']} @ #{@home['teamName']} game on #{@game['gameData']['datetime']['officialDate']}. View each play, pitch breakdown, umpire blunders, and more.",
+                  "#{@summary}. View the breakdown of the #{@away['teamName']} @ #{@home['teamName']} game on #{@game['gameData']['datetime']['officialDate']}. View each play, pitch breakdown, umpire blunders, and more.",
                 service: "Chew's MLB Stats",
                 keywords: "sports mlb baseball #{@away['name']} #{@home['name']} #{@game['gameData']['datetime']['officialDate']}" %>
 <% end %>
@@ -10,7 +10,8 @@
 
 <p><%= link_to @away['name'], "/sports/mlb/team/#{@away['id']}" %>
   @ <%= link_to @home['name'], "/sports/mlb/team/#{@home['id']}" %>
-  on <%= @game['gameData']['datetime']['officialDate'] %></p>
+  on <%= link_to friendly_date(@game['gameData']['datetime']['officialDate']), "/sports/mlb/schedule?date=#{@game['gameData']['datetime']['officialDate']}" %>
+</p>
 
 <p>Game Status: <%= game_status @game %></p>
 
@@ -18,6 +19,8 @@
   - <%= @game['liveData']['linescore']['teams']['home']['runs'] || 0 %></p>
 
 <p>Venue: <%= @game['gameData']['venue']['name'] %> (<%= @game['gameData']['venue']['location']['city'] %>, <%= @game['gameData']['venue']['location']['state'] %>)</p>
+
+<p>Summary: <%= @summary %></p>
 
 <h2>Table of Contents</h2>
 

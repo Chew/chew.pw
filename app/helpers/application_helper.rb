@@ -15,8 +15,8 @@ module ApplicationHelper
   def meta_tags(title: '', description: '', service: '', color: '#F078DD', keywords: 'chew')
     [
       tag.title("#{title} - #{service}"),
-      tag('meta', property: 'og:title', content: "#{title} - #{service}"),
-      tag('meta', property: 'twitter:title', content: "#{title} - #{service}"),
+      tag('meta', property: 'og:title', content: "#{title}"),
+      tag('meta', property: 'twitter:title', content: "#{title}"),
       tag('meta', property: 'description', content: description.to_s),
       tag('meta', name: 'description', content: description.to_s),
       tag('meta', property: 'og:description', content: description.to_s),
@@ -73,5 +73,14 @@ module ApplicationHelper
   # @return [String] the link
   def header_link(name)
     link_to name, "##{name.parameterize}"
+  end
+
+  # Converts a timestamp into a friendly date:
+  # DayOfWeek, Month Day (with ordinal), Year
+  # @param date [String] the timestamp
+  # @return [String] the date
+  def friendly_date(date)
+    time = Time.parse(date)
+    time.strftime("%A, %B #{time.day.ordinalize}, %Y")
   end
 end

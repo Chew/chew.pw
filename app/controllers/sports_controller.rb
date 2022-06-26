@@ -290,6 +290,32 @@ class SportsController < ApplicationController
         @notable.push "#{inning} was an immaculate inning" if total_plays == 9
       end
     end
+
+    away_score = @game['liveData']['linescore']['teams']['away']['runs']
+    home_score = @game['liveData']['linescore']['teams']['home']['runs']
+
+    winning = away_score > home_score ? @away['clubName'] : @home['clubName']
+    losing = away_score > home_score ? @home['clubName'] : @away['clubName']
+
+    @score = away_score > home_score ? "#{away_score} - #{home_score}" : "#{home_score} - #{away_score}"
+
+    # Summary for meta description.
+    # If the game is Final, use the final summary: "The winning team beat the losing time winning score to losing score."
+    # If the game is in-progress, use the in-progress summary: "The winning team is beating the losing team winning score to losing score at the inning state inning ordinal."
+    # If the game is scheduled, show when the game is scheduled: "The game is scheduled for date."
+    if @game['gameData']['status']['abstractGameState'] == "Final"
+      @summary = "The #{winning} beat the #{losing}, #{@score}."
+    elsif @game['gameData']['status']['abstractGameState'] == "Live"
+      # If the game is tied
+      if away_score == home_score
+        @summary = "The #{losing} are tied with the #{winning} at #{@score}."
+      else
+        linescore = @game['liveData']['linescore']
+        @summary = "The #{winning} are leading the #{losing} #{@score} at the #{linescore['inningState']} of the #{linescore['currentInningOrdinal']}."
+      end
+    elsif @game['gameData']['status']['abstractGameState'] == "Preview"
+      @summary = "The game is scheduled for #{Time.parse(@game['gameData']['datetime']['officialDate']).strftime("%A %B %d, %Y %Z")}."
+    end
   end
 
   def mlb_teams
