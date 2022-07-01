@@ -65,7 +65,7 @@ module SportsHelper
       # get the start date in eastern time.
       time = game['gameDate'] || game['gameData']['datetime']['dateTime']
       starts = Time.parse(time).in_time_zone('Eastern Time (US & Canada)')
-      return "#{status['detailedState']} (Starts: #{starts.strftime('%-l:%M %p')} ET)"
+      return "#{status['detailedState']} (Starts: #{starts.strftime('%-l:%M %p %Z')})"
     end
 
     return status['detailedState'] if line_score.nil?

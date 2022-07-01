@@ -301,8 +301,8 @@ class SportsController < ApplicationController
       end
     end
 
-    away_score = @game['liveData']['linescore']['teams']['away']['runs']
-    home_score = @game['liveData']['linescore']['teams']['home']['runs']
+    away_score = @game['liveData']['linescore']['teams']['away']['runs'] || 0
+    home_score = @game['liveData']['linescore']['teams']['home']['runs'] || 0
 
     winning = away_score > home_score ? @away['clubName'] : @home['clubName']
     losing = away_score > home_score ? @home['clubName'] : @away['clubName']
@@ -324,7 +324,7 @@ class SportsController < ApplicationController
         @summary = "The #{winning} are leading the #{losing} #{@score} at the #{linescore['inningState']} of the #{linescore['currentInningOrdinal']}."
       end
     elsif @game['gameData']['status']['abstractGameState'] == "Preview"
-      @summary = "The game is scheduled for #{Time.parse(@game['gameData']['datetime']['officialDate']).strftime("%A %B %d, %Y %Z")}."
+      @summary = "The game is scheduled for #{Time.parse(@game['gameData']['datetime']['dateTime']).in_time_zone("Eastern Time (US & Canada)").strftime("%A, %B %d, %Y at %r %Z")}."
     end
   end
 
