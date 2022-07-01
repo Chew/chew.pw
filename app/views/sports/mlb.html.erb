@@ -52,7 +52,7 @@
         <tr <% if homer['result']['rbi'] == 4 %> class="table-warning" <% end %>>
           <td><%= homer['matchup']['batter']['fullName'] %></td>
           <td><%= game['teams'][homer['about']['halfInning'] == "top" ? "away" : "home"]['team']['teamName'] %></td>
-          <% info = homer['result']['description'].split('  ').first.split(/( homers \(| hits a grand slam \()/).map { |e| (e.include?(")") ? e.split(') ') : e) }.flatten.map {|e| (e.include?("on a") ? e.gsub("on a ", "") : e )}.flatten %>
+          <% info = homer['result']['description'].gsub("#{homer['matchup']['batter']['fullName']}  ", "#{homer['matchup']['batter']['fullName']} ").split('  ').first.split(/( homers \(| hits a grand slam \()/).map { |e| (e.include?(")") ? e.split(') ') : e) }.flatten.map {|e| (e.include?("on a") ? e.gsub("on a ", "") : e )}.flatten %>
           <td><%= info[2] %></td>
           <td><%= homer['result']['rbi'] %></td>
           <td><%= ((homer['result']['rbi'] == 4 ? "Grand slam " : "") + info[3]).capitalize %></td>
