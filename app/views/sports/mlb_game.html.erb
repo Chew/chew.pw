@@ -80,7 +80,7 @@
         <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
           <% play['playEvents'].each do |event| %>
             <% next if event['details']['eventType'].nil? %>
-            <li><i><%= event['details']['description'] %> <%= event['details']['description'].include?("Delay") ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime'])))})" : "" %></i></li>
+            <li><i><%= event['details']['description'] %> <%= (event['details']['description'].include?("Delay") and !event['startTime'].nil? and !event['endTime'].nil?) ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime'])))})" : "" %></i></li>
           <% end %>
           <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
         <% end %>
@@ -92,7 +92,7 @@
           <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
             <% play['playEvents'].each do |event| %>
               <% next if event['details']['eventType'].nil? %>
-              <li><i><%= event['details']['description'] %> <%= event['details']['description'].include?("Delay") ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime'])))})" : "" %></i></li>
+              <li><i><%= event['details']['description'] %> <%= (event['details']['description'].include?("Delay") and !event['startTime'].nil? and !event['endTime'].nil?) ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime'])))})" : "" %></i></li>
             <% end %>
             <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
           <% end %>
