@@ -154,6 +154,7 @@ class SportsController < ApplicationController
     @results = {}
     @results_by_pitcher = {}
     @results_by_batter = {}
+    @plays_by_batter = {}
     @results_by_inning = {}
     @pitchers = []
     @batters = []

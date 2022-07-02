@@ -50,6 +50,8 @@ module SportsHelper
   end
 
   def batting_class(result)
+    result ||= "N/A"
+
     return "in-play #{result == "Home Run" ? "bold" : ""}" if ["Home Run", "Triple", "Double", "Single"].include? result
     return "strike" if result.downcase.include?("out") || result.include?("DP") || result.include?("Double Play")
     return "ball" if ["Hit By Pitch", "Walk", "Intent Walk"].include? result
