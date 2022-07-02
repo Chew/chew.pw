@@ -389,21 +389,16 @@
 
             <span class="card-text">Results:</span>
             <ul>
-              <% @results_by_batter[batter].sort_by {|e, _| order.include?(e) ? order.index(e) : (e || " ")[0].ord }.each do |result, amount| %>
-                <% result ||= "Pending" %>
+              <% @plays_by_batter[batter].each do |play| %>
+                <% result = play['result']['event'] || "Pending" %>
                 <li>
-                  <a class="<%= batting_class result %>" data-bs-toggle="collapse" href="#<%= "batter-#{player['nameSlug']}-type-#{result.parameterize}" %>" role="button" aria-expanded="false" aria-controls="<%= "batter-#{player['nameSlug']}-type-#{result.parameterize}" %>">
-                    <%= result %> - <%= amount %>
+                  <a class="<%= batting_class result %>" data-bs-toggle="collapse" href="#<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>" role="button" aria-expanded="false" aria-controls="<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>">
+                    <%= play['about']['halfInning'].capitalize %> <%= play['about']['inning'].ordinalize %> - <%= result %>
                   </a>
                 </li>
-                <div class="collapse no-list-type" id="<%= "batter-#{player['nameSlug']}-type-#{result.parameterize}" %>">
+                <div class="collapse no-list-type" id="<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>">
                   <div class="card card-body">
-                    <ul>
-                      <% @plays_by_batter[batter].each do |play| %>
-                        <% next unless play['result']['event'] == result %>
-                        <li><%= link_to "#{play['about']['halfInning'].capitalize} #{play['about']['inning'].ordinalize} - #{play['result']['description']}", "#play-#{play['about']['atBatIndex']}" %></li>
-                      <% end %>
-                    </ul>
+                    <%= link_to "#{play['result']['description']}", "#play-#{play['about']['atBatIndex']}" %>
                   </div>
                 </div>
               <% end %>
