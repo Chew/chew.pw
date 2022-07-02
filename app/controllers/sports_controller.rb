@@ -138,7 +138,17 @@ class SportsController < ApplicationController
   end
 
   def mlb_game
-    @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))
+    begin
+      @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))
+    rescue RestClient::NotFound
+      # Render the sports layout with a "game not found" message
+      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified.")}#{link_to("View All Games", "/sports/mlb/schedule")}".html_safe,
+                    layout: 'application', status: 404
+    rescue RestClient::InternalServerError
+      # Render the sports layout with a "could not load game" message
+      return render html: "#{tag.h1("Could Not Load Game")}#{tag.p("There was an error loading the specified game on MLB's end.")}#{link_to("View All Games", "/sports/mlb/schedule")}".html_safe,
+                    layout: 'application', status: 200
+    end
 
     # Game does not exist
     if @game['gamePk'] == 0
