@@ -186,6 +186,10 @@ class SportsController < ApplicationController
       @results_by_batter[batter][event] ||= 0
       @results_by_batter[batter][event] += 1
 
+      # Get batter plays
+      @plays_by_batter[batter] ||= []
+      @plays_by_batter[batter] << play
+
       # Get inning stats
       @results_by_inning[inning] ||= {}
       @results_by_inning[inning][event] ||= 0

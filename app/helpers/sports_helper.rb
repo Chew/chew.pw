@@ -49,6 +49,14 @@ module SportsHelper
     "pickoff"
   end
 
+  def batting_class(result)
+    return "in-play #{result == "Home Run" ? "bold" : ""}" if ["Home Run", "Triple", "Double", "Single"].include? result
+    return "strike" if result.downcase.include?("out") || result.include?("DP") || result.include?("Double Play")
+    return "ball" if ["Hit By Pitch", "Walk", "Intent Walk"].include? result
+
+    "pickoff"
+  end
+
   # Finds the game status for a given game
   def game_status(game)
     line_score = game['liveData'].nil? ? game['linescore'] : game['liveData']['linescore']
