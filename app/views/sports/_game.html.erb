@@ -1,4 +1,4 @@
-<div class="card <%= "border-success" if !game['flags'].nil? and game['flags']['perfectGame'] %> <%= "border-success" if !game['flags'].nil? and game['flags']['noHitter'] and not game['flags']['perfectGame'] %>">
+<div class="card <%= "animated-box in green-blue" if !game['flags'].nil? and game['flags']['perfectGame'] %> <%= "animated-box in yellow-red" if !game['flags'].nil? and game['flags']['noHitter'] and not game['flags']['perfectGame'] %>">
   <div class="card-body">
     <span class="d-inline">
       <h2 class="card-title"><%= game['teams']['away']['team']['clubName'] %>
