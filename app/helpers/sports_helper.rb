@@ -52,7 +52,7 @@ module SportsHelper
   def batting_class(result)
     result ||= "N/A"
 
-    return "in-play #{result == "Home Run" ? "bold" : ""}" if ["Home Run", "Triple", "Double", "Single"].include? result
+    return "in-play #{result == "Home Run" ? "bold" : ""}" if ["Home Run", "Triple", "Double", "Single", "Sac Fly", "Field Error", "Fielders Choice"].include? result
     return "strike" if result.downcase.include?("out") || result.include?("DP") || result.include?("Double Play")
     return "ball" if ["Hit By Pitch", "Walk", "Intent Walk"].include? result
 
@@ -152,5 +152,25 @@ module SportsHelper
     else
       nil
     end
+  end
+
+  def homer_info(homer)
+    description = homer['result']['description']
+
+    homer_num = description.split(" (")[1].split(")")[0].to_i
+    ball_info = description.split(")")[1].split(". ")[0]
+
+    ball_info.gsub!("on a ", "")
+
+    # Trim off leading or trailing spaces
+    ball_info.strip!
+
+    if homer['result']['rbi'] == 4
+      ball_info = "Grand Slam #{ball_info}"
+    end
+
+    ball_info.capitalize!
+
+    [homer_num, ball_info]
   end
 end
