@@ -1,0 +1,135 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Random Game Generator",
+                description: "Generate a random game between two fake teams and see who wins!",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball random game generator" %>
+<% end %>
+
+<h1>This Baseball Game Does Not Exist</h1>
+
+<p>
+  This game was randomly generated. Names and teams that may show up do not reflect actual statistics.
+  Each result is based on the 2021 MLB season plate appearance result frequency.
+</p>
+
+<p><%= @away.titlecase %> vs <%= @home.titlecase %></p>
+
+<p>The <%= @away.titlecase %> beat the <%= @home.titlecase %>, <%= @line_score[@away].sum %>-<%= @line_score[@home].sum %>.</p>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Team</th>
+      <% @line_score[@away].length.times do |i| %>
+        <th><%= i + 1 %></th>
+      <% end %>
+      <th>R</th>
+<!--      <th>H</th>-->
+<!--      <th>E</th>-->
+<!--      <th>LOB</th>-->
+    </tr>
+    </thead>
+    <tbody>
+    <% [@away, @home].each do |team| %>
+      <tr>
+        <td><%= team.titlecase %></td>
+        <% @line_score[team].each_with_index do |inning, inning_number| %>
+          <td id="<%= "#{team}-#{inning_number}" %>">
+            <%= inning %>
+          </td>
+        <% end %>
+        <%# game['teams'][team].each do |_, amount| %>
+<!--          <td><b><%#= amount || '-' %></b></td>-->
+        <%# end %>
+        <td><%= @line_score[team].sum %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<% @line_score[@away].length.times do |inning| %>
+  <h2>Top <%= (inning + 1).ordinalize %></h2>
+  <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
+    <% last_out = 0 %>
+    <% old_bases = [nil, nil, nil] %>
+    <% results = @innings[@away][inning] + [nil] + @innings[@home][inning] %>
+    <% top = true %>
+    <% results.each do |result| %>
+      <% if result.nil? %>
+        </div>
+        <hr>
+        <h2>Bottom <%= (inning+1).ordinalize %></h2>
+        <% old_bases = [nil, nil, nil] %>
+        <% last_out = 0 %>
+        <% top = false %>
+        <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
+        <% next %>
+      <% end %>
+      <% description, result, outs, bases, pitches, play = result %>
+      <div class="col" id="play-<%= play %>">
+        <div class="card h-100 <%= "border-primary" if description.include? "scores" %> <%= "border-danger" if outs - last_out > 0 and not description.include?("scores") %>">
+          <!--      <img src="..." class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 class="card-title"><%= description %></h5>
+
+            <p class="card-text">
+              Event: <%= result %><br>
+              Score: <%= "Soon!" %><br>
+              Outs: <%= outs %>
+              <% if outs - last_out > 0 %> (+<%= outs - last_out %>)
+              <% end %>
+              <% last_out = outs %><br>
+            </p>
+
+            <span class="card-text">Play Events:</span>
+            <ol>
+              <% pitches.each_with_index do |event| %>
+                <li>
+                  <span class="
+                    <% if event.include?("Ball") || event == "Hit By Pitch" %> ball
+                    <% elsif event.include?("Strike") || event == "Foul" %> strike
+                    <% elsif event == "In play, run(s)" %> in-play bold
+                    <% elsif event.include? "In play" %> in-play
+                    <% end %>">
+                    <%= event %>
+                  </span>
+                </li>
+              <% end %>
+            </ol>
+            <span class="card-text">Position Changes:</span>
+            <ul>
+              <% total = 0 %>
+              <%# Compare base changes between old_bases and bases %>
+              <% bases.each_with_index do |runner, base| %>
+                <% if runner %>
+                  <% old_base = old_bases.index runner %>
+                  <% next if old_base and old_base == base %>
+                  <li>
+                    <%= old_base.nil? ? "none" : "#{old_base + 1}B" %> -> <%= base + 1 %>B: <%= runner %>
+                    <% total += 1 %>
+                  </li>
+                <% end %>
+              <% end %>
+              <% old_bases.each_with_index do |runner, i| %>
+                <% next if bases.include? runner %>
+                <% next if runner.nil? %>
+                <li><%= i +1 %>B -> score: <%= runner %></li>
+                <% total += 1 %>
+              <% end %>
+              <% old_bases = bases %>
+              <% if total.zero? %>
+                <li>No position changes.</li>
+              <% end %>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">P: <%= (top ? @home_players : @away_players).last %></small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <hr>
+<% end %>

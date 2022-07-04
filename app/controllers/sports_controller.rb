@@ -372,4 +372,349 @@ class SportsController < ApplicationController
 
     @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&sportId=1&date=#{date}&sortBy=gameDate&hydrate=game,linescore(runners),flags,team,review,alerts,homeRuns"))
   end
+
+  RESULT_RANGES = {
+    "Single" => (0.00000..0.13705), 
+    "Double" => (0.13705..0.18014),
+    "Triple" => (0.18014..0.18382),
+    "Homer" => (0.18382..0.21640),
+    "Walks" => (0.21640..0.30296),
+    "Strikeout" => (0.30296..0.53394),
+    "Double Play" => (0.53394..0.55218),
+    "Hit By Pitch" => (0.55218..0.56376),
+    "Sac Hit" => (0.56376..0.56796),
+    "Sac Fly" => (0.56796..0.57422),
+    "Intent Walk" => (0.57422..0.57808),
+    "Misc Out" => (0.57808..1.00000)
+  }
+
+  POSITIONS = [
+    "first-baseman", "second-baseman", "shortstop", "third-baseman", "catcher", "left field", "center field", "right field", "pitcher"
+  ]
+
+  # Generates a never-before seen game of baseball!
+  def mlb_game_generator
+    # Generate 18 random names
+    @away = Faker::Team.name
+    @home = Faker::Team.name
+
+    @away_players = []
+    @home_players = []
+
+    9.times do
+      @away_players.push "#{Faker::Name.male_first_name} #{Faker::Name.last_name}"
+    end
+
+    9.times do
+      @home_players.push "#{Faker::Name.male_first_name} #{Faker::Name.last_name}"
+    end
+
+    @outs = 0
+    @bases = 0
+    @base = [nil, nil, nil]
+    @innings = {
+      @away => [],
+      @home => []
+    }
+    @line_score = {
+      @away => [0,0,0,0,0,0,0,0,0],
+      @home => [0,0,0,0,0,0,0,0,0]
+    }
+    @runs = 0
+
+    @results = []
+    current_inning = []
+    inning_outs = 0
+    inning = 0
+    play = {
+      @away => 0,
+      @home => 0
+    }
+    top_half = true
+    game_over = false
+    until game_over
+      # Make sure we have data
+      @line_score[top_half ? @away : @home][inning] ||= 0
+
+      # Generate a random number
+      random = rand
+
+      # Find the range of the random number
+      RESULT_RANGES.each do |result, range|
+        if range.include? random
+          @result = result
+          break
+        end
+      end
+
+      play[top_half ? @away : @home] += 1
+      current_play = play[top_half ? @away : @home]
+      player = top_half ? @away_players[current_play % 9] : @home_players[current_play % 9]
+      description = nil
+      advances = nil
+
+      pitches = nil
+
+      ball_type = ["line drive", "fly ball"].sample
+      field = %w[left center right].sample
+
+      if @result == "Double Play" and (@base.count(nil) == 3 || (@outs % 3) == 2)
+        @result = "Misc Out"
+      end
+
+      outs = 0
+      case @result
+      when "Single"
+        description = "#{player} singles on a #{ball_type} to #{field} field."
+        advances = advance_runners @base, 1, player
+        pitches = random_at_bat true, false, false, false
+      when "Double"
+        description = "#{player} doubles on a #{ball_type} to #{field} field."
+        advances = advance_runners @base, 2, player
+        pitches = random_at_bat true, false, false, false
+      when "Triple"
+        description = "#{player} triples on a #{ball_type} to #{field} field."
+        advances = advance_runners @base, 3, player
+        pitches = random_at_bat true, false, false, false
+      when "Homer"
+        advances = advance_runners @base, 4, player
+        description = "#{player} #{advances[1].count == 4 ? "hits a grand slam" : "homers on a #{ball_type}"} to #{field} field."
+        pitches = random_at_bat true, false, false, false, "run(s)"
+      when "Walks"
+        description = "#{player} walks."
+        advances = advance_runners @base, 1, player
+        pitches = random_at_bat false, false, true, false
+      when "Intent Walk"
+        pitcher = top_half ? @home_players : @away_players
+        description = "#{pitcher.last} intentionally walks #{player}."
+        advances = advance_runners @base, 1, player
+        pitches = ["Automatic Ball"] * 4
+      when "Hit By Pitch"
+        description = "#{player} hit by pitch."
+        advances = advance_runners @base, 1, player
+        pitches = random_at_bat false, false, false, true
+      when "Double Play"
+        if @outs % 3 == 2
+          outs = 1
+        else
+          outs = 2
+        end
+        pitches = random_at_bat true, false, false, false, "out(s)"
+        description = "#{player} grounds into a double play."
+      when "Sac Hit", "Sac Fly"
+        outs += 1
+        description = "#{player} out on a #{@result.downcase} to #{field} field."
+        advances = advance_runners @base, 1, player
+        pitches = random_at_bat true, false, false, false, "out(s)"
+      when "Strikeout"
+        outs += 1
+        pitches = random_at_bat false, true, false, false
+        out_type = pitches.last.include?("Called") ? "called out on strikes" : "struck out swinging"
+        description = "#{player} #{out_type}."
+      when "Misc Out"
+        @result = %w[Line-out Groundout Force-out Fly-out Pop-out].sample
+        outs += 1
+        catch = top_half ? @home_players : @away_players
+        case @result
+        when "Line-out", "Fly-out", "Pop-out"
+          description = "#{player} #{@result.downcase.split('-').join('s ')} to #{field} fielder #{catch[%w[left center right].index(field) + 5]}."
+        when "Groundout"
+          out_to = POSITIONS[0..3].sample
+          if out_to == "first-baseman"
+            description = "#{player} grounds out to first-baseman #{catch[0]}."
+          else
+            description = "#{player} grounds out, #{out_to} #{catch[POSITIONS.index(out_to)]} to first-baseman #{catch[0]}."
+          end
+        when "Force-out"
+          description = "#{player} is forced-out."
+        end
+        pitches = random_at_bat true, false, false, false, "out(s)"
+      else
+        raise "Unknown result: #{@result}"
+      end
+
+      @outs += outs
+      @results.push([@result, @outs])
+      inning_outs += outs
+      current_inning << [description, @result, inning_outs, @base.dup, pitches, current_play]
+      # New inning
+      if inning_outs == 3
+        # Check for game over
+
+        # If 9th inning, top half, check to see home team has more points.
+        if inning == 8 && top_half && @line_score[@home].sum > @line_score[@away].sum
+          @innings[@home].push []
+          #@line_score[@home][inning] = "-"
+          game_over = true
+        end
+
+        # Check to see if we need to go extra innings. If the scores are the same, continue, else, game over.
+        if inning == 8 && !top_half && @line_score[@home].sum != @line_score[@away].sum
+          game_over = true
+        end
+
+        # If past 9th inning, we must always have a winner.
+        if inning > 8 and @line_score[@home].sum != @line_score[@away].sum and !top_half
+          game_over = true
+        end
+
+        @innings[top_half ? @away : @home].push current_inning
+        current_inning = []
+        @base = [nil, nil, nil]
+        inning_outs = 0
+        unless top_half
+          inning += 1
+        end
+        top_half = !top_half
+      else
+        # Advance runners, if any
+        next if advances.nil?
+
+        @base = advances[0]
+        unless advances[1].empty?
+          @line_score[top_half ? @away : @home][inning] += advances[1].length
+          scores = advances[1].map { |e| "#{e} scores." }
+          # Remove the last item in the current_inning array since we need to change it
+          current_inning.pop
+          pitches.pop
+          pitches.push "In play, run(s)"
+          current_inning << ["#{description} #{scores.join(' ')}", @result, inning_outs, @base.dup, pitches, current_play]
+        end
+      end
+    end
+  end
+
+  # Advance the runners. Returns an array of the new runners on base, and who scored.
+  # @param runners [Array] The runners on base.
+  # @param advance [Integer] The amount of bases to advance. Must be 1-4.
+  # @param runner [String] The runner to advance.
+  # @return [Array] The new runners on base.
+  def advance_runners(runners, advance, runner)
+    scored = []
+
+    if runners.length != 3
+      raise "Invalid runners: #{runners}"
+    end
+
+    # Count how many not 'nil' runners are on base
+    on_base = 0
+    runners.each do |run|
+      on_base += 1 if run
+    end
+
+    case advance
+    when 1 # Single, Walk, Hit By Pitch, etc.
+      case on_base
+      when 3
+        # Shift the array 1 space to the right.
+        scored.push runners[2]
+        runners[2] = runners[1]
+        runners[1] = runners[0]
+        runners[0] = runner
+      when 2
+        # Delete all "nil" runners
+        runners.delete_if { |e| e.nil? }
+        # Add runner to the beginning of the array
+        runners.unshift runner
+      when 1
+        runners[1] = runners[0] if runners[0]
+        runners[0] = runner
+      when 0
+        runners[0] = runner
+      else
+        raise "Invalid on base: #{on_base}"
+      end
+    when 2 # Double
+      # Anyone on 2nd or 3rd scores. The person on 1st, if any, goes to 3rd. The runner goes to 2nd.
+      if on_base == 1 || on_base == 0
+        runners[2] = runners[1] || runners[0]
+        runners[1] = runner
+      end
+      if on_base >= 2
+        first = nil
+        runners.each do |run|
+          first = run if run and not first
+          scored.push run if run and first
+        end
+        runners[2] = first
+        runners[1] = runner
+      end
+    when 3 # Triple
+      # everyone on base scores, except the runner
+      runners.each do |run|
+        scored.push run if run
+      end
+      runners = [nil,nil,runner]
+    when 4 # Home Run
+      runners.each do |run|
+        scored.push run if run
+      end
+      runners = [nil,nil,nil]
+      scored.push runner
+    else
+      raise "Invalid advance amount: #{advance}"
+    end
+
+    [runners, scored]
+  end
+
+  def random_at_bat(in_play, strikeout, walks, hit_by_pitch, type = "no out")
+    plays = []
+    balls = 0
+    strikes = 0
+    play_done = false
+
+    sample = ["Ball", "Swinging Strike", "Called Strike", "Ball In Dirt", "Foul"]
+    sample.push "Hit By Pitch" if hit_by_pitch
+    sample.push "In play, #{type}" if in_play
+
+    puts "Sample is #{sample}"
+
+    while balls < 4 and strikes < 3 and not play_done
+      now = sample.sample
+      puts "Generated: #{now}. Count is #{balls}-#{strikes}"
+
+      if now.include? "Ball"
+        if balls < 3
+          balls += 1
+        elsif balls == 3 and walks
+          plays.push now
+          return plays
+        else
+          next
+        end
+      end
+
+      if now.include?("Strike")
+        if strikes < 2
+          strikes += 1
+        elsif strikes == 2 and strikeout
+          plays.push now
+          return plays
+        else
+          next
+        end
+      end
+
+      if now == "Foul"
+        if strikes < 2
+          strikes += 1
+        end
+      end
+
+      if now.include? "In play"
+        plays.push now
+        return plays
+      end
+
+      if now == "Hit By Pitch"
+        plays.push now
+        return plays
+      end
+
+      plays.push now
+    end
+
+    plays
+  end
 end

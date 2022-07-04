@@ -50,6 +50,9 @@ gem 'sitemap_generator'
 # Oauth gem
 gem 'oauth'
 
+# Generate fake names, emails, etc.
+gem 'faker'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
