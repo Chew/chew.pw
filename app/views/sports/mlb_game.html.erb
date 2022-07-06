@@ -380,17 +380,18 @@
       <% id = "ID#{@players.find {|_, f| f == batter }[0]}" %>
       <% player = @game['gameData']['players'][id] %>
       <% next unless @game['liveData']['boxscore']['teams'][team]['players'].include?(id) %>
-      <%# stats = @game['liveData']['boxscore']['teams'][team]['players'][id] %>
-      <% order = ["Home Run", "Triple", "Double", "Single", "Walk", "Hit By Pitch"] %>
+      <% stats = @game['liveData']['boxscore']['teams'][team]['players'][id] %>
       <div class="col">
         <div class="card h-100" id="<%= player['nameSlug'] %>">
           <div class="card-body">
             <h5 class="card-title"><%= batter %></h5>
+            <p>Position(s): <%= stats['allPositions'].map {|e| e['name']}.join(', ') %></p>
 
             <span class="card-text">Results:</span>
             <ul>
               <% @plays_by_batter[batter].each do |play| %>
                 <% result = play['result']['event'] || "Pending" %>
+                <% result = "Grand Slam" if result == "Home Run" and play['result']['description'].include?("grand slam") %>
                 <li>
                   <a class="<%= batting_class result %>" data-bs-toggle="collapse" href="#<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>" role="button" aria-expanded="false" aria-controls="<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>">
                     <%= play['about']['halfInning'].capitalize %> <%= play['about']['inning'].ordinalize %> - <%= result %>
