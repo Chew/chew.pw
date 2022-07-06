@@ -1,9 +1,13 @@
 <% content_for :meta_tags do %>
   <%= meta_tags title: "#{@team['name']} - MLB Team Stats",
                 description:
-                  "View stats for the #{@team_info['sport'].nil? ? "MLB" : @team_info['sport']['name']} team #{@team['name']}. They have won #{@team['wins']} and lost #{@team['losses']} games in the #{params[:season].to_i || Time.now.year} season, and are #{@team['to500'].abs} #{@team['to500'] > 0 ? 'above' : 'below'} 500.",
+                  "View stats for the #{@team_info['sport'].nil? ? "MLB" : @team_info['sport']['name']} team #{@team['name']}. They have won #{@team['wins']} and lost #{@team['losses']} games in the #{params[:season] || Time.now.year} season, and are #{@team['to500'].abs} #{@team['to500'] > 0 ? 'above' : 'below'} 500.",
                 service: "Chew's MLB Stats",
                 keywords: "sports mlb baseball #{@team['name']}" %>
+<% end %>
+
+<% content_for :body_class do %>
+  t<%= params[:team_id] %>
 <% end %>
 
 <h1>Info for Team <%= @team['name'] %></h1>
