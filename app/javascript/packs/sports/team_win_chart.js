@@ -98,11 +98,10 @@ const config = {
                 callbacks: {
                     // Update title for hover
                     title: function(context) {
-                        return games[context[0].dataIndex];
+                        return games[context[0].parsed.x];
                     },
                     // Update label
                     label: function(context) {
-                        console.log(context);
                         if (context.dataset.label === "At 500") {
                             return "At 500";
                         } else {
