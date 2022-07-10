@@ -16,3 +16,5 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 Rails.application.config.assets.precompile += %w( discord.scss roblox.scss bootstrap4compat.css )
 Rails.application.config.assets.precompile += %w( bootstrap-table/dist/bootstrap-table.min.css bootstrap-table/dist/bootstrap-table.min.js bootstrap-table.css bootstrap-table.js)
 Rails.application.config.assets.precompile += %w( jquery.js )
+
+Rails.application.config.assets.paths << Rails.root.join("node_modules/bootstrap-icons/font")

@@ -15,6 +15,7 @@
  *= require "bootstrap/dist/css/bootstrap"
  *= require "bootstrap-table/dist/bootstrap-table.min"
  *= require "darkreader"
+ *= require "fonts"
  */
 
 @media (min-width: 576px) {
