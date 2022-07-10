@@ -385,7 +385,7 @@
         <div class="card h-100" id="<%= player['nameSlug'] %>">
           <div class="card-body">
             <h5 class="card-title"><%= batter %></h5>
-            <p>Position(s): <%= stats['allPositions'].map {|e| e['name']}.join(', ') %></p>
+            <p>Position(s): <%= (stats['allPositions'] || [stats['position']]).map {|e| e['name']}.join(', ') %></p>
 
             <span class="card-text">Results:</span>
             <ul>
@@ -393,7 +393,7 @@
                 <% result = play['result']['event'] || "Pending" %>
                 <% result = "Grand Slam" if result == "Home Run" and play['result']['description'].include?("grand slam") %>
                 <li>
-                  <a class="<%= batting_class result %>" data-bs-toggle="collapse" href="#<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>" role="button" aria-expanded="false" aria-controls="<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>">
+                  <a class="<%= batting_class result %> <%= "bold" if play['about']['isScoringPlay'] %>" data-bs-toggle="collapse" href="#<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>" role="button" aria-expanded="false" aria-controls="<%= "batter-#{player['nameSlug']}-play-#{play['about']['atBatIndex']}" %>">
                     <%= play['about']['halfInning'].capitalize %> <%= play['about']['inning'].ordinalize %> - <%= result %>
                   </a>
                 </li>

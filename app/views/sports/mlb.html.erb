@@ -81,12 +81,14 @@
     <th data-sortable="true" data-field="wins" data-switchable="false" data-sort-order="desc">Wins</th>
     <th data-sortable="true" data-field="loss" data-switchable="false" data-sort-order="desc">Losses</th>
     <th data-sortable="true" data-field="ratio" data-switchable="false" data-sort-order="desc">Ratio</th>
+    <th data-sortable="true" data-field="streak" data-sort-name="streak_raw" data-sort-order="desc">Streak</th>
+    <th data-sortable="true" data-field="streak_raw" data-switchable="false" data-visible="false" data-sort-order="desc">Streak (Decimal)</th>
   </tr>
   </thead>
   <tbody>
   <% @info.each do |division| %>
   <tr>
-    <td colspan="4" class="text-center bold"><%= division['division']['name'] %></td>
+    <td colspan="5" class="text-center bold"><%= division['division']['name'] %></td>
   </tr>
     <% division['teamRecords'].each do |team| %>
     <tr>
@@ -94,6 +96,8 @@
       <td><%= team['wins'] %></td>
       <td><%= team['losses'] %></td>
       <td><%= team['winningPercentage'] %></td>
+      <td><%= team['streak']['streakCode'] %></td>
+      <td><%= team['streak']['streakNumber'] * (team['streak']['streakType'] == 'losses' ? -1 : 1) %></td>
     </tr>
     <% end %>
   <% end %>
