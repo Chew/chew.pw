@@ -67,6 +67,10 @@ module SportsHelper
 
     status = game['gameData'].nil? ? game['status'] : game['gameData']['status']
 
+    if status['detailedState'] == 'Cancelled'
+      return "Cancelled: #{status['reason']}"
+    end
+
     if ['Final', 'Game Over'].include?(status['detailedState']) || status['detailedState'].start_with?('Completed Early')
       return inning == 9 ? "Final" : "Final/#{inning}"
     end
@@ -81,6 +85,10 @@ module SportsHelper
     return status['detailedState'] if line_score.nil?
 
     inning_state = line_score['inningState']
+
+    if inning_state.nil? || inning.nil?
+      return "Unknown"
+    end
 
     "#{inning_state} #{inning.ordinalize}"
   end

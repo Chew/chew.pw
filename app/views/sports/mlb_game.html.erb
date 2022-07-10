@@ -8,9 +8,9 @@
 
 <h1>Game Information</h1>
 
-<p><%= link_to @away['name'], "/sports/mlb/team/#{@away['id']}" %>
-  @ <%= link_to @home['name'], "/sports/mlb/team/#{@home['id']}" %>
-  on <%= link_to friendly_date(@game['gameData']['datetime']['officialDate']), "/sports/mlb/schedule?date=#{@game['gameData']['datetime']['officialDate']}" %>
+<p><%= link_to @away['name'], "/sports/mlb/team/#{@away['id']}", id: "away-team" %>
+  @ <%= link_to @home['name'], "/sports/mlb/team/#{@home['id']}", id: "home-team" %>
+  on <%= link_to friendly_date(@game['gameData']['datetime']['officialDate']), "/sports/mlb/schedule?date=#{@game['gameData']['datetime']['officialDate']}&sport=#{@game['gameData']['teams']['home']['sport']['id']}" %>
 </p>
 
 <p>Game Status: <%= game_status @game %></p>

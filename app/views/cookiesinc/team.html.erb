@@ -42,14 +42,14 @@
               <td><%= (data['playerName'] == "") ? (raw "<i>A teammate</i>") : data['playerName'] %></td>
               <td><%= (data['collectorSince'] == "") ? "Unknown!" : data['collectorSince'] %></td>
               <td><%= data['publicId'] %></td>
-              <td></span><%= number_with_delimiter data['seasonCollected'].round(0) %></td>
+              <td><%= number_with_delimiter data['seasonCollected'].round(0) %></td>
               <td><span style="font-size: 0px;"><%= data['lifetimeCollected'].round(0).to_f %></span><%= number_with_delimiter data['lifetimeCollected'].round(0) %></td>
               <td><%= data['showcaseLevel'] %></td>
               <td><%= number_with_delimiter data['bakeryLevel'] %></td>
               <td><%= data['seasonCollected'] %></td>
               <td><%= data['lifetimeCollected'] %></td>
               <td><%= data['bakeryLevel'] %></td>
-              <td><%= (data['collectorSince'] == "") ? "Unknown!" : Time.parse(data['collectorSince']).to_i %></td>
+              <td><%= (data['collectorSince'] == "" || data['collectorSince'] == "Unknown") ? "Unknown!" : Time.parse(data['collectorSince']).to_i %></td>
             </tr>
           <% end %>
         </tbody>
