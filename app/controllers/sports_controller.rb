@@ -370,7 +370,10 @@ class SportsController < ApplicationController
   def mlb_schedule
     date = params[:date] || Time.now.strftime("%m/%d/%Y")
 
-    @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&sportId=1&date=#{date}&sortBy=gameDate&hydrate=game,linescore(runners),flags,team,review,alerts,homeRuns"))
+    @sports = Rails.cache.fetch(:mlb_sports, expires_in: 1.hour) do
+      JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/sports?season=#{params[:season] || Time.now.year}", 'User-Agent': DUMMY_USER_AGENT))['sports']
+    end
+    @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&sportId=#{params[:sport] || 1}&date=#{date}&sortBy=gameDate&hydrate=game,linescore(runners),flags,team,review,alerts,homeRuns"))
   end
 
   RESULT_RANGES = {

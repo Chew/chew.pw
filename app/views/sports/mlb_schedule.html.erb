@@ -12,17 +12,27 @@
 <!-- Date picker (can go back to 1/1/1901 all the way up to today) -->
 
 <form class="row row-cols-lg-auto g-3 align-items-center" action="/sports/mlb/schedule" method="get">
-  <div class="col-12">
+  <div class="col-12 mb-lg-0 mb-md-3 mb-3">
     <label for="date">Pick a Date</label>
     <input id="date" class="form-control" type="date" name="date" value="<%= (Time.parse(params[:date] || Time.now.to_s)).strftime("%Y-%m-%d") %>">
   </div>
 
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">View Schedule</button>
+  <div class="col-12 mb-lg-0 mb-md-3 mb-3">
+    <label for="sport">Pick a Sport</label>
+    <!-- Dropdown for sports -->
+    <select id="sport" class="form-control" name="sport">
+      <% @sports.each do |sport| %>
+        <option value="<%= sport['id'] %>"<%= (sport['id'] == (params[:sport] || 1).to_i) ? "selected" : "" %>><%= sport['name'] %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <div class="col-12 mb-lg-0 mb-sm-3 mb-3">
+    <button type="submit" class="btn btn-primary btn-block">View Schedule</button>
   </div>
 </form>
 
-<hr>
+<hr />
 
 <% if @schedule['dates'].empty? %>
   <p>There are no games scheduled for this date.</p>
