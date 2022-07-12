@@ -165,6 +165,10 @@ module SportsHelper
   def homer_info(homer)
     description = homer['result']['description']
 
+    if description.include? "call on the field"
+      description = description.split("call on the field").last
+    end
+
     homer_num = description.split(" (")[1].split(")")[0].to_i
     ball_info = description.split(")")[1].split(". ")[0]
 
