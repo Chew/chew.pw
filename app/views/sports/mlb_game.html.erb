@@ -26,7 +26,7 @@
   <span>Decisions</span>
   <ul>
     <% @game['liveData']['decisions'].each do |decision, player| %>
-      <li><%= decision.capitalize %>: <%= player['fullName'] %></li>
+      <li><%= decision.capitalize %>: <%= player['fullName'] %> <%= @players[player['id']]['stats']['stats']['pitching']['note'] %></li>
     <% end %>
   </ul>
 <% end %>
@@ -252,7 +252,7 @@
                       Credits:
                       <ul>
                         <% runner['credits'].each do |credit| %>
-                        <li><%= @players[credit['player']['id']] %> - <%= credit['position']['name'] %></li>
+                        <li><%= @players[credit['player']['id']]['name'] %> - <%= credit['position']['name'] %></li>
                         <% end %>
                       </ul>
                     <% end %>
@@ -382,11 +382,13 @@
 <h2 id="player-breakdown">Player Breakdown</h2>
 
 <% %w[away home].each do |team| %>
+    <hr>
+
   <h3 id="pb-<%= @game['gameData']['teams'][team]['clubName'].parameterize %>"><%= @game['gameData']['teams'][team]['clubName'] %></h3>
 
   <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
     <% @batters.each do |batter| %>
-      <% id = "ID#{@players.find {|_, f| f == batter }[0]}" %>
+      <% id = "ID#{@players.find {|_, f| f['name'] == batter }[0]}" %>
       <% player = @game['gameData']['players'][id] %>
       <% next unless @game['liveData']['boxscore']['teams'][team]['players'].include?(id) %>
       <% stats = @game['liveData']['boxscore']['teams'][team]['players'][id] %>
@@ -418,8 +420,6 @@
       </div>
     <% end %>
     </div>
-
-    <hr>
 <% end %>
 
 <% end %>

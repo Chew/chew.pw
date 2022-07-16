@@ -279,7 +279,11 @@ class SportsController < ApplicationController
     @players = {}
     %w[home away].each do |team|
       @game['liveData']['boxscore']['teams'][team]['players'].each do |_, player_info|
-        @players[player_info['person']['id']] = player_info['person']['fullName']
+        @players[player_info['person']['id']] = {
+          "name" => player_info['person']['fullName'],
+          "stats" => player_info,
+          "info" => @game['gameData']['players']["ID#{player_info['person']['id']}"],
+        }
       end
     end
 
