@@ -24,7 +24,7 @@
           </td>
         <% end %>
         <% if !state.include?("Final") and (game['currentInning'] || 0) < 9 %>
-          <% (9 - (game['currentInning'] || 0)).times do |_| %>
+          <% ((game['scheduledInnings'] || 9) - (game['currentInning'] || 0)).times do |_| %>
             <td>-</td>
           <% end %>
         <% end %>
