@@ -19,6 +19,14 @@
   <li><%= link_to "Team Standings", "#standings" %></li>
 </ul>
 
+<h2 id="birthdays">Today's Birthdays</h2>
+<p>Only players who have played at least one regular season game in <%= params[:season] || Time.now.year %>.</p>
+<ul>
+  <% @birthdays.each do |birthday| %>
+    <li><%= birthday %></li>
+  <% end %>
+</ul>
+
 <h2 id="schedule">Today's Schedule</h2>
 <p>Games today: <%= @schedule['totalGames'] %> (<%= @schedule['totalGamesInProgress'] %> in-progress)</p>
 <p><%= link_to "Schedule Time-Machine", "/sports/mlb/schedule" %></p>

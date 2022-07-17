@@ -77,11 +77,28 @@ class SportsController < ApplicationController
 
   def mlb
     @info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=#{params[:season] || Time.now.year}&standingsTypes=regularSeason&hydrate=division", 'User-Agent': DUMMY_USER_AGENT))['records']
+    teams = {}
+    @info.each do |division|
+      division['teamRecords'].each do |team|
+        teams[team['team']['id']] = team['team']['name']
+      end
+    end
 
     # Get today's date in Pacific Time (PDT) with MM/DD/YYYY format
-    date = Time.now.in_time_zone("America/Los_Angeles").strftime("%m/%d/%Y")
+    today = Time.now.in_time_zone("America/Los_Angeles")
+    date = today.strftime("%m/%d/%Y")
 
     @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&sportId=1&date=#{date}&sortBy=gameDate&hydrate=game,linescore(runners),flags,team,review,alerts,homeRuns"))
+    people = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/sports/1/players?season=#{params[:season] || Time.now.year}&gameType=R&fields=people,fullName,birthDate,currentTeam,id,primaryPosition,name,currentAge", 'User-Agent': DUMMY_USER_AGENT))['people']
+    @birthdays = []
+    people.delete_if do |person|
+      birthday = Date.parse(person['birthDate'])
+
+      not birthday.month == today.month && birthday.day == today.day
+    end
+    people.each do |person|
+      @birthdays.push "#{person['fullName']} (#{person['currentAge']}) [#{person['primaryPosition']['name']} for #{teams[person['currentTeam']['id']]}]"
+    end
   end
 
   def mlb_team
