@@ -31,6 +31,7 @@
 <p>Games today: <%= @schedule['totalGames'] %> (<%= @schedule['totalGamesInProgress'] %> in-progress)</p>
 <p><%= link_to "Schedule Time-Machine", "/sports/mlb/schedule" %></p>
 
+<% unless @schedule['dates'].empty? %>
 <div class="row">
   <% @schedule['dates'][0]['games'].each do |game| %>
     <div class="col-md-6">
@@ -38,10 +39,14 @@
     </div>
   <% end %>
 </div>
+<% end %>
 
 <hr>
 
 <h2 id="today-s-homers">Today's Homers</h2>
+<% if @schedule['dates'].empty? %>
+  <p>There are no games scheduled for today.</p>
+<% else %>
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover" data-toggle="table">
     <thead class="table-dark">
@@ -74,6 +79,7 @@
     </tbody>
   </table>
 </div>
+<% end %>
 
 <hr>
 
