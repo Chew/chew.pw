@@ -154,6 +154,10 @@ class SportsController < ApplicationController
     @team['to500'] = current_wins
   end
 
+  def mlb_draft
+    @draft = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/draft/#{params[:year]}", 'User-Agent': DUMMY_USER_AGENT))
+  end
+
   def mlb_game
     begin
       @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))

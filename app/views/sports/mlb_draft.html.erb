@@ -1,0 +1,69 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "#{params[:year]} MLB Draft Breakdown",
+                description:
+                  "View everything you need to know about the #{params[:year]} MLB Draft. All players, who they were drafted by, their position, where they came from, and their overall pick.",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball mlb draft #{params[:year]}" %>
+<% end %>
+
+<h1>MLB Draft for <%= params[:year] || Time.now.year %></h1>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <% @draft['drafts']['rounds'].each do |round| %>
+    <li><%= header_link "Round #{round['round']}" %></li>
+  <% end %>
+</ul>
+
+<% @draft['drafts']['rounds'].each do |round| %>
+  <h2 id="round-<%= round['round'].parameterize %>">Round <%= round['round'] %></h2>
+
+  <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
+    <% round['picks'].each do |pick| %>
+      <% next if pick['person'].nil? %>
+      <div class="col" id="pick-<%= pick['pickNumber'] %>">
+        <div class="card h-100">
+          <!--      <img src="..." class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 class="card-title"><%= pick['person']['fullName'] %></h5>
+
+            <p class="card-text">
+              <a data-bs-toggle="modal" href="#" data-bs-target="#pick-<%= pick['pickNumber'] %>-bio" role="button" aria-expanded="false" aria-controls="pick-<%= pick['pickNumber'] %>-bio">
+              View Blurb</a>
+            </p>
+
+            <p>Pick Number: <%= pick['pickNumber'] %></p>
+            <p>Position: <%= pick['person']['primaryPosition']['name'] %></p>
+            <p>Drafted By: <%= link_to pick['team']['name'], "/sports/mlb/team/#{pick['team']['id']}" %></p>
+
+            <span class="card-text">
+              School: <%= pick['school']['name'] %> (<%= pick['school']['state'] %>, <%= pick['school']['country'] %>)<br>
+              Home: <%= pick['home']['city'] %> <%= pick['home']['state'] %> <%= pick['home']['country'] %>
+            </span>
+            <br>
+
+            <div class="modal fade" id="pick-<%= pick['pickNumber'] %>-bio" tabindex="-1" aria-labelledby="pick-<%= pick['pickNumber'] %>-name" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="pick-<%= pick['pickNumber'] %>-name"><%= pick['person']['fullName'] %></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <%= pick['blurb'] %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <hr>
+<% end %>
