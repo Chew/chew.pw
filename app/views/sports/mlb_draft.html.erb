@@ -28,10 +28,19 @@
           <div class="card-body">
             <h5 class="card-title"><%= pick['person']['fullName'] %></h5>
 
+            <% if pick['blurb'] %>
             <p class="card-text">
               <a data-bs-toggle="modal" href="#" data-bs-target="#pick-<%= pick['pickNumber'] %>-bio" role="button" aria-expanded="false" aria-controls="pick-<%= pick['pickNumber'] %>-bio">
               View Blurb</a>
             </p>
+            <% else %>
+              <!-- Show "View Blurb", but with a Bootstrap Tooltip saying there's no blurb. -->
+              <p>
+              <span data-bs-toggle="tooltip" title="This player does not have a blurb." class="text-secondary">
+                No Blurb
+              </span>
+              </p>
+            <% end %>
 
             <p>Pick Number: <%= pick['pickNumber'] %></p>
             <p>Position: <%= pick['person']['primaryPosition']['name'] %></p>
