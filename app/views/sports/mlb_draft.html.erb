@@ -15,7 +15,7 @@
   <li><%= header_link "Breakdown By Team" %>
     <ul>
       <% @teams.each do |team, _| %>
-        <li><%= header_link team %></li>
+        <li><%= header_link team['name'] %></li>
       <% end %>
     </ul>
   </li>
@@ -43,7 +43,7 @@
 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
   <% @teams.each do |team, players| %>
     <div class="col">
-      <h3 id="<%= team.parameterize %>"><%= team %></h3>
+      <h3 id="<%= team['name'].parameterize %>"><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></h3>
       <p>
         <% players.each do |round, details| %>
           <%= round %>) <%= link_to details[0], "#pick-#{@players[details[0]]}" %>, <%= details[1] %><br>

@@ -167,7 +167,7 @@ class SportsController < ApplicationController
         next if pick['person'].nil?
 
         name = pick['person']['fullName']
-        team = link_to pick['team']['name'], "/sports/mlb/team/#{pick['team']['id']}"
+        team = pick['team']
         position = pick['person']['primaryPosition']['abbreviation']
         position_name = pick['person']['primaryPosition']['name']
         state = "#{pick['home']['state']}, #{pick['home']['country']}"
