@@ -156,6 +156,34 @@ class SportsController < ApplicationController
 
   def mlb_draft
     @draft = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/draft/#{params[:year]}", 'User-Agent': DUMMY_USER_AGENT))
+
+    @teams = {}
+    @players = {}
+    @positions = {}
+    @states = {}
+    @draft['drafts']['rounds'].each do |round|
+      num = round['round']
+      round['picks'].each do |pick|
+        next if pick['person'].nil?
+
+        name = pick['person']['fullName']
+        team = link_to pick['team']['name'], "/sports/mlb/team/#{pick['team']['id']}"
+        position = pick['person']['primaryPosition']['abbreviation']
+        position_name = pick['person']['primaryPosition']['name']
+        state = "#{pick['home']['state']}, #{pick['home']['country']}"
+
+        @players[name] = pick['pickNumber']
+
+        @teams[team] ||= {}
+        @teams[team][num] = [name, position]
+
+        @positions[position_name] ||= 0
+        @positions[position_name] += 1
+
+        @states[state] ||= 0
+        @states[state] += 1
+      end
+    end
   end
 
   def mlb_game

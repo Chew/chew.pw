@@ -11,13 +11,52 @@
 <h2>Table of Contents</h2>
 
 <ul>
-  <% @draft['drafts']['rounds'].each do |round| %>
-    <li><%= header_link "Round #{round['round']}" %></li>
+  <li><%= header_link "Cool Stats" %></li>
+  <li><%= header_link "Breakdown By Team" %>
+    <ul>
+      <% @teams.each do |team, _| %>
+        <li><%= header_link team %></li>
+      <% end %>
+    </ul>
+  </li>
+  <li><%= header_link "Rounds" %>
+    <ul>
+      <% @draft['drafts']['rounds'].each do |round| %>
+        <li><%= header_link "Round #{round['round']}" %></li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="cool-stats">Cool Stats</h2>
+
+<h3>Position Totals</h3>
+
+<ul>
+  <% @positions.sort_by {|_, f| f}.reverse.each do |position, amount| %>
+    <li><%= position %>: <%= amount %></li>
   <% end %>
 </ul>
 
+<h2 id="breakdown-by-team">Breakdown By Team</h2>
+
+<div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
+  <% @teams.each do |team, players| %>
+    <div class="col">
+      <h3 id="<%= team.parameterize %>"><%= team %></h3>
+      <p>
+        <% players.each do |round, details| %>
+          <%= round %>) <%= link_to details[0], "#pick-#{@players[details[0]]}" %>, <%= details[1] %><br>
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+</div>
+
+<h2 id="rounds">Rounds</h2>
+
 <% @draft['drafts']['rounds'].each do |round| %>
-  <h2 id="round-<%= round['round'].parameterize %>">Round <%= round['round'] %></h2>
+  <h3 id="round-<%= round['round'].parameterize %>">Round <%= round['round'] %></h3>
 
   <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
     <% round['picks'].each do |pick| %>
