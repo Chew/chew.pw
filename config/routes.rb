@@ -163,6 +163,7 @@ Rails.application.routes.draw do
       end
       get 'game/generator', to: 'sports#mlb_game_generator'
       get 'game/:game_id', to: 'sports#mlb_game'
+      get 'derby/:game_id', to: 'sports#mlb_derby'
     end
   end
 

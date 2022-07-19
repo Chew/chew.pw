@@ -368,6 +368,31 @@ class SportsController < ApplicationController
     end
   end
 
+  # Home Run Derby
+  def mlb_derby
+    begin
+      @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/homeRunDerby/#{params[:game_id]}", 'User-Agent': DUMMY_USER_AGENT))
+    rescue RestClient::NotFound
+      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified.")}#{link_to("Back Home", "/sports/mlb")}".html_safe,
+                    layout: 'application', status: 404
+    end
+
+    @top = {}
+    @homers = {}
+    @game['rounds'].each do |round|
+      round['matchups'].each do |matchup|
+        %w[topSeed bottomSeed].each do |seed|
+          info = matchup[seed]
+          hits = info['hits'] || []
+          @top["#{info['player']['fullName']} - #{hits.count {|e| e['homeRun']}} (Round #{round['round']})"] = hits.count {|e| e['homeRun']}
+
+          @homers[info['player']['fullName']] ||= 0
+          @homers[info['player']['fullName']] += hits.count {|e| e['homeRun']}
+        end
+      end
+    end
+  end
+
   def mlb_teams
     @teams = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams?season=#{params[:season] || Time.now.year}", 'User-Agent': DUMMY_USER_AGENT))['teams']
 

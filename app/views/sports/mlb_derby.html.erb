@@ -1,0 +1,122 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "#{@game['info']['name']} Breakdown",
+                description:
+                  "View all the information you need about the #{@game['info']['name']}.",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball mlb draft #{@game['info']['name']}" %>
+<% end %>
+
+<h1><%= @game['info']['name'] %> Breakdown</h1>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <li><%= header_link "Status" %></li>
+  <li><%= header_link "Rounds" %>
+    <ul>
+      <% @game['rounds'].each do |round| %>
+        <li><%= link_to "Round #{round['round']}", "#round-#{round['round']}" %>
+          <ul>
+            <% round['matchups'].each do |matchup| %>
+              <li><%= link_to "#{matchup['topSeed']['player']['fullName']} vs. #{matchup['bottomSeed']['player']['fullName']}", "#round-#{round['round']}-#{matchup['topSeed']['player']['id']}" %></li>
+            <% end %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+
+<h2>Game Stats</h2>
+
+<p>Total Homer Distance: <%= (@game['rounds'].map {|round| round['matchups'].map { |matchup| %w[topSeed bottomSeed].map { |seed| (matchup[seed]['hits'] || []).map {|hit| hit['homeRun'] ? hit['hitData']['totalDistance'] : 0} } }}.flatten.sum / 5280).round(2) %> miles</p>
+
+<div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 rows-cols-sm-1 g-4">
+  <div class="col">
+    <h2>Most Homers (Round)</h2>
+
+    <ul>
+      <% @top.sort_by {|_, f| f}.reverse.each do |description, _| %>
+        <li><%= description %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col">
+    <h2>Total Homers</h2>
+
+    <ul>
+      <% @homers.sort_by {|_, f| f}.reverse.each do |name, homers| %>
+        <li><%= name %> - <%= homers %></li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+
+<h2 id="status">Status</h2>
+
+<% if @game['status']['state'] == "Final" %>
+  <p>Final</p>
+<% else %>
+  <p>
+    Current Round: <%= @game['status']['currentRound'] %> (<%= @game['status']['currentRoundTimeLeft'] %> left)
+    <% if @game['status']['clockStopped'] %>[Clock Stopped]<% end %>
+    <% if @game['status']['bonusTime'] %>Bonus Time<% end %>
+  </p>
+  <% if @game['status']['currentBatter'] %>
+    <p>Current Batter: <%= link_to @game['status']['currentBatter']['fullName'], "#round-#{@game['status']['currentRound']}-player-#{@game['status']['currentBatter']['id']}" %></p>
+  <% end %>
+
+  <% if @game['status']['inTieBreaker'] %>
+    <p>Tie: In Tie Breaker (<%= @game['status']['tieBreakerNum'] %>)</p>
+  <% end %>
+<% end %>
+
+<h2 id="rounds">Rounds</h2>
+
+<% @game['rounds'].each do |round| %>
+  <h3 id="round-<%= round['round'] %>">Round <%= round['round'] %></h3>
+  <% round['matchups'].each do |matchup| %>
+    <h4 id="round-<%= round['round'] %>-<%= matchup['topSeed']['player']['id'] %>">
+      <%= matchup['topSeed']['player']['fullName'] %> vs. <%= matchup['bottomSeed']['player']['fullName'] %>
+    </h4>
+
+    <div class="row">
+      <% %w[topSeed bottomSeed].each do |seed| %>
+        <% info = matchup[seed] %>
+        <% hits = info['hits'] || [] %>
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body" id="round-<%= round['round'] %>-player-<%= info['player']['id'] %>">
+              <h5 class="card-title"><%= info['player']['fullName'] %></h5>
+
+              <p class="card-text">
+                Total Hits: <%= hits.count %><br>
+                Total Homers: <%= hits.count {|e| e['homeRun']} %><br>
+                Total Homer Distance: <%= ((hits.map {|e| e['homeRun'] ? e['hitData']['totalDistance'] : 0}.sum) / 5280).round(2) %> miles<br>
+              </p>
+
+              <span class="card-text">Hits:</span>
+              <ol>
+                <% hits.each_with_index do |hit, hit_index| %>
+                  <li>
+                    <a class="<%= hit['homeRun'] ? "in-play" : "strike" %>" data-bs-toggle="collapse" href="#<%= "round-#{round['round']}-player-#{info['player']['id']}-hit-#{hit_index}" %>" role="button" aria-expanded="false" aria-controls="<%= "round-#{round['round']}-player-#{info['player']['id']}-hit-#{hit_index}" %>">
+                      <%= hit['homeRun'] ? "Home Run" : "Nah" %>
+                    </a>
+                  </li>
+                  <div class="collapse no-list-type" id="<%= "round-#{round['round']}-player-#{info['player']['id']}-hit-#{hit_index}" %>">
+                    <div class="card card-body">
+                      Ball left the bat at a speed of <%= hit['hitData']['launchSpeed'] %> mph
+                      at a <%= hit['hitData']['launchAngle'] %>&deg; angle, and travelled <%= hit['hitData']['totalDistance'] %> feet.
+                    </div>
+                  </div>
+                <% end %>
+              </ol>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
