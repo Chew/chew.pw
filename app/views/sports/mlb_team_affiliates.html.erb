@@ -1,3 +1,10 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "#{@major_league_team} - MLB Team Affiliates",
+                description: "View team affiliates for #{@major_league_team}.",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball #{@major_league_team}" %>
+<% end %>
+
 <h1>Team Affiliates for <%= @major_league_team %></h1>
 
 <h2>Table of Contents</h2>
