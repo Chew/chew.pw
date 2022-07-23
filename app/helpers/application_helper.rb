@@ -79,8 +79,12 @@ module ApplicationHelper
   # DayOfWeek, Month Day (with ordinal), Year
   # @param date [String] the timestamp
   # @return [String] the date
-  def friendly_date(date)
-    time = Time.parse(date)
-    time.strftime("%A, %B #{time.day.ordinalize}, %Y")
+  def friendly_date(date, with_time: false, in_zone: "UTC")
+    time = Time.parse(date).in_time_zone(in_zone)
+    if with_time
+      time.strftime("%A, %B #{time.day.ordinalize}, %Y at %l:%M %p %Z")
+    else
+      time.strftime("%A, %B #{time.day.ordinalize}, %Y")
+    end
   end
 end
