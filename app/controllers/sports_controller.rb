@@ -479,7 +479,7 @@ class SportsController < ApplicationController
     games = []
     @affiliates.each do |affiliate|
       affiliate['nextGameSchedule']['dates'].each do |date|
-        next unless Time.parse(date['date']).today?
+        next unless Time.parse(date['date']).in_time_zone("America/Los_Angeles").today?
         date['games'].each do |game|
           games.push game['gamePk']
         end
@@ -487,6 +487,9 @@ class SportsController < ApplicationController
     end
 
     if games.empty?
+      @schedule = {
+        "dates" => []
+      }
       @games = []
     else
       @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&hydrate=game,linescore,flags,team,review,alerts,homeRuns&gamePks=#{games.join(',')}", 'User-Agent': DUMMY_USER_AGENT))
