@@ -159,7 +159,10 @@ Rails.application.routes.draw do
       get 'draft/:year', to: 'sports#mlb_draft'
       get 'teams', to: 'sports#mlb_teams'
       scope 'team' do
-        get ':team_id', to: 'sports#mlb_team'
+        scope ':team_id' do
+          get '', to: 'sports#mlb_team'
+          get 'affiliates', to: 'sports#mlb_team_affiliates'
+        end
       end
       get 'game/generator', to: 'sports#mlb_game_generator'
       get 'game/:game_id', to: 'sports#mlb_game'

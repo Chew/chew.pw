@@ -462,6 +462,44 @@ class SportsController < ApplicationController
     end
   end
 
+  def mlb_team_affiliates
+    url = "https://statsapi.mlb.com/api/v1/teams/affiliates?teamIds=#{params[:team_id]}&hydrate=nextSchedule&season=#{params[:season] || Time.now.year}"
+    sports = ["Major League Baseball", "Triple-A", "Double-A", "High-A", "Single-A", "Rookie"]
+
+    @affiliates = JSON.parse(RestClient.get(url, 'User-Agent': DUMMY_USER_AGENT))['teams'].sort_by do |team|
+      if sports.include? team['sport']['name']
+        sports.index team['sport']['name']
+      else
+        team['sport']['name'][0].ord
+      end
+    end
+
+    @major_league_team = @affiliates.find {|e| e['sport']['name'] == "Major League Baseball"}['name']
+
+    games = []
+    @affiliates.each do |affiliate|
+      affiliate['nextGameSchedule']['dates'].each do |date|
+        next unless Time.parse(date['date']).today?
+        date['games'].each do |game|
+          games.push game['gamePk']
+        end
+      end
+    end
+
+    if games.empty?
+      @games = []
+    else
+      @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&hydrate=game,linescore,flags,team,review,alerts,homeRuns&gamePks=#{games.join(',')}", 'User-Agent': DUMMY_USER_AGENT))
+      @games = @schedule['dates'][0]['games'].sort_by do |game|
+        if sports.include? game['teams']['home']['team']['sport']['name']
+          sports.index game['teams']['home']['team']['sport']['name']
+        else
+          game['teams']['home']['team']['sport']['name'].ord
+        end
+      end
+    end
+  end
+
   def mlb_schedule
     date = params[:date] || Time.now.strftime("%m/%d/%Y")
 

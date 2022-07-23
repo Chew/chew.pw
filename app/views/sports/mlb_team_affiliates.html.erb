@@ -1,0 +1,133 @@
+<h1>Team Affiliates for <%= @major_league_team %></h1>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <li><%= header_link "Today's Schedule" %></li>
+  <li><%= header_link "Today's Homers" %></li>
+  <li><%= header_link "Teams" %>
+    <ul>
+      <% @affiliates.map { |e| e['name'] }.each do |team| %>
+        <li><%= header_link team %></li>
+      <% end %>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="today-s-schedule">Today's Schedule</h2>
+
+<% if @games.empty? %>
+  <p>No games today.</p>
+<% else %>
+  <p>Games today: <%= @schedule['totalGames'] %> (<%= @schedule['totalGamesInProgress'] %> in-progress)</p>
+
+  <div class="row">
+    <% @games.each do |game| %>
+      <div class="col-md-6">
+        <%= render partial: 'game', locals: { game: game } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<hr>
+
+<h2 id="today-s-homers">Today's Homers</h2>
+<% if @schedule['dates'].empty? %>
+  <p>There are no games scheduled for today.</p>
+<% else %>
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover" data-toggle="table">
+      <thead class="table-dark">
+      <tr>
+        <th data-sortable="true">Player</th>
+        <th data-sortable="true">Team</th>
+        <th data-sortable="true">Sport</th>
+        <th data-sortable="true" data-sort-order="desc">Homer #</th>
+        <th data-sortable="true" data-sort-order="desc">RBI</th>
+        <th>Info</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @schedule['dates'][0]['games'].each do |game| %>
+        <% next unless game['homeRuns'] %>
+        <% game['homeRuns'].each do |homer| %>
+          <% team = game['teams'][homer['about']['halfInning'] == "top" ? "away" : "home"]['team'] %>
+          <% next unless @affiliates.map { |e| e['name'] }.include? game['teams'][homer['about']['halfInning'] == "top" ? "away" : "home"]['team']['name'] %>
+          <tr
+          <% if homer['result']['rbi'] == 4 %> class="table-warning"
+          <% end %>>
+            <td><%= homer['matchup']['batter']['fullName'] %></td>
+            <td><%= team['teamName'] %></td>
+            <td><%= team['sport']['name'] %></td>
+            <% info = homer_info homer %>
+            <td><%= info[0] %></td>
+            <td><%= homer['result']['rbi'] %></td>
+            <td><%= info[1] %></td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<hr>
+
+<h2 id="teams">Teams</h2>
+
+<% @affiliates.each do |affiliate| %>
+  <hr>
+
+  <h3 id="<%= affiliate['name'].parameterize %>"><%= link_to affiliate['name'], "/sports/mlb/team/#{affiliate['id']}" %></h3>
+  <p>
+    <% %w[Division League Sport].each do |info| %>
+      <% next if affiliate[info.downcase].nil? %>
+      <%= info %>: <%= affiliate[info.downcase]['name'] %><br>
+    <% end %>
+
+    <% if affiliate['venue'] %>
+      Venue: <%= affiliate['venue']['name'] %>, <%= affiliate['locationName'] %><br>
+    <% end %>
+    First Year Of Play: <%= affiliate['firstYearOfPlay'] %>
+  </p>
+
+  <h4>Upcoming Games</h4>
+  <div class="table-responsive">
+    <table class="table" id="<%= affiliate['name'].parameterize %>-table">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Away Team</th>
+        <th>Home Team</th>
+        <th>Score</th>
+        <th>State</th>
+        <th>Result</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% affiliate['nextGameSchedule']['dates'].each do |date| %>
+        <% date['games'].each do |game| %>
+          <% next if game['teams']['away']['team']['name'].nil? %>
+          <% state = mlb_game_state affiliate['id'], game %>
+          <tr class="
+            <% if state == "Win" %> table-success
+            <% elsif state == "Loss" %> table-danger
+            <% else %> table-secondary
+            <% end %>">
+            <td><%= link_to date['date'], "/sports/mlb/game/#{game['gamePk']}" %></td>
+            <td><%= link_to game['teams']['away']['team']['name'], "/sports/mlb/team/#{game['teams']['away']['team']['id']}", class: "#{("bold" if game['teams']['away']['team']['id'] == params['team_id'].to_i)}" %></td>
+            <td class="<%= "bold" if game['teams']['home']['team']['id'] == params['team_id'].to_i %>"><%= link_to game['teams']['home']['team']['name'], "/sports/mlb/team/#{game['teams']['home']['team']['id']}" %></td>
+            <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>
+            <td><%= state %></td>
+            <td><%= game['status']['detailedState'] %>
+              <% if game['status']['reason'] %>: <%= game['status']['reason'] %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

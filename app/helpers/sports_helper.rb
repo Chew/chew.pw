@@ -19,6 +19,12 @@ module SportsHelper
       else
         away_score > home_score ? "Win" : "Loss"
       end
+    elsif game['status']['detailedState'] == "In Progress"
+      if is_home
+        home_score > away_score ? "Winning" : "Losing"
+      else
+        away_score > home_score ? "Winning" : "Losing"
+      end
     else
       "N/A"
     end
@@ -69,6 +75,11 @@ module SportsHelper
 
     if status['detailedState'] == 'Cancelled'
       return "Cancelled: #{status['reason']}"
+    end
+
+    if status['detailedState'].include? "Suspended"
+      resume = game['resumeDate'] || game['gameDate'] || game['gameData']['datetime']['resumeDateTime']
+      return "#{status['detailedState']}, will resume #{friendly_date resume, with_time: true, in_zone: "America/New_York"}"
     end
 
     if ['Final', 'Game Over'].include?(status['detailedState']) || status['detailedState'].start_with?('Completed Early')
