@@ -17,6 +17,7 @@
 <ul>
   <li><%= header_link "Team Info" %></li>
   <li><%= header_link "Above/Below 500" %></li>
+  <li><%= header_link "Standings" %></li>
   <li>
     <%= header_link "Schedule" %>
     <ul>
@@ -66,6 +67,96 @@
 <% end %>
 
 <hr>
+
+<% if @team_info['record'] %>
+  <h2 id="standings">Standings</h2>
+  <p>All standings apply to regular season games.</p>
+
+  <div class="row">
+    <div class="col">
+      <h3>Ranking</h3>
+      <p>Ranking across division, league, wild card, where applicable.</p>
+
+      <ul>
+        <% %w[Division League].each do |info| %>
+          <% next if @team_info[info.downcase].nil? %>
+          <li><%= @team_info['record']["#{info.downcase}Rank"].to_i.ordinalize %> <%= @team_info[info.downcase]['name'] %></li>
+        <% end %>
+        <% if @team_info['record']['wildCardRank'] %>
+          <li><%= @team_info['record']['wildCardRank'].to_i.ordinalize %> in Wild Card</li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col">
+      <h3>Run Record</h3>
+      <p>Record of win/losses by x-runs.</p>
+
+      <table class="table table-sm">
+        <thead class="table-dark">
+        <tr>
+          <th>Runs</th>
+          <th>Record</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @run_game_records.sort_by { |e, _|  e }.each do |amount, record| %>
+          <tr>
+            <td><%= amount %> run<% if amount != 1 %>s<% end %></td>
+            <td><%= record.join(' - ') %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <h3>Team Record</h3>
+      <p>Record against specific teams.</p>
+
+      <table class="table table-sm">
+        <thead class="table-dark">
+        <tr>
+          <th>Team</th>
+          <th>Record</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @team_game_records.sort_by { |_, f|  f.sum * f[0] }.reverse.each do |amount, record| %>
+          <tr>
+            <td><%= amount %></td>
+            <td><%= record.join(' - ') %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <h3>Split Records</h3>
+      <p>Honestly not sure what some of these mean.</p>
+
+      <table class="table table-sm">
+        <thead class="table-dark">
+        <tr>
+          <th>Type</th>
+          <th>Record</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @team_info['record']['records']['splitRecords'].each do |record| %>
+          <tr>
+            <td><%= record['type'] %></td>
+            <td><%= record['wins'] %> - <%= record['losses'] %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+<% end %>
 
 <h2 id="schedule">Schedule for <%= params[:season] || Time.now.year %></h2>
 

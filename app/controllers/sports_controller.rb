@@ -103,7 +103,7 @@ class SportsController < ApplicationController
 
   def mlb_team
     begin
-      @team_info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?season=#{params[:season] || Time.now.year}&hydrate=team(roster(person(stats(seasonStats(splits(teamStats))))))", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
+      @team_info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?season=#{params[:season] || Time.now.year}&hydrate=standings,team(roster(person(stats(seasonStats(splits(teamStats))))))", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
     rescue RestClient::NotFound
       # Render the sports layout with a "team not found" message
       return render html: "#{tag.h1("Team Not Found")}#{tag.p("Could not find the team you specified.")}#{link_to("View All Teams", "/sports/mlb/teams")}".html_safe,
@@ -121,6 +121,8 @@ class SportsController < ApplicationController
     @above500 = []
     current_wins = 0
     @total_games = 0
+    @run_game_records = {}
+    @team_game_records = {}
 
     # Iterate through all the days
     @scores['dates'].each do |date|
@@ -134,13 +136,28 @@ class SportsController < ApplicationController
 
         # Get if we're home or away
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
+        opponent_side = team == 'away' ? 'home' : 'away'
+        opponent = game['teams'][opponent_side]['team']['name']
+
+        # Get the scores
+        home_score = game['teams']['home']['score']
+        away_score = game['teams']['away']['score']
+        diff = (home_score - away_score).abs
+
+        # Make sure the differential exists for this, array is wins, losses.
+        @run_game_records[diff] ||= [0, 0]
+        @team_game_records[opponent] ||= [0, 0]
 
         # Update the current wins and total games
         if game['teams'][team]['isWinner']
           current_wins += 1
+          @run_game_records[diff][0] += 1
+          @team_game_records[opponent][0] += 1
           @team['wins'] += 1
         else
           current_wins -= 1
+          @run_game_records[diff][1] += 1
+          @team_game_records[opponent][1] += 1
           @team['losses'] += 1
         end
         @total_games += 1
