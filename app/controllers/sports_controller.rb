@@ -476,10 +476,12 @@ class SportsController < ApplicationController
 
     @major_league_team = @affiliates.find {|e| e['sport']['name'] == "Major League Baseball"}['name']
 
+    today = Time.now.in_time_zone("America/Los_Angeles")
+
     games = []
     @affiliates.each do |affiliate|
       affiliate['nextGameSchedule']['dates'].each do |date|
-        next unless Time.parse(date['date']).in_time_zone("America/Los_Angeles").today?
+        next unless today.strftime("%Y-%m-%d") == date['date']
         date['games'].each do |game|
           games.push game['gamePk']
         end
