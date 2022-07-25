@@ -495,7 +495,8 @@ class SportsController < ApplicationController
       @games = []
     else
       @schedule = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?language=en&hydrate=game,linescore,flags,team,review,alerts,homeRuns&gamePks=#{games.join(',')}", 'User-Agent': DUMMY_USER_AGENT))
-      @games = @schedule['dates'][0]['games'].sort_by do |game|
+      @all_games = @schedule['dates'].reject {|e| e['date'] != today.strftime("%Y-%m-%d")}.first['games']
+      @games = @all_games.sort_by do |game|
         if sports.include? game['teams']['home']['team']['sport']['name']
           sports.index game['teams']['home']['team']['sport']['name']
         else
