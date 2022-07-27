@@ -13,8 +13,8 @@ Rails.application.config.content_security_policy do |policy|
   policy.style_src   :self, :data,
                      "https://kit.fontawesome.com/", # FontAwesome
                      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='", # jQuery
-                     "'sha256-c9m4gMlhqZ076YhLm4WUpwJSWZ3QLWlhT5327sZKH5o='",
-                     "'sha256-lS0A3YMp01XLzFsb2kKqPUc8ywS60/0gCeQvVpUO3DY='",
+                     "'sha256-gdpQMcGeK+WYQOkotyFWF7RvFTksExyuQrpXvDyuyq4='", # FontAwesome
+                     "'sha256-JqtYCK0sVkEW+Qcto7wBYwUdMYAjb8ARZQx3Gm8NVKY='", # FontAwesome
                      "https://fonts.googleapis.com/" # Google Fonts
   # If you are using webpack-dev-server then specify webpack-dev-server host
   # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
