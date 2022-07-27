@@ -151,8 +151,10 @@
               <% if play['about']['endTime'] %>
                 Duration: <%= to_hms(Time.parse(play['about']['endTime']) - Time.parse(play['about']['startTime'])) %><br>
               <% end %>
-              <% win_prob_change = (@win[play['atBatIndex']]['homeTeamWinProbabilityAdded'] * (play['about']['isTopInning'] ? -1 : 1)).round(2) %>
-              Win Probability: <%= @win[play['atBatIndex']]["#{play['about']['isTopInning'] ? "away" : "home"}TeamWinProbability"].round(2) %>% (<%= win_prob_change.negative? ? "" : "+" %><%= win_prob_change %>%)
+              <% index = play['atBatIndex'] %>
+              <% index -= 1 if @win[index].nil? %>
+              <% win_prob_change = (@win[index]['homeTeamWinProbabilityAdded'] * (play['about']['isTopInning'] ? -1 : 1)).round(2) %>
+              Win Probability: <%= @win[index]["#{play['about']['isTopInning'] ? "away" : "home"}TeamWinProbability"].round(2) %>% (<% if win_prob_change.zero? %>&pm;<% elsif win_prob_change.positive? %>+<% end %><%= win_prob_change %>%)
             </p>
 
             <span class="card-text">Play Events:</span>
