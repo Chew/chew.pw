@@ -147,7 +147,12 @@
               Event: <%= play['result']['event'] || "Pending..." %><br>
               Score: <%= play['result']['awayScore'] %> - <%= play['result']['homeScore'] %><br>
               Outs: <%= play['count']['outs'] %> <% if play['count']['outs'] - last_out > 0 %> (+<%= play['count']['outs'] - last_out %>)<% end %>
-              <% last_out = play['count']['outs'] %>
+              <% last_out = play['count']['outs'] %><br>
+              <% if play['about']['endTime'] %>
+                Duration: <%= to_hms(Time.parse(play['about']['endTime']) - Time.parse(play['about']['startTime'])) %><br>
+              <% end %>
+              <% win_prob_change = (@win[play['atBatIndex']]['homeTeamWinProbabilityAdded'] * (play['about']['isTopInning'] ? -1 : 1)).round(2) %>
+              Win Probability: <%= @win[play['atBatIndex']]["#{play['about']['isTopInning'] ? "away" : "home"}TeamWinProbability"].round(2) %>% (<%= win_prob_change.negative? ? "" : "+" %><%= win_prob_change %>%)
             </p>
 
             <span class="card-text">Play Events:</span>

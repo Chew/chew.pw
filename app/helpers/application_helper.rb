@@ -87,4 +87,12 @@ module ApplicationHelper
       time.strftime("%A, %B #{time.day.ordinalize}, %Y")
     end
   end
+
+  # Converts a time in seconds to hh:mm:ss (with milliseconds)
+  # @param time [Float] the time in seconds
+  # @return [String] the time
+  def to_hms(time)
+    formatted = Time.at(time).utc.strftime("%H:%M:%S.%L")
+    formatted.start_with?("00:") ? formatted.sub("00:", "") : formatted
+  end
 end
