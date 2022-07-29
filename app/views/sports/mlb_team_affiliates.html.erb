@@ -109,7 +109,7 @@
     </div>
 
     <div class="col-md-9">
-      <h4>Upcoming Games</h4>
+      <h4>Recent/Upcoming Games</h4>
       <div class="table-responsive">
         <table class="table" id="<%= affiliate['name'].parameterize %>-table">
           <thead>
@@ -123,7 +123,7 @@
           </tr>
           </thead>
           <tbody>
-          <% affiliate['nextGameSchedule']['dates'].each do |date| %>
+          <% ((affiliate['previousGameSchedule']['dates'][-3..-2] || []) + (affiliate['nextGameSchedule']['dates'][0..2] || [])).each do |date| %>
             <% date['games'].each do |game| %>
               <% next if game['teams']['away']['team']['name'].nil? %>
               <% state = mlb_game_state affiliate['id'], game %>

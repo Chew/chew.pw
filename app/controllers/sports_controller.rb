@@ -470,7 +470,7 @@ class SportsController < ApplicationController
   end
 
   def mlb_team_affiliates
-    url = "https://statsapi.mlb.com/api/v1/teams/affiliates?teamIds=#{params[:team_id]}&hydrate=nextSchedule,standings&season=#{params[:season] || Time.now.year}"
+    url = "https://statsapi.mlb.com/api/v1/teams/affiliates?teamIds=#{params[:team_id]}&hydrate=nextSchedule,previousSchedule,standings&season=#{params[:season] || Time.now.year}"
     sports = ["Major League Baseball", "Triple-A", "Double-A", "High-A", "Single-A", "Rookie"]
 
     @affiliates = JSON.parse(RestClient.get(url, 'User-Agent': DUMMY_USER_AGENT))['teams'].sort_by do |team|
@@ -487,13 +487,15 @@ class SportsController < ApplicationController
 
     games = []
     @affiliates.each do |affiliate|
-      affiliate['nextGameSchedule']['dates'].each do |date|
+      (affiliate['previousGameSchedule']['dates'] + affiliate['nextGameSchedule']['dates']).each do |date|
         next unless today.strftime("%Y-%m-%d") == date['date']
         date['games'].each do |game|
           games.push game['gamePk']
         end
       end
     end
+
+    games = games.uniq
 
     if games.empty?
       @schedule = {
