@@ -179,20 +179,18 @@ class SportsController < ApplicationController
     @positions = {}
     @states = {}
     @draft['drafts']['rounds'].each do |round|
-      num = round['round']
       round['picks'].each do |pick|
         next if pick['person'].nil?
 
         name = pick['person']['fullName']
         team = pick['team']
-        position = pick['person']['primaryPosition']['abbreviation']
         position_name = pick['person']['primaryPosition']['name']
         state = "#{pick['home']['state']}, #{pick['home']['country']}"
 
         @players[name] = pick['pickNumber']
 
-        @teams[team] ||= {}
-        @teams[team][num] = [name, position]
+        @teams[team] ||= []
+        @teams[team].push pick
 
         @positions[position_name] ||= 0
         @positions[position_name] += 1

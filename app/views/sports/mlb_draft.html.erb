@@ -33,25 +33,10 @@
 <h3>Position Totals</h3>
 
 <ul>
-  <% @positions.sort_by {|_, f| f}.reverse.each do |position, amount| %>
+  <% @positions.sort_by { |_, f| f }.reverse.each do |position, amount| %>
     <li><%= position %>: <%= amount %></li>
   <% end %>
 </ul>
-
-<h2 id="breakdown-by-team">Breakdown By Team</h2>
-
-<div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
-  <% @teams.each do |team, players| %>
-    <div class="col">
-      <h3 id="<%= team['name'].parameterize %>"><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></h3>
-      <p>
-        <% players.each do |round, details| %>
-          <%= round %>) <%= link_to details[0], "#pick-#{@players[details[0]]}" %>, <%= details[1] %><br>
-        <% end %>
-      </p>
-    </div>
-  <% end %>
-</div>
 
 <h2 id="rounds">Rounds</h2>
 
@@ -68,10 +53,10 @@
             <h5 class="card-title"><%= pick['person']['fullName'] %></h5>
 
             <% if pick['blurb'] %>
-            <p class="card-text">
-              <a data-bs-toggle="modal" href="#" data-bs-target="#pick-<%= pick['pickNumber'] %>-bio" role="button" aria-expanded="false" aria-controls="pick-<%= pick['pickNumber'] %>-bio">
-              View Blurb</a>
-            </p>
+              <p class="card-text">
+                <a data-bs-toggle="modal" href="#" data-bs-target="#pick-<%= pick['pickNumber'] %>-bio" role="button" aria-expanded="false" aria-controls="pick-<%= pick['pickNumber'] %>-bio">
+                  View Blurb</a>
+              </p>
             <% else %>
               <!-- Show "View Blurb", but with a Bootstrap Tooltip saying there's no blurb. -->
               <p>
@@ -80,6 +65,14 @@
               </span>
               </p>
             <% end %>
+
+            <span class="card-text">
+              Pick Value: $<%= number_with_delimiter pick['pickValue'].to_i %><br>
+              <% if pick['signingBonus'] %>
+                Signing Bonus: $<%= number_with_delimiter pick['signingBonus'].to_i %><br>
+              <% end %>
+            </span>
+            <br>
 
             <p>Pick Number: <%= pick['pickNumber'] %></p>
             <p>Position: <%= pick['person']['primaryPosition']['name'] %></p>
@@ -114,4 +107,47 @@
   </div>
 
   <hr>
+<% end %>
+
+<h2 id="breakdown-by-team">Breakdown By Team</h2>
+
+<% @teams.each do |team, players| %>
+  <h3 id="<%= team['name'].parameterize %>"><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></h3>
+
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Round</th>
+        <th>Pick</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>School</th>
+        <th>Home</th>
+        <th>Position</th>
+        <th>Pick Value</th>
+        <th>Signing Bonus</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% players.each do |player| %>
+        <tr>
+          <td><%= player['pickRound'] %></td>
+          <td><%= player['pickNumber'] %></td>
+          <td><%= player['person']['fullName'] %></td>
+          <td><%= player['person']['currentAge'] %></td>
+          <td><%= player['school']['name'] %> (<%= player['school']['state'] %>, <%= player['school']['country'] %>)</td>
+          <td><%= player['home']['city'] %>, <%= player['home']['state'] %>, <%= player['home']['country'] %></td>
+          <td><%= player['person']['primaryPosition']['name'] %></td>
+          <td>$<%= number_with_delimiter player['pickValue'].to_i %></td>
+          <% if player['signingBonus'] %>
+            <td>$<%= number_with_delimiter player['signingBonus'].to_i %></td>
+          <% else %>
+            <td></td>
+          <% end %>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 <% end %>
