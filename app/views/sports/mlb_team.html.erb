@@ -193,9 +193,11 @@
     <th>Score</th>
     <th>State</th>
     <th>Result</th>
+    <th>Streak</th>
   </tr>
   </thead>
   <tbody>
+  <% last = ["x", -1] %>
   <% @scores['dates'].each do |date| %>
     <% date['games'].each do |game| %>
       <% next unless game['seriesDescription'] == series %>
@@ -211,7 +213,24 @@
         <td class="<%= "bold" if game['teams']['home']['team']['id'] == params['team_id'].to_i %>"><%= link_to game['teams']['home']['team']['name'], "/sports/mlb/team/#{game['teams']['home']['team']['id']}" %></td>
         <td><%= game['teams']['away']['score'] %> - <%= game['teams']['home']['score'] %></td>
         <td><%= state %></td>
-        <td><%= game['status']['detailedState'] %><% if game['status']['reason'] %>: <%= game['status']['reason'] %><% end %></td>
+        <td>
+          <%= game['status']['detailedState'] %><% if game['status']['reason'] %>:
+            <%= game['status']['reason'] %><% end %><% if game['status']['detailedState'] == "Scheduled" %>:
+            <%= Time.parse(game['gameDate']).in_time_zone("America/New_York").strftime("%_I:%M %Z") %>
+          <% end %>
+        </td>
+        <td>
+          <% if %w[Win Loss Tie].include?(state) %>
+            <% if last[0] == state[0] %>
+              <% last[1] += 1 %>
+            <% else %>
+              <% last = [state[0], 1] %>
+            <% end %>
+            <%= last.join('') %>
+          <% else %>
+          -
+          <% end %>
+        </td>
       </tr>
     <% end %>
   <% end %>
