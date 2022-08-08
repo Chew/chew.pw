@@ -204,10 +204,9 @@ class SportsController < ApplicationController
   def mlb_game
     begin
       @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))
-      win = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/game/#{params[:game_id]}/winProbability?language=en&fields=atBatIndex,homeTeamWinProbability,awayTeamWinProbability,homeTeamWinProbabilityAdded", 'User-Agent': DUMMY_USER_AGENT))
     rescue RestClient::NotFound
       # Render the sports layout with a "game not found" message
-      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified.")}#{link_to("View All Games", "/sports/mlb/schedule")}".html_safe,
+      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified (404).")}#{link_to("View All Games", "/sports/mlb/schedule")}".html_safe,
                     layout: 'application', status: 404
     rescue RestClient::InternalServerError
       # Render the sports layout with a "could not load game" message
@@ -221,10 +220,16 @@ class SportsController < ApplicationController
                   layout: 'application', status: 404
     end
 
-    # Reformat Win Percentage
+    # Win Percentage
     @win = {}
-    win.each do |prob|
-      @win[prob['atBatIndex']] = prob
+    begin
+      win = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/game/#{params[:game_id]}/winProbability?language=en&fields=atBatIndex,homeTeamWinProbability,awayTeamWinProbability,homeTeamWinProbabilityAdded", 'User-Agent': DUMMY_USER_AGENT))
+
+      win.each do |prob|
+        @win[prob['atBatIndex']] = prob
+      end
+    rescue RestClient::NotFound
+      # Rory: I don't know what to do here.
     end
 
     # Teams
