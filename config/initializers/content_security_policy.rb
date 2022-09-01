@@ -9,13 +9,15 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src    :self, :https, :data
   policy.img_src     :self, :https, :data
   policy.object_src  :none
-  policy.script_src  :self, "https://kit.fontawesome.com/", "https://static.cloudflareinsights.com/", "https://unpkg.com/"
+  policy.script_src  :self, "https://kit.fontawesome.com/", "https://static.cloudflareinsights.com/", "https://unpkg.com/",
+                     "'sha256-1rCzMxPXvZh4WjxEnjI5PelzR02l+StC/cJvBnpGvag='"
   policy.style_src   :self, :data,
                      "https://kit.fontawesome.com/", # FontAwesome
                      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='", # jQuery
                      "'sha256-gdpQMcGeK+WYQOkotyFWF7RvFTksExyuQrpXvDyuyq4='", # FontAwesome
-                     "'sha256-JqtYCK0sVkEW+Qcto7wBYwUdMYAjb8ARZQx3Gm8NVKY='", # FontAwesome
-                     "https://fonts.googleapis.com/" # Google Fonts
+                     "'sha256-YiAoY/iLhrv71MsPpBIb+P7dvB9UyTg/BPmcwYMZqAs='", # FontAwesome
+                     "https://fonts.googleapis.com/", # Google Fonts
+                     "https://use.typekit.net/" # Typekit/Adobe Fonts
   # If you are using webpack-dev-server then specify webpack-dev-server host
   # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
 
