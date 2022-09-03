@@ -2,25 +2,31 @@
 
 <p>View the NFL stats.</p>
 
-<table class="table">
-  <thead>
-  <tr>
-    <% @headers.each do |header| %>
-      <th><%= header %></th>
-    <% end %>
-  </tr>
-  </thead>
-  <tbody>
-  <% @teams.each do |team| %>
+<% @teams.each do |week| %>
+  <h2><%= week['week'].ordinalize %> Week</h2>
+
+  <table class="table">
+    <thead>
     <tr>
-      <% team.each_with_index do |data, i| %>
-        <% if i == 0 %>
-          <td><%= data.split("\n")[0] %></td>
-        <% else %>
-          <td><%= data %></td>
-        <% end %>
-      <% end %>
+      <th>Team</th>
+      <th>Wins</th>
+      <th>Losses</th>
+      <th>Ties</th>
+      <th>Pct</th>
+      <th>Streak</th>
     </tr>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <% week['standings'].each do |team| %>
+      <tr>
+        <td><%= team['team']['fullName'] %></td>
+        <td><%= team['overall']['wins'] %></td>
+        <td><%= team['overall']['losses'] %></td>
+        <td><%= team['overall']['ties'] %></td>
+        <td><%= team['overall']['winPct'] %></td>
+        <td><%= team['overall']['streak']['type'].nil? ? "-" : team['overall']['streak'].map{|_,f|f}.join('') %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
