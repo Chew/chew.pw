@@ -1,0 +1,100 @@
+<h1>Game Information</h1>
+
+<h2><%= @game['visitorTeam']['nickName'] %> @ <%= @game['homeTeam']['nickName'] %></h2>
+
+<p>Game Status: <%= @game['phase'] %></p>
+
+<p>Score: <%= @game['visitorPointsTotal'] %> - <%= @game['homePointsTotal'] %></p>
+
+<h2 id="scorecard">Scorecard</h2>
+
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Team</th>
+      <% 4.times do |i| %>
+        <th>Q<%= i + 1 %></th>
+      <% end %>
+      <th>OT</th>
+      <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% %w[visitor home].each do |team| %>
+      <tr>
+        <td><%= @game["#{team}Team"]['nickName'] %></td>
+        <% 4.times do |i| %>
+          <td><%= @game["#{team}PointsQ#{i + 1}"] %></td>
+        <% end %>
+        <% if @game['homePointsOvertime'] > 0 || @game['visitorPointsOvertime'] > 0 %>
+          <td><%= @game["#{team}PointsOvertime"] %></td>
+        <% else %>
+          <td>-</td>
+        <% end %>
+        <td><%= @game["#{team}PointsTotal"] %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="<%= "Drives Table of Contents".parameterize %>">Drives Table of Contents</h2>
+
+<p>Shows a summary of every drive.</p>
+
+<% if @game['drives'].empty? %>
+  <p>There are no recorded drives for this game.</p>
+<% else %>
+  <ol>
+    <% (1..4).each do |i| %>
+      <li><%= (i).ordinalize %> Quarter</li>
+      <ul>
+        <% @game['drives'].select { |e| e['quarterStart'] == i }.each do |drive| %>
+          <li><%= drive['possessionTeam']['nickName'] %> - <%= drive['howEndedDescription'] %>
+            (<%= drive['startYardLine'] %> -> <%= drive['endYardLine'] %>) [<%= drive['timeOfPossession'] %>]</li>
+        <% end %>
+      </ul>
+    <% end %>
+  </ol>
+<% end %>
+
+<h2 id="drives">Drives</h2>
+
+<% (1..4).each do |i| %>
+  <h3><%= (i).ordinalize %> Quarter</h3>
+  <hr>
+
+  <% @game['drives'].select { |e| e['quarterStart'] == i }.each do |drive| %>
+    <h4><%= image_tag drive['possessionTeam']['franchise']['currentLogo']['url'].gsub("{formatInstructions}", "f_auto"), size: 25 %>
+      <%= drive['possessionTeam']['nickName'] %></h4>
+
+    <p>
+      Plays: <%= drive['playCount'] %><br>
+      Score: <%=  %><br>
+      Start: <%= drive['startYardLine'] %><br>
+      End: <%= drive['endYardLine'] %><br>
+      Yards: <%= drive['yards'] %><br>
+      Possession Time: <%= drive['timeOfPossession'] %>
+    </p>
+
+    <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
+      <% @game['plays'].select {|e| e['playId'].between?(drive['playIdStarted'], drive['playIdEnded']) }.each_with_index do |play, ind| %>
+        <div class="col" id="play-<%= play['playId'] %>">
+          <div class="card h-100 <%= "border-primary" if play['scoringPlay'] %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= play['playDescription'] %></h5>
+
+              <p class="card-text">
+                Event: <%= play['playType'].gsub("_", "").titleize %><br>
+                Net Yards: <%= play['driveNetYards'] %><br>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <hr>
+  <% end %>
+<% end %>
