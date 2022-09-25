@@ -28,7 +28,8 @@
             <td>-</td>
           <% end %>
         <% end %>
-        <% game['teams'][team].each do |_, amount| %>
+        <% game['teams'][team].each do |type, amount| %>
+          <% next if type == "isWinner" %>
           <td><b><%= amount || '-' %></b></td>
         <% end %>
       </tr>
