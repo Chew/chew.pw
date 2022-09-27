@@ -4,6 +4,12 @@
 
 <p>Game Status: <%= @game['phase'] %></p>
 
+<% if @game['phase'] == "INGAME" %>
+  <p>Game Clock: <%= @game['gameClock'] %></p>
+
+  <p>Yard Line: <%= @game['yardLine'] %></p>
+<% end %>
+
 <p>Score: <%= @game['visitorPointsTotal'] %> - <%= @game['homePointsTotal'] %></p>
 
 <h2 id="scorecard">Scorecard</h2>

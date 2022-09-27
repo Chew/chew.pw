@@ -1,8 +1,15 @@
-<h1>NFL Team Stats</h1>
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "NFL Stats",
+                description: "National football stats for the National Football League!",
+                service: "Chew's NFL Stats",
+                keywords: "sports nfl football baseball cowboys patriots" %>
+<% end %>
+
+<h1>Chew's NFL Stats</h1>
 
 <p>View the NFL stats.</p>
 
-<% @teams.each do |week| %>
+<% @teams.reverse.each do |week| %>
   <h2><%= week['week'].ordinalize %> Week</h2>
 
   <table class="table">
@@ -19,7 +26,7 @@
     <tbody>
     <% week['standings'].each do |team| %>
       <tr>
-        <td><%= team['team']['fullName'] %></td>
+        <td><%= link_to team['team']['fullName'], "/sports/nfl/team/#{team['team']['id']}" %></td>
         <td><%= team['overall']['wins'] %></td>
         <td><%= team['overall']['losses'] %></td>
         <td><%= team['overall']['ties'] %></td>

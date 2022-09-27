@@ -155,6 +155,7 @@ Rails.application.routes.draw do
     scope 'nfl' do
       get '/', to: 'sports#nfl'
       get '/game/:game_id', to: 'sports#nfl_game'
+      get '/team/:team_id', to: 'sports#nfl_team'
     end
 
     scope 'mlb' do

@@ -1,0 +1,33 @@
+<h1>Team Info for FILL ME IN</h1>
+
+<h2 id="schedule">Schedule for <%= @season %></h2>
+<hr>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Away Team</th>
+      <th>Home Team</th>
+      <th>Score</th>
+      <th>State</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @schedule.each do |game| %>
+      <% state = game['status'] %>
+      <tr class="table-secondary">
+        <% if game['date'] %>
+          <td><%= link_to Time.parse(game['time']).in_time_zone("America/New_York").strftime("%F"), "/sports/nfl/game/#{game['id']}" %></td>
+        <% else %>
+          <td>NO Date</td>
+        <% end %>
+        <td><%= link_to game['awayTeam']['fullName'], "/sports/nfl/team/#{game['awayTeam']['id']}" %></td>
+        <td><%= link_to game['homeTeam']['fullName'], "/sports/nfl/team/#{game['awayTeam']['id']}" %></td>
+        <td>????</td>
+        <td><%= state %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
