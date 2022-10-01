@@ -20,7 +20,7 @@
 <p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] || 0 %>
   - <%= @game['liveData']['linescore']['teams']['home']['runs'] || 0 %></p>
 
-<p>Venue: <%= @game['gameData']['venue']['name'] %> (<%= @game['gameData']['venue']['location']['city'] %>, <%= @game['gameData']['venue']['location']['state'] %>)</p>
+<p>Venue: <%= @game['gameData']['venue']['name'] %> (<%= @game['gameData']['venue']['location']['city'] %>, <%= @game['gameData']['venue']['location']['state'] || @game['gameData']['venue']['location']['country'] %>)</p>
 
 <p>Summary: <%= @summary %></p>
 
