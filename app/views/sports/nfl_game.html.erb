@@ -22,7 +22,9 @@
       <% 4.times do |i| %>
         <th>Q<%= i + 1 %></th>
       <% end %>
-      <th>OT</th>
+      <% unless @game['homePointsOvertime'].nil? %>
+        <th>OT</th>
+      <% end %>
       <th>Total</th>
     </tr>
     </thead>
@@ -33,10 +35,12 @@
         <% 4.times do |i| %>
           <td><%= @game["#{team}PointsQ#{i + 1}"] %></td>
         <% end %>
+        <% unless @game['homePointsOvertime'].nil? %>
         <% if @game['homePointsOvertime'] > 0 || @game['visitorPointsOvertime'] > 0 %>
           <td><%= @game["#{team}PointsOvertime"] %></td>
         <% else %>
           <td>-</td>
+        <% end %>
         <% end %>
         <td><%= @game["#{team}PointsTotal"] %></td>
       </tr>
@@ -77,7 +81,6 @@
 
     <p>
       Plays: <%= drive['playCount'] %><br>
-      Score: <%=  %><br>
       Start: <%= drive['startYardLine'] %><br>
       End: <%= drive['endYardLine'] %><br>
       Yards: <%= drive['yards'] %><br>

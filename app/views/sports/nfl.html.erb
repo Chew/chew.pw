@@ -12,14 +12,14 @@
 <% @teams.reverse.each do |week| %>
   <h2><%= week['week'].ordinalize %> Week</h2>
 
-  <table class="table">
-    <thead>
+  <table class="table" data-toggle="table">
+    <thead class="table-dark">
     <tr>
       <th>Team</th>
-      <th>Wins</th>
-      <th>Losses</th>
-      <th>Ties</th>
-      <th>Pct</th>
+      <th data-sortable="true" data-sort-order="desc">Wins</th>
+      <th data-sortable="true" data-sort-order="desc">Losses</th>
+      <th data-sortable="true" data-sort-order="desc">Ties</th>
+      <th data-sortable="true" data-sort-order="desc">Pct</th>
       <th>Streak</th>
     </tr>
     </thead>
