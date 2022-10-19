@@ -115,14 +115,11 @@
       <tr>
         <td><%= link_to "Standalone", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar" %></td>
       </tr>
-      <% %w[Spigot BungeeCord Velocity Sponge].each do |type| %>
+      <% %w[Spigot BungeeCord Velocity Sponge Fabric].each do |type| %>
       <tr>
         <td><%= link_to t(type.downcase), "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/#{type.downcase}/target/Geyser-#{type}.jar" %></td>
       </tr>
       <% end %>
-      <tr>
-        <td><%= link_to "Fabric", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser-Fabric/job/java-1.17/lastSuccessfulBuild/artifact/build/libs/Geyser-Fabric-1.4.3-SNAPSHOT.jar" %></td>
-      </tr>
       </tbody>
     </table>
   </div>
