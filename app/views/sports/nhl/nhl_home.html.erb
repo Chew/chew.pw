@@ -1,0 +1,33 @@
+<h1>Chew's NHL Stats</h1>
+
+<h2 id="standings">Team Standings</h2>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" data-toggle="table" data-search="true" data-show-columns-toggle-all="true" data-show-columns="true">
+    <thead class="table-dark">
+    <tr>
+      <th data-sortable="true" data-field="team" data-switchable="false" data-sort-order="asc">Team</th>
+      <th data-sortable="true" data-field="wins" data-switchable="false" data-sort-order="desc">Wins</th>
+      <th data-sortable="true" data-field="loss" data-switchable="false" data-sort-order="desc">Losses</th>
+      <th data-sortable="true" data-field="streak" data-sort-name="streak_raw" data-sort-order="desc">Streak</th>
+      <th data-sortable="true" data-field="streak_raw" data-switchable="false" data-visible="false" data-sort-order="desc">Streak (Decimal)</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @standings.each do |division| %>
+      <tr>
+        <td colspan="7" class="text-center bold"><%= division['division']['name'] %></td>
+      </tr>
+      <% division['teamRecords'].each do |team| %>
+        <tr>
+          <td><%= image_tag "https://www-league.nhlstatic.com/nhl.com/builds/site-core/b34d83dadf3be67ed60468fcb22b6c4a8dded148_1664468030/images/logos/team/current/team-#{team['team']['id']}-dark.svg", size: 25 %> <%= link_to team['team']['name'], "/sports/nfl/team/#{team['team']['id']}" %></td>
+          <td><%= team['leagueRecord']['wins'] %></td>
+          <td><%= team['leagueRecord']['losses'] %></td>
+          <td><%= team['streak']['streakCode'] %></td>
+          <td><%= team['streak']['streakNumber'] * (team['streak']['streakType'] == 'losses' ? -1 : 1) %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>

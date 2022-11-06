@@ -173,6 +173,11 @@ Rails.application.routes.draw do
       get 'game/:game_id', to: 'sports#mlb_game'
       get 'derby/:game_id', to: 'sports#mlb_derby'
     end
+
+    # Hockey (National Hockey League)
+    scope 'nhl' do
+      get '/', to: 'sports/nhl#nhl_home'
+    end
   end
 
   # Secret routes
