@@ -67,7 +67,7 @@ class DiscordController < ApplicationController
     end
 
     begin
-      @connections = JSON.parse(RestClient.get("https://discord.com/api/v6/users/@me/connections", Authorization: session[:discord_key]))
+      @connections = JSON.parse(RestClient.get("https://discord.com/api/v10/users/@me/connections", Authorization: session[:discord_key]))
     rescue RestClient::Unauthorized
       redirect_to "/discord/connections/logout"
       return

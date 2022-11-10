@@ -20,15 +20,17 @@
       <th data-sortable="true" data-field="id" data-switchable="true" data-sort-order="desc">ID</th>
       <th data-sortable="true" data-field="name" data-switchable="false">Name</th>
       <th data-sortable="true" data-field="verified" data-switchable="true">Verified</th>
+      <th data-sortable="true" data-field="visible" data-switchable="true">Visible</th>
     </tr>
     </thead>
     <tbody>
     <% @connections.each do |connection| %>
       <tr>
-        <td><%= connection['type'] %></td>
+        <td><%= connection['type'].capitalize %></td>
         <td><%= connection['id'] %></td>
         <td><%= connection['name'] %></td>
         <td><%= connection['verified'] %></td>
+        <td><%= connection['visibility'] == 1 %></td>
       </tr>
     <% end %>
     </tbody>
