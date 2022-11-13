@@ -88,7 +88,7 @@
     </p>
 
     <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
-      <% @game['plays'].select {|e| e['playId'].between?(drive['playIdStarted'], drive['playIdEnded']) }.each_with_index do |play, ind| %>
+      <% @game['plays'].select {|e| e['playId'].between?(drive['playIdStarted'], drive['playIdEnded'] || 1000) }.each_with_index do |play, ind| %>
         <div class="col" id="play-<%= play['playId'] %>">
           <div class="card h-100 <%= "border-primary" if play['scoringPlay'] %>">
             <div class="card-body">

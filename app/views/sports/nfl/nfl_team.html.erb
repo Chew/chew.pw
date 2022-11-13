@@ -1,4 +1,4 @@
-<h1>Team Info for FILL ME IN</h1>
+<h1>Team Info for <%= @schedule.map{|game|game['awayTeam']['fullName']}.inject(Hash.new(0)) { |h,v| h[v] += 1; h }.sort_by{|_,f|f}.last.first %></h1>
 
 <h2 id="schedule">Schedule for <%= @season %></h2>
 <hr>
@@ -23,7 +23,7 @@
           <td>NO Date</td>
         <% end %>
         <td><%= link_to game['awayTeam']['fullName'], "/sports/nfl/team/#{game['awayTeam']['id']}" %></td>
-        <td><%= link_to game['homeTeam']['fullName'], "/sports/nfl/team/#{game['awayTeam']['id']}" %></td>
+        <td><%= link_to game['homeTeam']['fullName'], "/sports/nfl/team/#{game['homeTeam']['id']}" %></td>
         <td>????</td>
         <td><%= state %></td>
       </tr>
