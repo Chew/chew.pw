@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
 
   def info
     @controller_name = request.controller_class.to_s.gsub("Controller", "").downcase
+    # get everything before ::
+    @controller_name = @controller_name.split("::").first
 
     @layout = Dir['app/views/layouts/extra/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
     @nav = Dir['app/views/layouts/navs/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
