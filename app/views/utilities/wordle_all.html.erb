@@ -10,6 +10,11 @@
 
 <p>The ultimate cheat. This page has every single word for the next 5 years. It ruins the fun though! Only use this as a last resort!</p>
 
+<div class="alert alert-danger">
+  <i class="fas fa-warning"></i> Due to changes in Wordle, this page is now effectively useless.
+  To view today's wordle, use <%= link_to "this link", "/util/wordle/answer/#{Time.now.strftime("%F")}" %>.
+</div>
+
 <!-- button to jump to #today -->
 <a href="#today" class="btn btn-primary">Jump to Today</a>
 

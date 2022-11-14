@@ -2,8 +2,13 @@
 
 <p>Found <%= @wordles.count %> possible words.</p>
 
-<%= link_to button_tag("#{fas_icon "home"} Back".html_safe, class: "btn btn-primary"), "/util/wordle" %>
-<br>
+<p><%= link_to button_tag("#{fas_icon "home"} Back".html_safe, class: "btn btn-primary"), "/util/wordle" %></p>
+
+<%# Checkbox to toggle if not-possible words are hidden %>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" id="hideNotPossible" />
+  <label class="form-check-label" for="hideNotPossible">Only show possible solutions.</label>
+</div>
 <hr>
 
 <div class="row">
@@ -11,7 +16,7 @@
     <p>No possible words found for input! Try again?</p>
   <% else %>
     <% @wordles.each do |word| %>
-      <div class="col wordle-guess">
+      <div class="col wordle-guess <% unless LA.include?(word) %>wordle-valid<% end %>">
         <%= word %>
       </div>
     <% end %>

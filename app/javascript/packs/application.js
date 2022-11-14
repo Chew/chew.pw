@@ -78,6 +78,17 @@ $(".wordle-letter").keyup(function(e) {
 const can = $("input[name='can']");
 const cant = $("input[name='cant']");
 
+// Listen for #hideNotPossible checkbox click
+$("#hideNotPossible").change(function() {
+    if ($(this).is(":checked")) {
+        // add display:none to all .wordle-valid
+        $(".wordle-valid").addClass('d-none');
+    } else {
+        // remove display:none from all .wordle-valid
+        $(".wordle-valid").removeClass('d-none');
+    }
+});
+
 // Listen for the #invertButtonToBlacklist button click
 const invertButtonToBlackList = function(e) {
     if (e) e.preventDefault();

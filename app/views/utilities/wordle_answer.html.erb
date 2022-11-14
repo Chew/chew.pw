@@ -1,0 +1,13 @@
+<h1>Wordle Answer For <%= params[:date] %></h1>
+
+<p><%= link_to "Home", "/util/wordle", class: "btn btn-primary" %></p>
+
+<p>
+  <%= link_to "Yesterday's Word", "/util/wordle/answer/#{Time.now.yesterday.strftime("%F")}", class: "btn btn-primary" %>
+
+  <% if params[:date] != Time.now.strftime("%F") %>
+    <%= link_to "Today's Word", "/util/wordle/answer/#{Time.now.strftime("%F")}", class: "btn btn-primary" %>
+  <% end %>
+</p>
+
+<h2>Solution: <span class="font-monospace"><%= @word['solution'] %></span></h2>

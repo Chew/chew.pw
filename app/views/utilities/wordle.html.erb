@@ -11,8 +11,8 @@
 
 <p><i>Note that this site is based on the NY Times Wordle word list. <%= link_to "Learn More", "#what-words-are-used" %></i></p>
 
-<%= button_to "All Wordles", "/util/wordle/all", class: "btn btn-danger", form_class: 'd-inline',
-              'data-bs-toggle': 'tooltip', title: "This page shows ALL NY Times Wordle answers. Use as a last resort.",
+<%= button_to "Today's Word", "/util/wordle/answer/#{Time.now.strftime("%F")}", class: "btn btn-danger", form_class: 'd-inline',
+              'data-bs-toggle': 'tooltip', title: "This page shows today's answer. Use as a last resort.",
               method: :get %>
 
 <%= button_tag "Clear Fields", class: "btn btn-primary d-inline", id: "clear-fields",
