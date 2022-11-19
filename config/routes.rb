@@ -10,9 +10,12 @@ Rails.application.routes.draw do
     get 'html', to: 'utilities#striphtml'
     post 'html/strip', to: 'utilities#strippedhtml'
     get 'random', to: 'utilities#random'
-    get 'wordle', to: 'utilities#wordle'
-    post 'wordle/solve', to: 'utilities#wordle_solve'
-    get 'wordle/all', to: 'utilities#wordle_all'
+    scope 'wordle' do
+      get '/', to: 'utilities#wordle'
+      post 'solve', to: 'utilities#wordle_solve'
+      get 'all', to: 'utilities#wordle_all'
+      get 'answer/:date', to: 'utilities#wordle_answer'
+    end
     get 'bases', to: 'utilities#bases'
   end
 
