@@ -98,4 +98,8 @@ class UtilitiesController < ApplicationController
 
     @wordles = likely.sort
   end
+
+  def wordle_answer
+    @word = JSON.parse(RestClient.get("https://www.nytimes.com/svc/wordle/v2/#{params[:date]}.json"))
+  end
 end
