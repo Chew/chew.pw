@@ -368,8 +368,8 @@
 
 <p>Of the <%= @total_balls %> balls, <%= @blunder_balls.count %> were actually in the zone:</p>
 <ol>
-  <% @blunder_balls.each do |blunder| %>
-    <li><%= blunder %></li>
+  <% @blunder_balls.each do |desc, ind| %>
+    <li><%= link_to desc, "#play-#{ind}" %></li>
   <% end %>
 </ol>
 
@@ -377,8 +377,8 @@
 
 <p>Of the <%= @total_strikes %> called strikes, <%= @blunder_strikes.count %> were actually out of the zone:</p>
 <ol>
-  <% @blunder_strikes.each do |blunder| %>
-    <li><%= blunder %></li>
+  <% @blunder_strikes.each do |desc, ind| %>
+    <li><%= link_to desc, "#play-#{ind}" %></li>
   <% end %>
 </ol>
 

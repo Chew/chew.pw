@@ -258,12 +258,12 @@ class SportsController < ApplicationController
           if play_event['details']['isBall'] and play_event['details']['call']['description'] != "Hit By Pitch"
             @total_balls += 1
             if bad_call? play_event
-              @blunder_balls.push(link_to(play_description, "#play-#{play_index}").html_safe)
+              @blunder_balls.push([play_description, play_index])
             end
           elsif play_event['details']['isStrike'] and play_event['details']['call']['description'] == "Called Strike"
             @total_strikes += 1
             if bad_call? play_event
-              @blunder_strikes.push(link_to(play_description, "#play-#{play_index}").html_safe)
+              @blunder_strikes.push([play_description, play_index])
             end
           end
         end
