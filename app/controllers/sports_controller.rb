@@ -397,7 +397,7 @@ class SportsController < ApplicationController
     # Sort the teams by either the parentOrgName (if it exists) or the name
     @teams.sort_by! do |team|
       if team['parentOrgName'].nil?
-        team['name']
+        team['name'].nil? ? "#{team['id']}" : team['name']
       else
         team['parentOrgName']
       end
