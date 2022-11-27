@@ -1,10 +1,15 @@
+#noinspection RubyResolve
 module ApplicationHelper
   def fas_icon(icon)
-    "<i class=\"fas fa-#{icon}\"></i>".html_safe
+    content_tag :i, nil, class: "fas fa-#{icon}"
   end
 
   def fab_icon(icon)
-    "<i class=\"fab fa-#{icon}\"></i>".html_safe
+    content_tag :i, nil, class: "fab fa-#{icon}"
+  end
+
+  def fa_icon(icon)
+    tag.i class: icon
   end
 
   # Adds necessary tags for meta where needed
@@ -33,18 +38,14 @@ module ApplicationHelper
   # @param fa_icon [String] the icon to show before the text
   # @param external [Boolean] Whether this opens in a new tab (optional if href is an external link)
   def dropdown_item(name: '', href: '#', fa_icon: nil, external: false)
-    tag = "<a class=\"dropdown-item\" href=\"#{href}\""
-    tag += if external || href.start_with?("http")
-             " target=\"_blank\" rel=\"noopener\">"
-           else
-             ">"
-           end
-    if fa_icon
-      tag += "<i class=\"#{fa_icon}\"></i> "
+    tag.a(class: 'dropdown-item', href: href, target: external ? '_blank' : nil) do
+      # Add icon if needed
+      concat(fa_icon(fa_icon)) if fa_icon
+      # Add a space if there is an icon
+      concat(' ') if fa_icon
+      # Add the name
+      "#{concat(name)}"
     end
-    tag += name
-    tag += "</a>"
-    tag.html_safe
   end
 
   # Adds an item to a navbar
@@ -53,19 +54,38 @@ module ApplicationHelper
   # @param fa_icon [String] the icon to show before the text (optional)
   # @param external [Boolean] Whether this opens in a new tab (optional if href is an external link)
   def navbar_item(name: '', href: '#', fa_icon: nil, external: false)
-    tag = "<li class=\"nav-item#{' disabled active' if request.path == href}\">"
-    tag += "<a class=\"nav-link#{' active disabled' if request.path == href}\" href=\"#{href}\""
-    tag += if external
-             " target=\"_blank\">"
-           else
-             ">"
-           end
-    if fa_icon
-      tag += "<i class=\"#{fa_icon}\"></i> "
+    tag.li(class: "nav-item#{' disabled active' if request.path == href}") do
+      tag.a(class: "nav-link#{' active disabled' if request.path == href}", href: href, target: external ? '_blank' : nil) do
+        # Add icon if needed
+        concat(fa_icon(fa_icon)) if fa_icon
+        # Add a space if there is an icon
+        concat(' ') if fa_icon
+        # Add the name
+        "#{concat(name)}"
+      end
     end
-    tag += "#{name}</a>"
-    tag += "</li>"
-    tag.html_safe
+  end
+
+  # Creates a navbar dropdown
+  # The contents of the block should be dropdown_items
+  # @param name [String] the name of the dropdown
+  # @param fa_icon [String] the icon to show before the text (optional)
+  # @param block [Block] the contents of the dropdown
+  def nav_dropdown(name: '', fa_icon: nil, &block)
+    id = "#{name.parameterize}-dropdown"
+    tag.li(class: 'nav-item dropdown') do
+      tag.a(class: 'nav-link dropdown-toggle', href: '#', id: id, role: 'button', data: { 'bs-toggle': 'dropdown' }, aria: { haspopup: true, expanded: false }) do
+        # Add icon if needed
+        concat(fa_icon(fa_icon)) if fa_icon
+        # Add a space if there is an icon
+        concat(' ') if fa_icon
+        # Add the name
+        "#{concat(name)}"
+      end +
+        tag.div(class: 'dropdown-menu', aria: { labelledby: id }) do
+          block.call
+        end
+    end
   end
 
   # Creates a clickable link to a parameterized title.

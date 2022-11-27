@@ -7,29 +7,19 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <%= navbar_item name: "Home", href: "/chewbotcca", fa_icon: "fas fa-home" %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="discordDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fab fa-discord"></i> Discord
-          </a>
-          <div class="dropdown-menu" aria-labelledby="discordDropdown">
-            <%= dropdown_item name: "Home", href: "/chewbotcca/discord", fa_icon: "fas fa-home" %>
-            <%= dropdown_item name: "Commands", href: "/chewbotcca/discord/commands", fa_icon: "fas fa-cogs" %>
-            <%= dropdown_item name: "Invite Bot", href: invite_link("939879492"), fa_icon: "fas fa-link" %>
-            <%= dropdown_item name: "Privacy Policy", href: "/chewbotcca/discord/privacy", fa_icon: "fas fa-user-shield" %>
-            <%= dropdown_item name: "Support Server", href: "https://discord.gg/UjxQ3Bh", fa_icon: "fab fa-discord" %>
-            <%= dropdown_item name: "Source Code", href: "https://github.com/Chewbotcca/Discord", fa_icon: "fab fa-github" %>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="slackDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fab fa-slack"></i> Slack
-          </a>
-          <div class="dropdown-menu" aria-labelledby="slackDropdown">
-            <%= dropdown_item name: "Home", href: "/chewbotcca/slack", fa_icon: "fas fa-home" %>
-            <%= dropdown_item name: "Invite Bot", href: "https://slack.com/oauth/v2/authorize?client_id=135824302695.1690214909123&scope=commands&user_scope=", fa_icon: "fas fa-link" %>
-            <%= dropdown_item name: "Privacy Policy", href: "/chewbotcca/slack/privacy", fa_icon: "fas fa-user-shield" %>
-          </div>
-        </li>
+        <%= nav_dropdown name: "Discord", fa_icon: "fab fa-discord" do %>
+          <%= dropdown_item name: "Home", href: "/chewbotcca/discord", fa_icon: "fas fa-home" %>
+          <%= dropdown_item name: "Commands", href: "/chewbotcca/discord/commands", fa_icon: "fas fa-cogs" %>
+          <%= dropdown_item name: "Invite Bot", href: invite_link("939879492"), fa_icon: "fas fa-link" %>
+          <%= dropdown_item name: "Privacy Policy", href: "/chewbotcca/discord/privacy", fa_icon: "fas fa-user-shield" %>
+          <%= dropdown_item name: "Support Server", href: "https://discord.gg/UjxQ3Bh", fa_icon: "fab fa-discord" %>
+          <%= dropdown_item name: "Source Code", href: "https://github.com/Chewbotcca/Discord", fa_icon: "fab fa-github" %>
+        <% end %>
+        <%= nav_dropdown name: "Slack", fa_icon: "fab fa-slack" do %>
+          <%= dropdown_item name: "Home", href: "/chewbotcca/slack", fa_icon: "fas fa-home" %>
+          <%= dropdown_item name: "Invite Bot", href: "https://slack.com/oauth/v2/authorize?client_id=135824302695.1690214909123&scope=commands&user_scope=", fa_icon: "fas fa-link" %>
+          <%= dropdown_item name: "Privacy Policy", href: "/chewbotcca/slack/privacy", fa_icon: "fas fa-user-shield" %>
+        <% end %>
       </ul>
 
       <%= render "/layouts/navs/chew" %>

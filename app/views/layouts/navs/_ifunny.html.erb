@@ -8,14 +8,9 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <%= navbar_item name: "Home", href: "/ifunny" %>
         <% if session[:ifunny_token] %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-user"></i> Account
-            </a>
-            <div class="dropdown-menu" aria-labelledby="accountDropdown">
-              <%= dropdown_item name: "Profile", href: "/ifunny/account", fa_icon: "fas fa-home" %>
-            </div>
-          </li>
+          <%= nav_dropdown name: "Account", fa_icon: "fas fa-user" do %>
+            <%= dropdown_item name: "Profile", href: "/ifunny/account", fa_icon: "fas fa-home" %>
+          <% end %>
           <%= navbar_item name: "Log out", href: "/ifunny/logout" %>
         <% else %>
           <%= navbar_item name: "Log in", href: "/ifunny/login" %>
