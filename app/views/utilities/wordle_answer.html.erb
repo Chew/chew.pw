@@ -2,6 +2,14 @@
 
 <p><%= link_to "Home", "/util/wordle", class: "btn btn-primary" %></p>
 
+<% if @walkout %>
+  <p>
+    In support of the New York Times walkouts, answers will not be shown today, December 8th, 2022.
+    <%= link_to "Learn more.", "https://www.nyguild.org/front-page-details/breaking-1k-nyt-workers-confirm-walkout-after-times-management-walks-away-from-the-table" %>
+  </p>
+
+<% else %>
+
 <p>
   <%= link_to "Yesterday's Word", "/util/wordle/answer/#{Time.now.yesterday.strftime("%F")}", class: "btn btn-primary" %>
 
@@ -11,3 +19,4 @@
 </p>
 
 <h2>Solution: <span class="font-monospace"><%= @word['solution'] %></span></h2>
+<% end %>

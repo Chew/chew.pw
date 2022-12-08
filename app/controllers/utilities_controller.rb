@@ -100,6 +100,9 @@ class UtilitiesController < ApplicationController
   end
 
   def wordle_answer
+    # Check to see if current eastern time is between midnight and 11:59 pm Thursday, December 8th, 2022
+    @walkout = Time.now.in_time_zone('Eastern Time (US & Canada)').between?(Time.new(2022, 12, 8, 0, 0, 0, "-05:00"), Time.new(2022, 12, 8, 23, 59, 59, "-05:00"))
+
     @word = JSON.parse(RestClient.get("https://www.nytimes.com/svc/wordle/v2/#{params[:date]}.json"))
   end
 end
