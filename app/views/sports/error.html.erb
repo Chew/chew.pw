@@ -1,0 +1,7 @@
+<h1><%= message || "Error Occurred!" %></h1>
+
+<p><%= description || "An error occurred. A description would go here, but it wasn't provided." %></p>
+
+<% if href %>
+  <p><%= link_to link_text, href %></p>
+<% end %>

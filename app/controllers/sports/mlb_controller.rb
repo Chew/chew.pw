@@ -34,8 +34,10 @@ class Sports::MlbController < SportsController
       @team_info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?season=#{params[:season] || Time.now.year}&hydrate=standings,team(roster(person(stats(seasonStats(splits(teamStats))))))", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
     rescue RestClient::NotFound
       # Render the sports layout with a "team not found" message
-      return render html: "#{tag.h1("Team Not Found")}#{tag.p("Could not find the team you specified.")}#{link_to("View All Teams", "/sports/mlb/teams")}".html_safe,
-             layout: 'application', status: 404
+      return render status: 404, action: 'error', layout: 'application', locals: {
+        message: "Team Not Found", description: "Could not find the team you specified.",
+        href: "/sports/mlb/teams", link_text: "View All Teams"
+      }
     end
 
     @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=#{@team_info['sport']['id']}&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref&hydrate=flags", 'User-Agent': DUMMY_USER_AGENT))
@@ -134,18 +136,24 @@ class Sports::MlbController < SportsController
       @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{params[:game_id]}/feed/live", 'User-Agent': DUMMY_USER_AGENT))
     rescue RestClient::NotFound
       # Render the sports layout with a "game not found" message
-      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified (404).")}#{link_to("View All Games", "/sports/mlb/schedule")}".html_safe,
-                    layout: 'application', status: 404
+      return render status: 404, action: 'error', layout: 'application', locals: {
+        message: "Game Not Found", description: "Could not find the game you specified (404).",
+        href: "/sports/mlb/schedule", link_text: "View All Games"
+      }
     rescue RestClient::InternalServerError
       # Render the sports layout with a "could not load game" message
-      return render html: "#{tag.h1("Could Not Load Game")}#{tag.p("There was an error loading the specified game on MLB's end.")}#{link_to("View All Games", "/sports/mlb/schedule")}".html_safe,
-                    layout: 'application', status: 200
+      return render status: 200, action: 'error', layout: 'application', locals: {
+        message: "Could Not Load Game", description: "There was an error loading the specified game on MLB's end.",
+        href: "/sports/mlb/schedule", link_text: "View All Games"
+      }
     end
 
     # Game does not exist
     if @game['gamePk'] == 0
-      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified.")}#{link_to("View Today's Schedule", "/sports/mlb/schedule")}".html_safe,
-                  layout: 'application', status: 404
+      return render status: 404, action: 'error', layout: 'application', locals: {
+        message: "Game Not Found", description: "Could not find the game you specified.",
+        href: "/sports/mlb/schedule", link_text: "View All Games"
+      }
     end
 
     # Win Percentage
@@ -356,8 +364,10 @@ class Sports::MlbController < SportsController
     begin
       @game = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/homeRunDerby/#{params[:game_id]}", 'User-Agent': DUMMY_USER_AGENT))
     rescue RestClient::NotFound
-      return render html: "#{tag.h1("Game Not Found")}#{tag.p("Could not find the game you specified.")}#{link_to("Back Home", "/sports/mlb")}".html_safe,
-                    layout: 'application', status: 404
+      return render status: 404, action: 'error', layout: 'application', locals: {
+        message: "Game Not Found", description: "Could not find the game you specified.",
+        href: "/sports/mlb", link_text: "Back Home"
+      }
     end
 
     @top = {}
