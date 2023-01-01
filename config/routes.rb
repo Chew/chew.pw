@@ -163,19 +163,19 @@ Rails.application.routes.draw do
     end
 
     scope 'mlb' do
-      get '/', to: 'sports#mlb'
-      get 'schedule', to: 'sports#mlb_schedule'
-      get 'draft/:year', to: 'sports#mlb_draft'
-      get 'teams', to: 'sports#mlb_teams'
+      get '/', to: 'sports/mlb#mlb'
+      get 'schedule', to: 'sports/mlb#mlb_schedule'
+      get 'draft/:year', to: 'sports/mlb#mlb_draft'
+      get 'teams', to: 'sports/mlb#mlb_teams'
       scope 'team' do
         scope ':team_id' do
-          get '', to: 'sports#mlb_team'
-          get 'affiliates', to: 'sports#mlb_team_affiliates'
+          get '', to: 'sports/mlb#mlb_team'
+          get 'affiliates', to: 'sports/mlb#mlb_team_affiliates'
         end
       end
-      get 'game/generator', to: 'sports#mlb_game_generator'
-      get 'game/:game_id', to: 'sports#mlb_game'
-      get 'derby/:game_id', to: 'sports#mlb_derby'
+      get 'game/generator', to: 'sports/mlb#mlb_game_generator'
+      get 'game/:game_id', to: 'sports/mlb#mlb_game'
+      get 'derby/:game_id', to: 'sports/mlb#mlb_derby'
     end
 
     # Hockey (National Hockey League)

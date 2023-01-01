@@ -1,4 +1,4 @@
-class SportsController < ApplicationController
+class Sports::MlbController < SportsController
   include ActionView::Helpers::UrlHelper
   include SportsHelper
   include ApplicationHelper
