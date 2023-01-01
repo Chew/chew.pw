@@ -10,6 +10,22 @@ class SportsController < ApplicationController
     params[:season] = 1850 if params[:season] < 1850
     params[:season] = Time.now.year + 1 if params[:season] > Time.now.year + 1
 
+    # Subtract a year depending on the sport and month
+    sport = request.path.split('/')[2] # /sports/mlb <- that
+
+    case sport
+    when 'mlb'
+      # Don't need to subtract a year, baseball is reasonable and the entire season is within one year
+    when 'nfl'
+      # Subtract a year if it's before August
+      params[:season] -= 1 if Time.now.month < 8
+    when 'nhl'
+      # Subtract a year if it's before September
+      params[:season] -= 1 if Time.now.month < 9
+    else
+      # Unimplemented sport, just set it to the current year
+    end
+
     # Param to get the currently selected season
     @season = params[:season]
   end
