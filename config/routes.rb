@@ -101,22 +101,6 @@ Rails.application.routes.draw do
     end
   end
 
-  scope 'hqbot' do
-    get '', to: 'hqbot#index'
-    get 'login', to: 'hqbot#login'
-    get 'logout', to: 'hqbot#logout'
-    get 'authorize', to: 'hqbot#authorize'
-    post 'saveprofile', to: 'hqbot#saveprofile'
-    post 'makeprofile', to: 'hqbot#makeprofile'
-    get 'resetprofile', to: 'hqbot#resetprofile'
-
-    scope 'authkey' do
-      get '', to: 'hqbot#authkey'
-      post 'verify', to: 'hqbot#authkey_handle'
-      post 'show', to: 'hqbot#authkey_conclude'
-    end
-  end
-
   scope 'ifunny' do
     get '/', to: 'ifunny#index'
     get '/login', to: 'ifunny#login'
