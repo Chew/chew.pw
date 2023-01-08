@@ -135,6 +135,7 @@ Rails.application.routes.draw do
   end
 
   scope 'solitaire' do
+    get 'challenges', to: 'solitaire#challenges_list'
     get 'challenges/:month/:year', to: 'solitaire#challenges'
   end
 

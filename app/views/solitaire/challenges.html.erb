@@ -1,4 +1,13 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Daily Challenges for #{Time.new(params['year'], params['month'], 1).strftime("%B %Y")}",
+                description: "View the Microsoft Solitaire Collection daily challenge breakdown. View difficulty, deals, and more.",
+                service: "Chew's Microsoft Solitaire Collection Info",
+                keywords: "microsoft solitaire collection, microsoft, solitaire, collection, daily challenges" %>
+<% end %>
+
 <h1>Daily Challenges for <%= Time.new(params['year'], params['month'], 1).strftime("%B %Y") %></h1>
+
+<p><%= link_to "All Months", "/solitaire/challenges", class: "btn btn-primary" %></p>
 
 <% @info['DailyChallenges'].sort_by { |day| day['Date'].gsub(/\/|Date|\(|\)/, '').to_i }.each do |day| %>
   <h2><%= Time.at(day['Date'].gsub(/\/|Date|\(|\)/, '').to_i / 1000).utc.strftime("%A %B %d, %Y") %></h2>

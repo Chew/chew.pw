@@ -28,4 +28,5 @@ SitemapGenerator::Sitemap.create do
   add '/util/bases', changefreq: 'daily'
   add '/vaccine', changefreq: 'daily'
   add '/sports/mlb', changefreq: 'daily'
+  add '/solitaire/challenges', changefreq: 'monthly'
 end

@@ -2,6 +2,9 @@ class SolitaireController < ApplicationController
   def index
   end
 
+  def challenges_list
+  end
+
   def challenges
     date = params['month'] + params['year'].split('')[2..4].join('')
 
