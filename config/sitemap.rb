@@ -14,8 +14,6 @@ SitemapGenerator::Sitemap.create do
   add '/discord/servers', changefreq: 'weekly'
   add '/discord/connections', changefreq: 'weekly'
   add '/discord/webhooks', changefreq: 'weekly'
-  add '/hqbot', changefreq: 'weekly'
-  add '/hqbot/authkey', changefreq: 'weekly'
   add '/mc', changefreq: 'weekly'
   add '/mc/enchant', changefreq: 'weekly'
   add '/mc/log', changefreq: 'weekly'
