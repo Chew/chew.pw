@@ -20,8 +20,6 @@
 <p>Score: <%= @game['liveData']['linescore']['teams']['away']['runs'] || 0 %>
   - <%= @game['liveData']['linescore']['teams']['home']['runs'] || 0 %></p>
 
-<p>Venue: <%= @game['gameData']['venue']['name'] %> (<%= @game['gameData']['venue']['location']['city'] %>, <%= @game['gameData']['venue']['location']['state'] || @game['gameData']['venue']['location']['country'] %>)</p>
-
 <p>Summary: <%= @summary %></p>
 
 <% if @game['liveData']['decisions'] %>
@@ -32,6 +30,23 @@
     <% end %>
   </ul>
 <% end %>
+
+<h2>Box Score Game Info</h2>
+
+<ul>
+  <% @game['liveData']['boxscore']['info'].each do |info| %>
+    <% next if info['value'].nil? %>
+    <% case info['label'] %>
+    <% when "T" %>
+      <li><b>Duration</b>: <%= info['value'] %></li>
+    <% when "Venue" %>
+      <% venue = @game['gameData']['venue'] %>
+      <li><b>Venue</b>: <%= venue['name'] %> (<%= venue['location']['city'] %>, <%= venue['location']['state'] || venue['location']['country'] %>)</li>
+    <% else %>
+      <li><b><%= info['label'].capitalize %></b>: <%= info['value'] %></li>
+    <% end %>
+<% end %>
+</ul>
 
 <h2>Table of Contents</h2>
 
@@ -359,7 +374,9 @@
 <p>A breakdown of all balls and called strikes to determine if they were accurate or not.</p>
 
 <p><i>
-  Note: As I have to draw the strike-zone myself, these may be inaccurate. If it is, let me know!
+  Note: As I have to draw the strike-zone myself, these may be inaccurate. If it is, let me know!<br>
+  Another note: You may see more blunders here than you would on other sites. On here, I am counting every single
+  blunder, but most sites/tools have a 1-inch margin of error.
 </i></p>
 
 <p>This game's <abbr title="Home Plate">HP</abbr> Umpire: <%= @umpire %>. <%= link_to "View Scorecard", "https://www.umpscorecards.com/single_umpire/?name=#{@umpire}", target: "_blank" %>.</p>
