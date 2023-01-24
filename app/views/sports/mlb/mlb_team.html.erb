@@ -216,7 +216,7 @@
         <td>
           <%= game['status']['detailedState'] %><% if game['status']['reason'] %>:
             <%= game['status']['reason'] %><% end %><% if game['status']['detailedState'] == "Scheduled" %>:
-            <%= Time.parse(game['gameDate']).in_time_zone("America/New_York").strftime("%_I:%M %Z") %>
+            <%= Time.parse(game['gameDate']).in_time_zone("America/New_York").strftime("%_I:%M %p %Z") %>
           <% end %>
         </td>
         <td>
