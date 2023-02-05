@@ -12,8 +12,6 @@
   Viewing a game shows a lot of information about the game, even some stuff Gameday doesn't show!
 </p>
 
-<p>NEW! <%= link_to "View the MLB Draft for 2022", "/sports/mlb/draft/2022" %></p>
-
 <h2>Table of Contents</h2>
 <ul>
   <li><%= link_to "Today's Schedule", "#schedule" %></li>
@@ -99,7 +97,9 @@
     <th data-sortable="true" data-field="ratio" data-switchable="false" data-sort-order="desc">Ratio</th>
     <th data-sortable="true" data-field="streak" data-sort-name="streak_raw" data-sort-order="desc">Streak</th>
     <th data-sortable="true" data-field="games_back" data-switchable="true" data-sort-order="desc">Games Back<br></th>
-    <th data-sortable="true" data-field="post_season" data-switchable="true">Post-Season?</th>
+    <% if @season < Time.now.year || Time.now.month >= 9 %>
+      <th data-sortable="true" data-field="post_season" data-switchable="true">Post-Season?</th>
+    <% end %>
     <th data-sortable="true" data-field="streak_raw" data-switchable="false" data-visible="false" data-sort-order="desc">Streak (Decimal)</th>
   </tr>
   </thead>
@@ -114,8 +114,9 @@
       <td><%= team['wins'] %></td>
       <td><%= team['losses'] %></td>
       <td><%= team['winningPercentage'] %></td>
-      <td><%= team['streak']['streakCode'] %></td>
+      <td><%= team.dig(:streak, :streakCode) || '-' %></td>
       <td><%= team['gamesBack'] %></td>
+      <% if @season < Time.now.year || Time.now.month >= 9 %>
       <% if team['clinched'] %>
         <td><span class="ball">Clinched</span></td>
       <% elsif team['wildCardEliminationNumber'] == 'E' %>
@@ -134,7 +135,12 @@
           </span>
         </td>
       <% end %>
-      <td><%= team['streak']['streakNumber'] * (team['streak']['streakType'] == 'losses' ? -1 : 1) %></td>
+      <% end %>
+      <% if team['streak'].nil? %>
+        <td>N/A</td>
+      <% else %>
+        <td><%= team['streak']['streakNumber'] * (team['streak']['streakType'] == 'losses' ? -1 : 1) %></td>
+      <% end %>
     </tr>
     <% end %>
   <% end %>
