@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
 
     @layout = Dir['app/views/layouts/extra/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
     @nav = Dir['app/views/layouts/navs/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
+
+    # Whether this request came from Discord
+    @discord = request.user_agent == "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"
   end
 
   def flush
