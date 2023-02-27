@@ -20,6 +20,7 @@ class Sports::MlbController < SportsController
     people = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/sports/1/players?season=#{params[:season] || Time.now.year}&gameType=R&fields=people,fullName,birthDate,currentTeam,id,primaryPosition,name,currentAge", 'User-Agent': DUMMY_USER_AGENT))['people']
     @birthdays = []
     people.delete_if do |person|
+      next true if person['birthDate'].nil?
       birthday = Date.parse(person['birthDate'])
 
       not birthday.month == today.month && birthday.day == today.day
