@@ -109,7 +109,7 @@
             <% next if event['details']['eventType'].nil? %>
             <li><i><%= event['details']['description'] %> <%= (event['details']['description'].include?("Delay") and !event['startTime'].nil? and !event['endTime'].nil?) ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime']), include_seconds: true))})" : "" %></i></li>
           <% end %>
-          <li><%= link_to "#{play['result']['description'] || " #{play['matchup']['batter']['fullName']} is at bat."} #{(!play['about']['startTime'].nil? and !play['about']['endTime'].nil?) ? "(#{(distance_of_time_in_words(Time.parse(play['about']['startTime']), Time.parse(play['about']['endTime']), include_seconds: true))})" : ""}", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
+          <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
         <% end %>
       </ul>
       <% if @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningHalf'] == "Bottom") %>
@@ -132,11 +132,11 @@
 <h2 id="plays">Plays</h2>
 
 <% (@game['liveData']['linescore']['currentInning'] || 0).times do |i| %>
-  <h3 id="inning-<%= i + 1 %>"><%= (i + 1).ordinalize %> Inning</h3>
+  <h3><%= (i + 1).ordinalize %> Inning</h3>
 
   <hr>
 
-  <h4 id="top-inning-<%= i + 1 %>">Top</h4>
+  <h4>Top</h4>
 
   <%
     plays_inning = @game['liveData']['plays']['playsByInning'][i]
@@ -150,7 +150,7 @@
       <% if first_bottom == start_index + ind %>
         </div>
         <hr>
-        <h4 id="bottom-inning-<%= i + 1 %>">Bottom</h4>
+        <h4>Bottom</h4>
         <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
         <% last_out = 0 %>
       <% end %>
@@ -169,12 +169,9 @@
                 Duration: <%= to_hms(Time.parse(play['about']['endTime']) - Time.parse(play['about']['startTime'])) %><br>
               <% end %>
               <% index = play['atBatIndex'] %>
-              <% if @win[index].nil? %>
-                Win Probability: Pending...<br>
-              <% else %>
-                <% win_prob_change = (@win[index]['homeTeamWinProbabilityAdded'] * (play['about']['isTopInning'] ? -1 : 1)).round(2) %>
-                Win Probability: <%= @win[index]["#{play['about']['isTopInning'] ? "away" : "home"}TeamWinProbability"].round(2) %>% (<% if win_prob_change.zero? %>&pm;<% elsif win_prob_change.positive? %>+<% end %><%= win_prob_change %>%)
-              <% end %>
+              <% index -= 1 if @win[index].nil? %>
+              <% win_prob_change = (@win[index]['homeTeamWinProbabilityAdded'] * (play['about']['isTopInning'] ? -1 : 1)).round(2) %>
+              Win Probability: <%= @win[index]["#{play['about']['isTopInning'] ? "away" : "home"}TeamWinProbability"].round(2) %>% (<% if win_prob_change.zero? %>&pm;<% elsif win_prob_change.positive? %>+<% end %><%= win_prob_change %>%)
             </p>
 
             <span class="card-text">Play Events:</span>
@@ -228,10 +225,8 @@
                       <% end %>
 
                       <% unless event['pitchData']['coordinates'].empty? %>
-                        <% coordinates = event['pitchData']['coordinates'] %>
-                        <% minors = !coordinates['x'].nil? %>
                         <hr>
-                        Plate Position: (<%= coordinates[minors ? 'x' : 'pX'] %>, <%= coordinates[minors ? 'y' : 'pZ'] %>)
+                        Plate Position: (<%= event['pitchData']['coordinates']['pX'] %>, <%= event['pitchData']['coordinates']['pZ'] %>)
                         <br>
                         <div class="d-inline">
                           In the zone?
@@ -304,6 +299,76 @@
     <hr>
 <% end %>
 
+<h2 id="pitch-breakdown">Pitch Breakdown</h2>
+
+<h3>Batting Results</h3>
+
+<p>The end result of a given batting cycle, based on the pitcher.</p>
+
+<div class="table-responsive">
+<table class="table">
+  <thead>
+  <tr>
+    <th>Pitch Type</th>
+    <% @pitchers.each do |pitcher| %>
+      <th><%= pitcher.split(' ').last %></th>
+    <% end %>
+    <th>Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @results.each do |kind, amount| %>
+    <tr>
+      <td><%= kind %></td>
+      <% @pitchers.each do |pitcher| %>
+        <td><%= @results_by_pitcher[pitcher][kind] || 0 %></td>
+      <% end %>
+      <td><%= amount %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
+
+<h3>Types of Pitches</h3>
+
+<p><i>Note: In the rare occurrence a pitcher is switched out mid-at-bat, the prior pitcher's throws will be counted
+  towards the relief-pitcher.</i></p>
+
+<div class="table-responsive">
+<table class="table">
+  <thead>
+  <tr>
+    <th>Pitch Type</th>
+    <% @pitchers.each do |pitcher| %>
+      <th><%= pitcher.split(' ').last %></th>
+    <% end %>
+    <th>Amount</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @pitches.sort.each do |kind, amount| %>
+    <tr>
+      <td><%= kind %></td>
+      <% @pitchers.each do |pitcher| %>
+        <td><%= @pitches_by_pitcher[pitcher][kind] || 0 %></td>
+      <% end %>
+      <td><%= amount %></td>
+    </tr>
+  <% end %>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td>Total (Excl. Pick-off Attempts)</td>
+    <% @pitchers.each do |pitcher| %>
+      <td><%= @pitches_by_pitcher[pitcher].sum {|e, i| (e.include?("Pickoff") || e.include?("Automatic")) ? 0 : i} %></td>
+    <% end %>
+    <td><%= @pitches.sum {|e, i| e.include?("Pickoff") || e.include?("Automatic") ? 0 : i} %></td>
+  </tr>
+  </tfoot>
+</table>
+</div>
+
 <h2 id="umpire-blunders">Umpire Blunders <span class="badge bg-secondary">Beta</span></h2>
 
 <p>A breakdown of all balls and called strikes to determine if they were accurate or not.</p>
@@ -337,99 +402,15 @@
 <% content_for :extra_foot do %>
   <%= javascript_pack_tag "sports/game_charts" %>
 <% end %>
-<% end %>
-<hr>
-
-<h2 id="pitch-breakdown">Pitcher Breakdown</h2>
-<% %w[away home].each do |team| %>
-  <hr>
-
-  <h3 id="pb-<%= @game['gameData']['teams'][team]['name'].parameterize %>"><%= @game['gameData']['teams'][team]['name'] %></h3>
-
-  <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
-    <% @pitchers.each do |pitcher| %>
-      <% id = "ID#{@players.find {|_, f| f['name'] == pitcher }[0]}" %>
-      <% player = @game['gameData']['players'][id] %>
-      <% next unless @game['liveData']['boxscore']['teams'][team]['players'].include?(id) %>
-      <% stats = @game['liveData']['boxscore']['teams'][team]['players'][id] %>
-      <% pitches = @game['liveData']['plays']['allPlays'].filter { |play| play['matchup']['pitcher']['fullName'] == pitcher }.map {|play| [play['about']['inning'], play['playEvents'].count {|e| e['isPitch']}] } %>
-      <% unearned = stats['stats']['pitching']['rbi'] - stats['stats']['pitching']['earnedRuns'] %>
-      <div class="col">
-        <div class="card h-100" id="<%= player['nameSlug'] %>">
-          <div class="card-body">
-            <h5 class="card-title"><%= pitcher %></h5>
-            <p class="card-text">
-              IP: <%= stats['stats']['pitching']['inningsPitched'] %><br>
-              Walks: <%= stats['stats']['pitching']['baseOnBalls'] %><br>
-              Strikeouts: <%= stats['stats']['pitching']['strikeOuts'] %><br>
-              Runs: <%= stats['stats']['pitching']['rbi'] %> <% if unearned.positive? %>(<%= unearned %> unearned)<% end %><br>
-              Hits: <%= stats['stats']['pitching']['hits'] %><br>
-              Avg. Pitches Per Batter: <%= ((stats['stats']['pitching']['pitchesThrown'] || 0) / stats['stats']['pitching']['battersFaced'].to_f).round(2) %>
-            </p>
-            <span class="card-text">Inning Pitch Count</span>
-            <ol>
-              <% pitches.map {|e, _| e}.uniq.each do |inning| %>
-                <li value="<%= inning %>"><%= pitches.filter {|e, _| inning == e }.sum {|_, f| f } %></li>
-              <% end %>
-            </ol>
-            <span class="card-text">Pitches Breakdown</span>
-              <ul>
-                <li>Total: <%= stats['stats']['pitching']['pitchesThrown'] %></li>
-                <li>
-                  <a class="strike" data-bs-toggle="collapse" href="#<%= "pitcher-#{player['nameSlug']}-strikes" %>" role="button" aria-expanded="false" aria-controls="<%= "pitcher-#{player['nameSlug']}-strikes" %>">
-                    Strikes: <%= @pitches_by_pitcher[pitcher].map { |e, f| e.include?("Strike") || e.include?("Foul") ? f : 0 }.sum %>
-                  </a>
-                  <div class="collapse no-list-type" id="<%= "pitcher-#{player['nameSlug']}-strikes" %>">
-                    <div class="card card-body">
-                      <% @pitches_by_pitcher[pitcher].each do |type, amount| %>
-                        <% next unless type.include?("Strike") || type.include?("Foul") %>
-                        <%= type %>: <%= amount %><br>
-                      <% end %>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <a class="ball" data-bs-toggle="collapse" href="#<%= "pitcher-#{player['nameSlug']}-balls" %>" role="button" aria-expanded="false" aria-controls="<%= "pitcher-#{player['nameSlug']}-balls" %>">
-                    Balls: <%= @pitches_by_pitcher[pitcher].map { |e, f| e.include?("Ball") ? f : 0 }.sum %>
-                  </a>
-                  <div class="collapse no-list-type" id="<%= "pitcher-#{player['nameSlug']}-balls" %>">
-                    <div class="card card-body">
-                      <% @pitches_by_pitcher[pitcher].each do |type, amount| %>
-                        <% next unless type.include?("Ball") %>
-                        <%= type %>: <%= amount %><br>
-                      <% end %>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <a class="in-play" data-bs-toggle="collapse" href="#<%= "pitcher-#{player['nameSlug']}-in-play" %>" role="button" aria-expanded="false" aria-controls="<%= "pitcher-#{player['nameSlug']}-in-play" %>">
-                    In Play: <%= @pitches_by_pitcher[pitcher].map { |e, f| e.include?("In play") ? f : 0 }.sum %>
-                  </a>
-                  <div class="collapse no-list-type" id="<%= "pitcher-#{player['nameSlug']}-in-play" %>">
-                    <div class="card card-body">
-                      <% @pitches_by_pitcher[pitcher].each do |type, amount| %>
-                        <% next unless type.include?("In play") %>
-                        <%= type %>: <%= amount %><br>
-                      <% end %>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-<% end %>
 
 <hr>
 
 <h2 id="player-breakdown">Player Breakdown</h2>
 
 <% %w[away home].each do |team| %>
-  <hr>
+    <hr>
 
-  <h3 id="pb-<%= @game['gameData']['teams'][team]['name'].parameterize %>"><%= @game['gameData']['teams'][team]['name'] %></h3>
+  <h3 id="pb-<%= @game['gameData']['teams'][team]['clubName'].parameterize %>"><%= @game['gameData']['teams'][team]['clubName'] %></h3>
 
   <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 rows-cols-sm-1 g-4">
     <% @batters.each do |batter| %>
@@ -465,4 +446,6 @@
       </div>
     <% end %>
     </div>
+<% end %>
+
 <% end %>
