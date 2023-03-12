@@ -23,10 +23,11 @@
     <% (1..12).each do |month| %>
       <tr>
         <% (2015..Time.now.year).each do |year| %>
+          <% time = Time.new(year, month, 1) %>
           <% if year == Time.now.year && month > Time.now.month %>
-            <td><%= Time.new(year, month, 1).strftime("%B") %></td>
+            <td><%= time.strftime("%B") %></td>
           <% else %>
-            <td><%= link_to Time.new(year, month, 1).strftime("%B"), "/solitaire/challenges/#{month}/#{year}" %></td>
+            <td><%= link_to time.strftime("%B"), "/solitaire/challenges/#{time.strftime("%m/%Y")}" %></td>
           <% end %>
         <% end %>
       </tr>
