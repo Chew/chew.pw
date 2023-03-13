@@ -38,7 +38,7 @@
 
   <% if request.url.include? "/mlb" %>
     <footer>
-      Data found on this page is Copyright 2022 MLB Advanced Media, L.P.
+      Data found on this page is Copyright <%= Time.now.year %> MLB Advanced Media, L.P.
       The use of the content on this page acknowledges agreement to the terms posted <%= link_to "here", "https://gdx.mlb.com/components/copyright.txt" %>.
     </footer>
   <% end %>
