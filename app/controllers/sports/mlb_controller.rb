@@ -113,7 +113,7 @@ class Sports::MlbController < SportsController
     @team = ""
     @data.each do |date|
       date['games'].each do |game|
-        next if game['homeRuns'].empty?
+        next if game['homeRuns'].nil? or game['homeRuns'].empty?
 
         # Get if we're home or away
         team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
