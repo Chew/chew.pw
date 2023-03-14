@@ -1,3 +1,11 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "#{@team} Homers - MLB Team Stats",
+                description:
+                  "View home runs for the #{@team}. There has been  #{@counts.map{|_,f|f}.sum} home runs this season!",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball #{@team['name']} home runs homers" %>
+<% end %>
+
 <h1>Homers for <%= @team %></h1>
 
 <p>
