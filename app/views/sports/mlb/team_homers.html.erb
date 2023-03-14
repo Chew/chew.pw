@@ -1,0 +1,47 @@
+<h1>Homers for <%= @team %></h1>
+
+<p>
+  View a leaderboard and a list of all of this team's homers!
+</p>
+
+<h2>Table of Contents</h2>
+
+<ul>
+  <% @homers.map {|homer| homer['game_type']}.flatten.uniq.each do |series| %>
+  <li><%= link_to series, "##{series.parameterize}" %></li>
+  <% end %>
+</ul>
+
+<% @homers.map {|homer| homer['game_type']}.flatten.uniq.each do |series| %>
+  <h2 id="<%= series.parameterize %>"><%= series %></h2>
+
+  <h3>Leaderboard</h3>
+  <ol>
+    <% @counts[series].sort_by{|_,f| -f}.each do |person, homers| %>
+      <%# Get the place. We'd want the same position if they're the same values. %>
+      <% place = @counts[series].map{|_,f| f}.sort.reverse.index(homers) + 1 %>
+      <li value="<%= place %>"><%= person %> - <%= homers %></li>
+    <% end %>
+  </ol>
+
+  <h3>Homers</h3>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Count</th>
+      <th>RBI</th>
+      <th>Opponent</th>
+      <th>Game</th>
+    </tr>
+    <% @homers.each do |homer| %>
+      <% next unless homer['game_type'] == series %>
+      <tr>
+        <td><%= homer['name'] %></td>
+        <td><%= homer['count'] %></td>
+        <td><%= homer['rbi'] %></td>
+        <td><%= homer['opponent'] %></td>
+        <td><%= link_to "View Game", "/sports/mlb/game/#{homer['game_id']}" %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

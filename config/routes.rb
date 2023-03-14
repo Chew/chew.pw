@@ -156,6 +156,7 @@ Rails.application.routes.draw do
         scope ':team_id' do
           get '', to: 'sports/mlb#mlb_team'
           get 'affiliates', to: 'sports/mlb#mlb_team_affiliates'
+          get 'homers', to: 'sports/mlb#team_homers'
         end
       end
       get 'game/generator', to: 'sports/mlb#mlb_game_generator'

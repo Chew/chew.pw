@@ -102,6 +102,57 @@ class Sports::MlbController < SportsController
     @team['to500'] = current_wins
   end
 
+  def team_homers
+    @data = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=1&season=#{@season}&teamId=#{params[:team_id]}&hydrate=homeRuns"))['dates']
+
+    # Now to get the homers!
+    @homers = []
+    # Map of game type to player names to counts
+    # e.g. { "Regular Season" => { "Mike Trout" => 3 } }
+    @counts = {}
+    @team = ""
+    @data.each do |date|
+      date['games'].each do |game|
+        next if game['homeRuns'].empty?
+
+        # Get if we're home or away
+        team = game['teams']['away']['team']['id'].to_i == params[:team_id].to_i ? 'away' : 'home'
+        opponent_side = team == 'away' ? 'home' : 'away'
+        opponent_inning = team == 'away' ? 'bottom' : 'top'
+        opponent = game['teams'][opponent_side]['team']['name']
+
+        @team = game['teams'][team]['team']['name']
+
+        game['homeRuns'].each do |homer|
+          top_or_bottom = homer['about']['halfInning'] # will be top or bottom
+          # skip if it's not the team we're looking for
+          next if opponent_inning == top_or_bottom
+
+          # vars
+          name = homer['matchup']['batter']['fullName']
+          type = game['seriesDescription']
+
+          # Update the counts
+          @counts[type] ||= {}
+          @counts[type][name] ||= 0
+          @counts[type][name] += 1
+
+          # Find if it's @ or vs (away or home)
+          key = team == 'away' ? '@' : 'vs'
+
+          @homers.push({
+            "name" => homer['matchup']['batter']['fullName'],
+            "count" => @counts[type][name],
+            "opponent" => "#{key} #{opponent}",
+            "rbi" => homer['result']['rbi'],
+            "game_id" => game['gamePk'],
+            "game_type" => game['seriesDescription']
+          })
+        end
+      end
+    end
+  end
+
   def mlb_draft
     @draft = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/draft/#{params[:year]}", 'User-Agent': DUMMY_USER_AGENT))
 

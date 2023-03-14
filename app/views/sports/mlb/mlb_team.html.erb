@@ -12,7 +12,12 @@
 
 <h1>Info for Team <%= @team['name'] %></h1>
 
-<p><%= link_to "View Affiliates", "/sports/mlb/team/#{params[:team_id]}/affiliates", class: "btn btn-primary" %></p>
+<p>
+  <%= link_to "View Affiliates", "/sports/mlb/team/#{params[:team_id]}/affiliates", class: "btn btn-primary" %>
+  <a href="/sports/mlb/team/<%= params[:team_id] %>/homers" type="button" class="btn btn-primary position-relative">
+    View Homers <%= tag.span "New!", class: "position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" %>
+  </a>
+</p>
 
 <h2>Table of Contents</h2>
 
