@@ -146,7 +146,8 @@ class Sports::MlbController < SportsController
             "opponent" => "#{key} #{opponent}",
             "rbi" => homer['result']['rbi'],
             "game_id" => game['gamePk'],
-            "game_type" => game['seriesDescription']
+            "game_type" => game['seriesDescription'],
+            "date" => game['gameDate'],
           })
         end
       end

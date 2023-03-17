@@ -23,6 +23,12 @@
 <% @homers.map {|homer| homer['game_type']}.flatten.uniq.each do |series| %>
   <h2 id="<%= series.parameterize %>"><%= series %></h2>
 
+  <h3>Stats</h3>
+  <ul>
+    <li>Homers: <%= @counts[series].map{|_,f|f}.sum %></li>
+    <li>RBI: <%= @homers.delete_if{|e|e['game_type'] != series}.map{|e| e['rbi']}.sum %></li>
+  </ul>
+
   <h3>Leaderboard</h3>
   <ol>
     <% @counts[series].sort_by{|_,f| -f}.each do |person, homers| %>
@@ -41,6 +47,7 @@
       <th>Count</th>
       <th>RBI</th>
       <th>Opponent</th>
+      <th>Date</th>
       <th>Game</th>
     </tr>
     </thead>
@@ -52,6 +59,7 @@
         <td><%= homer['count'] %></td>
         <td><%= homer['rbi'] %></td>
         <td><%= homer['opponent'] %></td>
+        <td><%= friendly_date homer['date'], in_zone: "America/New_York" %></td>
         <td><%= link_to "View Game", "/sports/mlb/game/#{homer['game_id']}" %></td>
       </tr>
     <% end %>
