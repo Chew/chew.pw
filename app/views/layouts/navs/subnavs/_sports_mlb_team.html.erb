@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <%= link_to "#{@team_name} Team Hub", "#", class: "navbar-brand position-absolute" %>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 w-100">
+        <%= navbar_item name: "Team Home", href: "/sports/mlb/team/#{params[:team_id]}", fa_icon: "fas fa-home" %>
+        <%= navbar_item name: "Affiliates", href: "/sports/mlb/team/#{params[:team_id]}/affiliates", fa_icon: "fas fa-users" %>
+        <%= navbar_item name: "Homers", href: "/sports/mlb/team/#{params[:team_id]}/homers", fa_icon: "fas fa-house-circle-check", pill: "New!" %>
+      </ul>
+    </div>
+  </div>
+</nav>

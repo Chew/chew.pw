@@ -27,8 +27,9 @@
 
 <header></header>
 
-<% if @nav %>
-  <%= render "layouts/navs/#{@controller_name}" %>
+<% @navs.each do |nav| %>
+  <% next if nav.include?('_sports_mlb_team') and @team_name.nil? %>
+  <%= render "layouts/navs/#{nav.sub("_", "")}" %>
 <% end %>
 
 <div class="container up-a-bit">

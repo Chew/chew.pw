@@ -53,7 +53,7 @@ module ApplicationHelper
   # @param href [String] the destination link
   # @param fa_icon [String] the icon to show before the text (optional)
   # @param external [Boolean] Whether this opens in a new tab (optional if href is an external link)
-  def navbar_item(name: '', href: '#', fa_icon: nil, external: false)
+  def navbar_item(name: '', href: '#', fa_icon: nil, external: false, pill: "")
     tag.li(class: "nav-item#{' disabled active' if request.path == href}") do
       tag.a(class: "nav-link#{' active disabled' if request.path == href}", href: href, target: external ? '_blank' : nil) do
         # Add icon if needed
@@ -62,6 +62,10 @@ module ApplicationHelper
         concat(' ') if fa_icon
         # Add the name
         "#{concat(name)}"
+        # Add pill if needed after, if applicable.
+        # A span tag with "badge rounded-pill text-bg-danger" class and the text provided
+        concat(" ") if pill
+        concat(tag.span(pill, class: "badge rounded-pill bg-danger")) if pill
       end
     end
   end

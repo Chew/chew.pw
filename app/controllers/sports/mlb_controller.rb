@@ -3,6 +3,24 @@ class Sports::MlbController < SportsController
   include SportsHelper
   include ApplicationHelper
 
+  # We need to get the team name and cache it if we're on a team page
+  before_action :team_name
+  def team_name
+    # Check if we're on a team page, e.g. /sports/mlb/team/:id
+    return unless request.path.start_with?('/sports/mlb/team/')
+    teamId = params[:team_id]
+
+    @team_name = Rails.cache.fetch("mlb-team-#{teamId}-season-#{@season}", expires_in: 1.month) do
+      begin
+        j = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{teamId}?season=#{@season}&fields=teams,name"))
+
+        j['teams'][0]['name']
+      rescue RestClient::NotFound
+        next nil
+      end
+    end
+  end
+
   def mlb
     @info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=#{params[:season] || Time.now.year}&standingsTypes=springTraining&hydrate=division", 'User-Agent': DUMMY_USER_AGENT))['records']
     teams = {}

@@ -18,7 +18,11 @@ class ApplicationController < ActionController::Base
     @controller_name = @controller_name.split("::").first
 
     @layout = Dir['app/views/layouts/extra/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
-    @nav = Dir['app/views/layouts/navs/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
+    @navs = []
+    @navs.push Dir['app/views/layouts/navs/*'].map { |f| File.basename(f, '.html.erb') }.find { |e| e == "_#{@controller_name}" }
+    if request.path.include?("/sports/mlb/team")
+      @navs.push "subnavs/_sports_mlb_team"
+    end
 
     # Whether this request came from Discord
     @discord = request.user_agent == "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"
