@@ -167,23 +167,6 @@
 
 <h2 id="schedule">Schedule for <%= params[:season] || Time.now.year %></h2>
 
-<!--Year Switcher-->
-<label for="season">Select a Season</label>
-<div class="row">
-  <div class="col-sm-8 col-md-4 col-xl-2">
-    <form action="/sports/mlb/team/<%= params[:team_id] %>" method="get" class="input-group">
-      <select name="season" id="season" class="form-control">
-        <% (@team_info['firstYearOfPlay'].to_i .. Time.now.year).reverse_each do |season| %>
-          <option value="<%= season %>"<%= season.to_i == (params[:season].to_i || Time.now.year) ? ' selected' : '' %>><%= season %></option>
-        <% end %>
-      </select>
-      <input type="submit" value="Go" class="btn btn-primary">
-    </form>
-  </div>
-</div>
-
-<br>
-
 <% @scores['dates'].map {|date| date['games'].map {|game| game['seriesDescription']}}.flatten.uniq.each do |series| %>
   <% next if series == "All-Star Game" %>
   <hr>

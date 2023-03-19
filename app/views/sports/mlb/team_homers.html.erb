@@ -3,7 +3,7 @@
                 description:
                   "View home runs for the #{@team}. There has been #{@counts.map{|_,f|f.map{|_,e|e}}.flatten.sum} home runs this season!",
                 service: "Chew's MLB Stats",
-                keywords: "sports mlb baseball #{@team['name']} home runs homers" %>
+                keywords: "sports mlb baseball #{@team} home runs homers" %>
 <% end %>
 
 <h1>Homers for <%= @team %></h1>

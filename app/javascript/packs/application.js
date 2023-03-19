@@ -120,6 +120,10 @@ $("#clear-fields").click(function(e) {
     $("input:not(:submit):not(:hidden)").val('');
 });
 
+$("#season-dropdown").change(() => {
+    $("#season-form").submit();
+});
+
 Rails.start()
 // Turbolinks.start()
 //ActiveStorage.start()

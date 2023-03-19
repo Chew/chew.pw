@@ -16,6 +16,22 @@
         <% end %>
       </ul>
 
+      <!--Year Switcher-->
+      <div class="d-flex">
+        <form id="season-form" action="<%= request.path %>" method="get" class="container-fluid" role="search">
+          <div class="input-group">
+            <label for="season-dropdown" class="visually-hidden">Season</label>
+            <span class="input-group-text" id="basic-addon1">Season</span>
+            <select name="season" id="season-dropdown" class="form-control">
+              <% ((@team_info&.dig('firstYearOfPlay') || 1900).to_i .. Time.now.year).reverse_each do |season| %>
+                <option value="<%= season %>"<%= season.to_i == (params[:season].to_i || Time.now.year) ? ' selected' : '' %>><%= season %></option>
+              <% end %>
+            </select>
+            <noscript><input type="submit" value="Go" class="btn btn-primary"></noscript>
+          </div>
+        </form>
+      </div>
+
       <%= render "/layouts/navs/chew" %>
     </div>
   </div>
