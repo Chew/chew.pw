@@ -26,7 +26,7 @@
   <h3>Stats</h3>
   <ul>
     <li>Homers: <%= @counts[series].map{|_,f|f}.sum %></li>
-    <li>RBI: <%= @homers.delete_if{|e|e['game_type'] != series}.map{|e| e['rbi']}.sum %></li>
+    <li>RBI: <%= @homers.filter{|e|e['game_type'] == series}.map{|e| e['rbi']}.sum %></li>
   </ul>
 
   <h3>Leaderboard</h3>
