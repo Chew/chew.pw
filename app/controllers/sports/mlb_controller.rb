@@ -22,7 +22,7 @@ class Sports::MlbController < SportsController
   end
 
   def mlb
-    @info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=#{params[:season] || Time.now.year}&standingsTypes=springTraining&hydrate=division", 'User-Agent': DUMMY_USER_AGENT))['records']
+    @info = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/standings?leagueId=103,104&season=#{params[:season] || Time.now.year}&standingsTypes=regularSeason&hydrate=division", 'User-Agent': DUMMY_USER_AGENT))['records']
     teams = {}
     @info.each do |division|
       division['teamRecords'].each do |team|
