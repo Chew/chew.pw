@@ -114,7 +114,7 @@
       <td><%= team['wins'] %></td>
       <td><%= team['losses'] %></td>
       <td><%= team['winningPercentage'] %></td>
-      <td><%= team.dig(:streak, :streakCode) || '-' %></td>
+      <td><%= team.dig('streak', 'streakCode') || '-' %></td>
       <td><%= team['gamesBack'] %></td>
       <% if @season < Time.now.year || Time.now.month >= 9 %>
       <% if team['clinched'] %>
