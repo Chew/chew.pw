@@ -7,8 +7,6 @@
 
 <h1>Team Affiliates for <%= @major_league_team %></h1>
 
-<p><%= link_to "Team Home", "/sports/mlb/team/#{params[:team_id]}", class: "btn btn-primary" %></p>
-
 <h2>Table of Contents</h2>
 
 <ul>
@@ -94,7 +92,7 @@
       <p>
         <% if affiliate['record'] %>
           Record: <%= affiliate['record']['leagueRecord']['wins'] %> - <%= affiliate['record']['leagueRecord']['losses'] %><br>
-          Streak: <%= affiliate['record']['streak']['streakCode'] %>
+          Streak: <%= affiliate.dig('record', 'streak', 'streakCode') || '-' %>
           <br><br>
         <% end %>
 
