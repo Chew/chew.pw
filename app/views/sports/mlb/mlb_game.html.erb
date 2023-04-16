@@ -180,7 +180,7 @@
                 <% next unless event['isPitch'] or event['type'] == 'pickoff' or event['type'] == 'no_pitch' %>
                 <li <% if event['pitchNumber'].nil? %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>>
                   <a class="<%= play_class event %>" data-bs-toggle="collapse" href="#<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>" role="button" aria-expanded="false" aria-controls="<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>">
-                    <%= event['details']['description'].split(' - ').first %>
+                    <%= (event.dig('details', 'description') || '').split(' - ').first %>
                     <% if bad_call?(event) %>
                       <span class="<%= event['details']['isStrike'] ? "ball" : "strike" %>" data-bs-toggle="tooltip"
                             title="Ball was <%= in_the_zone?(event['pitchData'])[0] ? "in" : "out of" %> the zone">

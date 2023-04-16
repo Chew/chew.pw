@@ -37,6 +37,8 @@ module SportsHelper
 
   # Determines the class to use to render the play
   def play_class(play)
+    return "pickoff" if play['details']['description'].nil?
+
     run = play['details']['description'].include? 'run(s)'
 
     return "ball" if play['details']['isBall']
