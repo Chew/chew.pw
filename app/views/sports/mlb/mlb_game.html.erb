@@ -177,10 +177,10 @@
             <span class="card-text">Play Events:</span>
             <ol>
               <% play['playEvents'].each_with_index do |event, pe_index| %>
-                <% next unless event['isPitch'] or event['type'] == 'pickoff' %>
-                <li <% if event['type'] == 'pickoff' %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>>
+                <% next unless event['isPitch'] or event['type'] == 'pickoff' or event['type'] == 'no_pitch' %>
+                <li <% if event['pitchNumber'].nil? %> class="not-play" <% else %> value="<%= event['pitchNumber'] %>" <% end %>>
                   <a class="<%= play_class event %>" data-bs-toggle="collapse" href="#<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>" role="button" aria-expanded="false" aria-controls="<%= "play-#{ind + start_index}-pitch-#{pe_index}" %>">
-                    <%= event['details']['description'] %>
+                    <%= event['details']['description'].split(' - ').first %>
                     <% if bad_call?(event) %>
                       <span class="<%= event['details']['isStrike'] ? "ball" : "strike" %>" data-bs-toggle="tooltip"
                             title="Ball was <%= in_the_zone?(event['pitchData'])[0] ? "in" : "out of" %> the zone">
@@ -193,8 +193,14 @@
                   <div class="card card-body">
                     <% if event['type'] == 'pickoff' %>
                       Pick-off attempts do not have pitch data :(
-                    <% elsif event['details']['description'] == "Automatic Ball" %>
-                      Automatic Balls are not pitches, so there is no pitch data.
+                    <% elsif event['type'] == 'no_pitch' %>
+                      Count: <%= event['count']['balls'] %> - <%= event['count']['strikes'] %>
+                      <hr>
+                      <%= event['details']['description'] %>
+                      <% if event['details']['violation'] %>
+                        <hr>
+                        Violation: <%= event['details']['violation']['description'] %>
+                      <% end %>
                     <% else %>
                       Count: <%= event['count']['balls'] %> - <%= event['count']['strikes'] %>
                       <hr>
