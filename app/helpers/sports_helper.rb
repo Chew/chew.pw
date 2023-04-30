@@ -1,4 +1,26 @@
 module SportsHelper
+  RESULT_SORT = [
+    "Single", "Double", "Triple", "Home Run", "Field Error", # Hits
+    "Walk", "Hit By Pitch", # on base with no hit
+    "Strikeout", "Lineout", "Groundout", "Flyout", "Forceout", "Pop Out", "Grounded Into DP" # Outs
+  ]
+
+  HITS = RESULT_SORT[0..4]
+  BASE_NO_HIT = RESULT_SORT[5..6]
+  OUTS = RESULT_SORT[7..-1]
+
+  def result_sort
+    RESULT_SORT
+  end
+
+  def batting_result_class(result)
+    return "ball" if BASE_NO_HIT.include? result
+    return "in-play" if HITS.include? result
+    return "strike" if OUTS.include? result
+
+    "pickoff"
+  end
+
   def mlb_game_state(team_id, game)
     is_home = game['teams']['home']['team']['id'].to_i == team_id
 
