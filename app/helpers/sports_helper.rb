@@ -220,4 +220,18 @@ module SportsHelper
 
     [homer_num, ball_info]
   end
+
+  # Retrieves a link to a team
+  # @param team [Hash] A team hash. Must have name and ID.
+  # @param season [Integer] The season. If current season, path will not be appended.
+  # @return [ActiveSupport::SafeBuffer] A url to this team.
+  def mlb_team_link(team, season = Time.now.year)
+    url = "/sports/mlb/team/#{team['id']}"
+
+    if season != Time.now.year
+      url = "#{url}?season=#{season}"
+    end
+
+    link_to team['name'], url
+  end
 end
