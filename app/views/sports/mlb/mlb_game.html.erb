@@ -232,7 +232,7 @@
 
                       <% unless event['pitchData']['coordinates'].empty? %>
                         <hr>
-                        Plate Position: (<%= event['pitchData']['coordinates']['pX'] %>, <%= event['pitchData']['coordinates']['pZ'] %>)
+                        Plate Position: (<%= event['pitchData']['coordinates']['pX']&.round(2) %>, <%= event['pitchData']['coordinates']['pZ']&.round(2) %>)
                         <br>
                         <div class="d-inline">
                           In the zone?

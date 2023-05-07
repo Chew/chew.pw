@@ -154,7 +154,7 @@ module SportsHelper
     end
     # Ball is below the zone
     if (z + radius) <= pitch_data['strikeZoneBottom']
-      return [false, "below by #{(((z + radius) - pitch_data['strikeZoneBottom']) * 12).round(3)} in."]
+      return [false, "below by #{(((z + radius) - pitch_data['strikeZoneBottom']) * 12).round(3).abs} in."]
     end
 
     # Check if the ball is out/in the zone based on X-axis.
