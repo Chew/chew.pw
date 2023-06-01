@@ -10,24 +10,30 @@
 <p><%= link_to "All Months", "/solitaire/challenges", class: "btn btn-primary" %></p>
 
 <% @info['DailyChallenges'].sort_by { |day| day['Date'].gsub(/\/|Date|\(|\)/, '').to_i }.each do |day| %>
-  <h2><%= Time.at(day['Date'].gsub(/\/|Date|\(|\)/, '').to_i / 1000).utc.strftime("%A %B %d, %Y") %></h2>
+  <h2><%= Time.at(day['Date'].gsub(/\/|Date|\(|\)/, '').to_i / 1000).utc.strftime("%A, %B %d, %Y") %></h2>
 
-  <div class="row">
+  <div class="row mb-3">
     <% day['Challenges'].each do |challenge| %>
+
       <div class="col">
-        <h3><%= challenge['Data']['GameMode'] %></h3>
-        <p><b><%= friendly_challenge challenge['Data'] %></b></p>
-        <p>
-          Difficulty: <%= difficulty challenge['Difficulty'] %><br>
-          Type: <%= challenge['Data']['CHDEF_ChallengeName'] %>
-        </p>
-        <% if challenge['Data']['GameMode'] == 'Klondike' %>
-          <p>Draw <%=  challenge['Data']['PARAM_DRAW'] %></p>
-        <% elsif challenge['Data']['GameMode'] == 'Spider' %>
-          <p><%= challenge['Data']['PARAM_SUITS'] %> Suit(s)</p>
-        <% elsif challenge['Data']['GameMode'] == 'FreeCell' %>
-          <p>Deal: <%= challenge['Data']['CHDEF_DeckSeed#0'].gsub('$', '') %></p>
-        <% end %>
+        <div class="card <%= challenge['Data']['GameMode'].downcase %>" style="width: 14rem;">
+          <div class="card-body">
+            <h5 class="card-title <%= challenge['Data']['GameMode'].downcase %>"><%= challenge['Data']['GameMode'] %></h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary"><%= friendly_challenge challenge['Data'] %></h6>
+            <p class="card-text">
+              Difficulty: <%= difficulty challenge['Difficulty'] %> <% challenge['Difficulty'].times do %><i class="fas fa-asterisk"></i><% end %>
+              <br>
+              Type: <%= challenge['Data']['CHDEF_ChallengeName'] %>
+            </p>
+            <% if challenge['Data']['GameMode'] == 'Klondike' %>
+              <p class="card-text">Draw <%=  challenge['Data']['PARAM_DRAW'] %></p>
+            <% elsif challenge['Data']['GameMode'] == 'Spider' %>
+              <p class="card-text"><%= challenge['Data']['PARAM_SUITS'] %> Suit(s)</p>
+            <% elsif challenge['Data']['GameMode'] == 'FreeCell' %>
+              <p class="card-text">Deal: <%= challenge['Data']['CHDEF_DeckSeed#0'].gsub('$', '') %></p>
+            <% end %>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>

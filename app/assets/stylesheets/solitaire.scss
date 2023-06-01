@@ -1,3 +1,39 @@
 // Place all the styles related to the solitaire controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.klondike {
+  color: rgb(78, 158, 201);
+  // add a border if it's on a card
+  &.card {
+    border: 1px solid rgb(78, 158, 201);
+  }
+}
+
+.spider {
+  color: rgb(145, 94, 203);
+  &.card {
+    border: 1px solid rgb(145, 94, 203);
+  }
+}
+
+.freecell {
+  color: rgb(175, 73, 66);
+  &.card {
+    border: 1px solid rgb(175, 73, 66);
+  }
+}
+
+.pyramid {
+  color: rgb(194, 129, 44);
+  &.card {
+    border: 1px solid rgb(194, 129, 44);
+  }
+}
+
+.tripeaks {
+  color: rgb(119, 159, 53);
+  &.card {
+    border: 1px solid rgb(119, 159, 53);
+  }
+}

@@ -24,10 +24,10 @@
       <tr>
         <% (2015..Time.now.year).each do |year| %>
           <% time = Time.new(year, month, 1) %>
-          <% if year == Time.now.year && month > Time.now.month %>
-            <td><%= time.strftime("%B") %></td>
-          <% else %>
+          <% if @months.include?("monthchallenges#{time.strftime("%m%y")}") %>
             <td><%= link_to time.strftime("%B"), "/solitaire/challenges/#{time.strftime("%m/%Y")}" %></td>
+          <% else %>
+            <td><%= time.strftime("%B") %></td>
           <% end %>
         <% end %>
       </tr>
