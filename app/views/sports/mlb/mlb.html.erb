@@ -110,7 +110,7 @@
   </tr>
     <% division['teamRecords'].each do |team| %>
     <tr>
-      <td><%= image_tag "https://www.mlbstatic.com/team-logos/#{team['team']['id']}.svg", size: 25 %> <%= link_to team['team']['name'], "/sports/mlb/team/#{team['team']['id']}" %></td>
+      <td><%= image_tag "https://midfield.mlbstatic.com/v1/team/#{team['team']['id']}/spots/128", size: 25 %> <%= link_to team['team']['name'], "/sports/mlb/team/#{team['team']['id']}" %></td>
       <td><%= team['wins'] %></td>
       <td><%= team['losses'] %></td>
       <td><%= team['winningPercentage'] %></td>
