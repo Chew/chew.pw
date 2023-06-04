@@ -89,11 +89,12 @@
 
 <p><i>Note: This is calculated by sorting by what has the highest change in win percentage.</i></p>
 
+<% if @win_probability %>
 <div class="row">
   <div class="col">
     <h3><%= @away['name'] %></h3>
     <ol>
-      <% @win_probability.sort_by {|e| e['homeTeamWinProbabilityAdded']}[0..4].each do |win| %>
+      <% @win_probability&.sort_by {|e| e['homeTeamWinProbabilityAdded']}[0..4].each do |win| %>
         <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= -win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
       <% end %>
     </ol>
@@ -101,12 +102,15 @@
   <div class="col">
     <h3><%= @home['name'] %></h3>
     <ol>
-      <% @win_probability.sort_by {|e| e['homeTeamWinProbabilityAdded']}.reverse[0..4].each do |win| %>
+      <% @win_probability&.sort_by {|e| e['homeTeamWinProbabilityAdded']}.reverse[0..4].each do |win| %>
         <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
       <% end %>
     </ol>
   </div>
 </div>
+<% else %>
+  <p>Missing win probability for this game, so we can't calculate the most impactful plays.</p>
+<% end %>
 
 <!--<h3>Game Progress Graph</h3>-->
 
