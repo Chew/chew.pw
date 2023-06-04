@@ -230,9 +230,9 @@ class Sports::MlbController < SportsController
     # Win Percentage
     @win = {}
     begin
-      win = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/game/#{params[:game_id]}/winProbability?language=en&fields=atBatIndex,homeTeamWinProbability,awayTeamWinProbability,homeTeamWinProbabilityAdded", 'User-Agent': DUMMY_USER_AGENT))
+      @win_probability = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/game/#{params[:game_id]}/winProbability?language=en&fields=atBatIndex,homeTeamWinProbability,awayTeamWinProbability,homeTeamWinProbabilityAdded", 'User-Agent': DUMMY_USER_AGENT))
 
-      win.each do |prob|
+      @win_probability.each do |prob|
         @win[prob['atBatIndex']] = prob
       end
     rescue RestClient::NotFound

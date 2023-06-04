@@ -85,6 +85,29 @@
 </label>
 <%= render partial: 'scorecard', locals: { game: @game['liveData']['linescore'], home: @home, away: @away, state: game_status(@game) } %>
 
+<h2 id="impactful-plays">Most Impactful Plays <span class="badge bg-secondary">Beta</span></h2>
+
+<p><i>Note: This is calculated by sorting by what has the highest change in win percentage.</i></p>
+
+<div class="row">
+  <div class="col">
+    <h3><%= @away['name'] %></h3>
+    <ol>
+      <% @win_probability.sort_by {|e| e['homeTeamWinProbabilityAdded']}[0..4].each do |win| %>
+        <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= -win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
+      <% end %>
+    </ol>
+  </div>
+  <div class="col">
+    <h3><%= @home['name'] %></h3>
+    <ol>
+      <% @win_probability.sort_by {|e| e['homeTeamWinProbabilityAdded']}.reverse[0..4].each do |win| %>
+        <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
+      <% end %>
+    </ol>
+  </div>
+</div>
+
 <!--<h3>Game Progress Graph</h3>-->
 
 <span id="home-info" class="visually-hidden"><%= @inning_info['home'].join('/') %></span>
