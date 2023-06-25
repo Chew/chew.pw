@@ -59,7 +59,7 @@ class Sports::MlbController < SportsController
       }
     end
 
-    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=#{@team_info['sport']['id']}&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref&hydrate=flags", 'User-Agent': DUMMY_USER_AGENT))
+    @scores = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/schedule?lang=en&sportId=#{@team_info['sport']['id']}&season=#{params[:season] || Time.now.year}&teamId=#{params[:team_id]}&eventTypes=primary&scheduleTypes=games,events,xref&hydrate=flags,linescore", 'User-Agent': DUMMY_USER_AGENT))
 
     @win_sum = []
     @team = {
@@ -68,10 +68,22 @@ class Sports::MlbController < SportsController
       "losses" => 0,
     }
     @above500 = []
+    cur_diff = 0
+    @run_diff = []
     current_wins = 0
     @total_games = 0
     @run_game_records = {}
     @team_game_records = {}
+
+    @home_scores_first = [0, 0]
+    @opponent_scores_first = [0, 0]
+    @bonus_records = {
+      "#{@team_info['clubName']} Scores First" => [0, 0],
+      "Opponent Scores First" => [0, 0],
+    }
+    %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday].each do |day|
+      @bonus_records[day] = [0, 0]
+    end
 
     # Iterate through all the days
     @scores['dates'].each do |date|
@@ -89,13 +101,33 @@ class Sports::MlbController < SportsController
         opponent = game['teams'][opponent_side]['team']['name']
 
         # Get the scores
+        our_score = game['teams'][team]['score']
+        their_score = game['teams'][opponent_side]['score']
         home_score = game['teams']['home']['score']
         away_score = game['teams']['away']['score']
         diff = (home_score - away_score).abs
 
+        # Other info
+        day_of_week = Time.parse(date['date']).strftime("%A")
+
+        # Iterate through line-score to see who scored first (home or away)
+        scored_first = nil
+        (game.dig('linescore', 'innings') || []).each do |inning|
+          next unless scored_first.nil?
+          %w[away home].each do |side|
+            next unless scored_first.nil?
+
+            scored_first = side if inning[side]['runs'].to_i > 0
+          end
+        end
+
         # Make sure the differential exists for this, array is wins, losses.
         @run_game_records[diff] ||= [0, 0]
         @team_game_records[opponent] ||= [0, 0]
+
+        # Update run differential
+        cur_diff += our_score - their_score
+        @run_diff.push cur_diff
 
         # Update the current wins and total games
         if game['teams'][team]['isWinner']
@@ -103,11 +135,15 @@ class Sports::MlbController < SportsController
           @run_game_records[diff][0] += 1
           @team_game_records[opponent][0] += 1
           @team['wins'] += 1
+          scored_first == opponent_side ? @bonus_records["Opponent Scores First"][0] += 1 : @bonus_records["#{@team_info['clubName']} Scores First"][0] += 1
+          @bonus_records[day_of_week][0] += 1
         else
           current_wins -= 1
           @run_game_records[diff][1] += 1
           @team_game_records[opponent][1] += 1
           @team['losses'] += 1
+          scored_first == opponent_side ? @bonus_records["Opponent Scores First"][1] += 1 : @bonus_records["#{@team_info['clubName']} Scores First"][1] += 1
+          @bonus_records[day_of_week][1] += 1
         end
         @total_games += 1
 

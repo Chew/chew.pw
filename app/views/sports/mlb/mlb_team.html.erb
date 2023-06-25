@@ -66,13 +66,24 @@
   <p>There are currently no games, so no chart will be rendered.</p>
 <% end %>
 
+<h2>Run Differential</h2>
+<p>See a team's run differential all season!</p>
+<% if @total_games > 0 %>
+  <span id="run_diff" class="visually-hidden"><%= @run_diff.join(' ') %></span>
+
+  <canvas id="runDifferential" width="800" height="400"></canvas>
+
+<% else %>
+  <p>There are currently no games, so no chart will be rendered.</p>
+<% end %>
+
+
 <hr>
 
 <% if @team_info['record'] %>
   <h2 id="standings">Standings</h2>
   <p>All standings apply to regular season games.</p>
 
-  <div class="row">
     <div class="col">
       <h3>Ranking</h3>
       <p>Ranking across division, league, wild card, where applicable.</p>
@@ -88,6 +99,7 @@
       </ul>
     </div>
 
+  <div class="row">
     <div class="col">
       <h3>Run Record</h3>
       <p>Record of win/losses by x-runs.</p>
@@ -103,7 +115,11 @@
         <% @run_game_records.sort_by { |e, _|  e }.each do |amount, record| %>
           <tr>
             <td><%= amount %> run<% if amount != 1 %>s<% end %></td>
-            <td><%= record.join(' - ') %></td>
+            <% if amount == 0 %>
+              <td><%= record.sum %></td>
+            <% else %>
+              <td><%= record.join(' - ') %></td>
+            <% end %>
           </tr>
         <% end %>
         </tbody>
@@ -134,7 +150,7 @@
 
     <div class="col">
       <h3>Split Records</h3>
-      <p>Honestly not sure what some of these mean.</p>
+      <p>Records by specific factors.</p>
 
       <table class="table table-sm">
         <thead class="table-dark">
@@ -145,9 +161,32 @@
         </thead>
         <tbody>
         <% @team_info['record']['records']['splitRecords'].each do |record| %>
+          <% next if record['type'] == "oneRun" %>
           <tr>
-            <td><%= record['type'] %></td>
+            <td><%= record['type'].split(/(?<=\p{Ll})(?=\p{Lu})|(?<=\p{Lu})(?=\p{Lu}\p{Ll})/).map(&:capitalize).join(' ') %></td>
             <td><%= record['wins'] %> - <%= record['losses'] %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <h3>Bonus Records</h3>
+      <p>Records not officially recognized.</p>
+
+      <table class="table table-sm">
+        <thead class="table-dark">
+        <tr>
+          <th>Type</th>
+          <th>Record</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @bonus_records.each do |type, record| %>
+          <tr>
+            <td><%= type %></td>
+            <td><%= record.join(' - ') %></td>
           </tr>
         <% end %>
         </tbody>
