@@ -22,13 +22,6 @@
     float: right;
 }
 
-@media (prefers-color-scheme: dark) {
-    .table-striped > tbody > tr:nth-of-type(odd) > *, .table-hover > tbody > tr:hover > * {
-        --bs-table-accent-bg: var(--bs-table-striped-bg);
-        color: rgb(209, 205, 199) !important;
-    }
-}
-
 .btn-block {
     display: block;
     width: 100%;
