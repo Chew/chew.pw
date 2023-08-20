@@ -28,5 +28,8 @@ class SportsController < ApplicationController
 
     # Param to get the currently selected season
     @season = params[:season]
+
+    # Clean game id just in case
+    params[:game_id] = params[:game_id].to_i if params[:game_id].is_a? String
   end
 end
