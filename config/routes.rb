@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     get 'chewspeak', to: 'api#chewspeak'
     get 'random', to: 'api#random_string'
     get 'spigotdrama', to: 'api#spigot_drama'
+    get 'apod', to: 'api#apod'
 
     scope 'slack' do
       post 'rory', to: 'slack_api#rory'

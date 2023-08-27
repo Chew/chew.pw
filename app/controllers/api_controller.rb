@@ -114,4 +114,25 @@ class ApiController < ApplicationController
 
     json_response({ response: sentence, permalink: "https://drama.essentialsx.net/#{Base64.encode64(base64.to_json.to_s).gsub("\n", "")}" }, 200)
   end
+
+  # Grabs a photo from the NASA Astronomy Picture of the Day page
+  # Date format is YYMMDD
+  # @return [Response, nil] JSON response of the photo
+  def apod
+    data = RestClient.get("https://apod.nasa.gov/apod/ap#{params[:date]}.html")
+
+    doc = Nokogiri::HTML.parse(data)
+
+    title = doc.xpath("/html/body/center[2]/b[1]").text.strip
+    friendlyDate = "Date: " + doc.xpath("/html/body/center[1]/p[2]/text()").text.strip
+    image = doc.xpath("/html/body/center[1]/p[2]/a/img")
+    description = image.attr("alt")&.value&.gsub("\n", " ")&.strip
+    img = "https://apod.nasa.gov/apod/#{image.attr("src")&.value&.strip}"
+    explanation = doc.xpath("/html/body/p[1]").text.gsub("\n", " ").gsub("  ", " ").strip
+
+    # Ensure img is a valid image
+    img = nil if img == "https://apod.nasa.gov/apod/"
+
+    json_response({ friendlyDate: friendlyDate, title: title, description: description, img: img, explanation: explanation }, 200)
+  end
 end
