@@ -36,6 +36,12 @@ Rails.application.routes.draw do
     scope 'sports' do
       get 'nfl', to: 'sports#nfl_api'
     end
+
+    scope 'chess' do
+      scope 'uscf' do
+        get 'member/:uscf_id', to: 'api#uscf_user'
+      end
+    end
   end
 
   get 'trbmb', to: redirect("/api/trbmb")

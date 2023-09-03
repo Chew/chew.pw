@@ -135,4 +135,72 @@ class ApiController < ApplicationController
 
     json_response({ friendlyDate: friendlyDate, title: title, description: description, img: img, explanation: explanation }, 200)
   end
+
+  def uscf_user
+    page = Rails.cache.fetch("api-uscf-#{params[:uscf_id]}", expires_in: 1.day) do
+      RestClient.get("https://www.uschess.org/msa/MbrDtlMain.php?#{params[:uscf_id]}").body
+    end
+
+    doc = Nokogiri::HTML.parse(page)
+
+    elements = []
+    doc.css("tr").each do |element|
+      elements << element.text
+    end
+
+    elements.map! { |e| e.strip.gsub("\n", " ") }
+
+    response = {
+      member: {
+        id: elements[4].split(':').first.to_i,
+        name: elements[4].split(': ').last,
+      },
+      ratings: {
+        regular: {},
+        quick: {},
+        blitz: {},
+        onlineRegular: {},
+        onlineQuick: {},
+        onlineBlitz: {}
+      },
+      lastRatedEvent: {},
+      state: elements[25].split(' ').last,
+      gender: elements[26].split(" ").last,
+      expirationDate: elements[27].split(" ").last,
+      lastChangeDate: elements[28].split(" ").last,
+    }
+
+    order = [:regular, :quick, :blitz, :onlineRegular, :onlineQuick, :onlineBlitz]
+    (10..15).each do |i|
+      rating = elements[i]
+
+      response[:ratings][order[i-10]] = rating
+
+      if rating.include? "Unrated"
+        response[:ratings][order[i-10]] = {
+          elo: nil,
+          games: 0,
+          lastPlayed: nil
+        }
+      else
+        response[:ratings][order[i-10]] = {
+          elo: rating.split('Rating').last.split("(").first.to_i,
+          games: rating.split('Based on')[1].to_i,
+          lastPlayed: rating.split(')')[1].split(' ').last
+        }
+      end
+    end
+
+    # regex this: Last Rated Event: 201604238532 ARLINGTON CLASSICS ACADEMY Rated on 2016-04-23
+    # into: ["Last Rated Event:", "201604238532", "ARLINGTON CLASSICS ACADEMY", "Rated on", "2016-04-23"]
+    last_rated = elements[16].split(/(Last Rated Event: )(\d+)(.*)(Rated on )(\d+-\d+-\d+)/).delete_if { |e| e.blank? }
+
+    response[:lastRatedEvent] = {
+      eventId: last_rated[1],
+      name: last_rated[2].strip,
+      ratedOn: last_rated[4],
+    }
+
+    json_response response
+  end
 end
