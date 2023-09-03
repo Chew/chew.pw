@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get 'all', to: 'utilities#wordle_all'
       get 'answer/:date', to: 'utilities#wordle_answer'
     end
+    get 'connections', to: 'utilities#connections'
     get 'bases', to: 'utilities#bases'
   end
 

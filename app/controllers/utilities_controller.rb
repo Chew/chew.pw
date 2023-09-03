@@ -105,4 +105,8 @@ class UtilitiesController < ApplicationController
 
     @word = JSON.parse(RestClient.get("https://www.nytimes.com/svc/wordle/v2/#{params[:date]}.json"))
   end
+
+  def connections
+    @data = JSON.parse(RestClient.get("https://www.nytimes.com/games-assets/connections/game-data-by-day.json"))
+  end
 end

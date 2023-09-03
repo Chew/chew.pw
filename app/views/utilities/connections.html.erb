@@ -1,0 +1,30 @@
+<h1>New York Times' Connections Answers</h1>
+
+<p>The answer to every NYT Connections puzzle!!!</p>
+
+<a href="https://www.nytimes.com/games/connections" class="btn btn-primary">Play Game!</a>
+
+<a href="#today" class="btn btn-danger">View Today's Answer</a>
+
+
+<% @data.each_with_index do |info, i| %>
+  <hr>
+
+  <% day = Time.new(2023, 6, 12) + i.days %>
+
+  <h2 id="<%= 'today' if day.today? %>"><%= day.strftime("%B %-d, %Y") %></h2>
+
+  <div class="row">
+    <% info['groups'].each do |name, answers| %>
+      <div class="col">
+        <strong><%= name %></strong>
+        <ul>
+          <% answers['members'].each do |answer| %>
+            <li><%= answer.titleize %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+<% end %>
