@@ -22,7 +22,7 @@
 </ul>
 
 <h2 id="birthdays">Today's Birthdays</h2>
-<p>Only players who have played at least one regular season game in <%= params[:season] || Time.now.year %>.</p>
+<p>Only players who have played at least one regular season game in <%= @season %>.</p>
 <ul>
   <% @birthdays.each do |birthday| %>
     <li><%= birthday %></li>
@@ -121,7 +121,7 @@
       <% if @season < Time.now.year || Time.now.month >= 9 %>
       <% if team['clinched'] %>
         <td><span class="ball">Clinched</span></td>
-      <% elsif team['wildCardEliminationNumber'] == 'E' %>
+      <% elsif team['wildCardEliminationNumber'] == 'E' && team['eliminationNumber'] == 'E' %>
         <td><span class="strike">Eliminated</span></td>
       <% else %>
         <td>
@@ -132,7 +132,7 @@
               Wild Card #<span class="ball"><%= team['wildCardRank'].to_i %></span>
             <% else %>
               WC #<span class="strike"><%= team['wildCardRank'].to_i %></span>,
-              <%= team['wildCardGamesBack'] %> games back
+              <%= team['wildCardGamesBack'] %> games back (E#: <%= [team['wildCardEliminationNumber'].to_i, team['eliminationNumber'].to_i].max %>)
             <% end %>
           </span>
         </td>
