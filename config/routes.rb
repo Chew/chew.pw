@@ -44,6 +44,7 @@ Rails.application.routes.draw do
     end
 
     get 'tardis', to: 'api#tardis_builds'
+    options 'tardis', to: 'api#tardis_builds'
   end
 
   get 'trbmb', to: redirect("/api/trbmb")
