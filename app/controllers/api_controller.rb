@@ -203,4 +203,8 @@ class ApiController < ApplicationController
 
     json_response response
   end
+
+  def tardis_builds
+    json_response RestClient.get("http://tardisjenkins.duckdns.org:8080/job/TARDIS/api/json?pretty=true").body
+  end
 end
