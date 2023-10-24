@@ -104,7 +104,8 @@ module ApplicationHelper
   # @param date [String] the timestamp
   # @return [String] the date
   def friendly_date(date, with_time: false, in_zone: "UTC")
-    time = Time.parse(date).in_time_zone(in_zone)
+    time = Time.parse(date)
+    time = time.in_time_zone(in_zone) if in_zone
     if with_time
       time.strftime("%A, %B #{time.day.ordinalize}, %Y at %l:%M %p %Z")
     else

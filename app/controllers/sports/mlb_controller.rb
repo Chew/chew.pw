@@ -291,6 +291,13 @@ class Sports::MlbController < SportsController
     @pitches_by_pitcher = {}
     @pitches_by_batter = {}
 
+    # Total outs so far this game. Usually, max is 54.
+    @outs = 0
+    @max_outs = 54
+    # Average duration of plays
+    @plays = @game['liveData']['plays']['allPlays'].length
+    @duration = 0
+
     # Umpire blunder information
     @total_balls = 0
     @total_strikes = 0
@@ -301,6 +308,17 @@ class Sports::MlbController < SportsController
       pitcher = play['matchup']['pitcher']['fullName']
       batter = play['matchup']['batter']['fullName']
       inning = "#{play['about']['halfInning'].capitalize} of the #{play['about']['inning'].ordinalize}"
+
+      if play['about']['inning'] > 9
+        @max_outs = 6 * (play['about']['inning'])
+      end
+      if play['about']['hasOut']
+        @outs += 1
+        # add one for double plays, two for triple plays
+        @outs += 1 if play['result']['eventType'].include?("double_play")
+        @outs += 2 if play['result']['eventType'].include?("triple_play")
+      end
+      @duration += Time.parse(play['about']['endTime']).to_f - Time.parse(play['about']['startTime']).to_f
 
       # Add or set to 1 if it's a new pitch
       @results[event] ||= 0
@@ -368,6 +386,10 @@ class Sports::MlbController < SportsController
           end
         end
       end
+    end
+
+    if @plays > 0
+      @estimated_done = Time.now + (@duration / @plays.to_f) * (@max_outs - @outs.to_f)
     end
 
     # Make sure the pitchers are unique
