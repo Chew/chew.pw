@@ -42,9 +42,6 @@ Rails.application.routes.draw do
         get 'member/:uscf_id', to: 'api#uscf_user'
       end
     end
-
-    get 'tardis', to: 'api#tardis_builds'
-    options 'tardis', to: 'api#tardis_builds'
   end
 
   get 'trbmb', to: redirect("/api/trbmb")
