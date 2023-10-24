@@ -389,7 +389,10 @@ class Sports::MlbController < SportsController
     end
 
     if @plays > 0
+      remaining_half_innings = ((@max_outs - @outs) / 3.0).ceil
       @estimated_done = Time.now + (@duration / @plays.to_f) * (@max_outs - @outs.to_f)
+      # add in 2m for every half inning left
+      @estimated_done += 120 * remaining_half_innings
     end
 
     # Make sure the pitchers are unique
