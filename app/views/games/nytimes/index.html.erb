@@ -1,0 +1,29 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Home",
+                description: "Read more about my NY Times games solvers here!",
+                service: "Chew's NY Times Games Solvers",
+                color: "#9ba0ff",
+                keywords: "ny times, nyt, new york times, wordle, wordle answers, connections, connections answers" %>
+<% end %>
+
+<h1>Chew's NY Times Games Helpers and Solvers</h1>
+
+<p>Welcome to my page for my NY Times Games tools.</p>
+
+<p>Got suggestions? Issues? Feedback? Feel free to join me on <%= link_to "my Discord server", "https://discord.gg/0kYlxgkh65QhZAjm" %>!</p>
+
+<h2>My Tools</h2>
+
+<p>
+  Below are games I've made tools for. They are described below. You can access them by clicking the header or using the navbar.
+</p>
+
+<h3><%= link_to "Wordle", "/games/nytimes/wordle" %></h3>
+<p>
+  Type in letters to get hints or just find the answer!
+</p>
+
+<h3><%= link_to "Connections", "/games/nytimes/connections" %></h3>
+<p>
+  View the answers for all connections puzzles!
+</p>

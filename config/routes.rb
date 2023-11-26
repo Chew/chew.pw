@@ -10,13 +10,6 @@ Rails.application.routes.draw do
     get 'html', to: 'utilities#striphtml'
     post 'html/strip', to: 'utilities#strippedhtml'
     get 'random', to: 'utilities#random'
-    scope 'wordle' do
-      get '/', to: 'utilities#wordle'
-      post 'solve', to: 'utilities#wordle_solve'
-      get 'all', to: 'utilities#wordle_all'
-      get 'answer/:date', to: 'utilities#wordle_answer'
-    end
-    get 'connections', to: 'utilities#connections'
     get 'bases', to: 'utilities#bases'
   end
 
@@ -72,6 +65,18 @@ Rails.application.routes.draw do
       get 'challenges', to: 'games/solitaire#challenges_list'
       get 'challenges/:month/:year', to: 'games/solitaire#challenges'
     end
+
+    # NY Times
+    scope 'nytimes' do
+      get '/', to: 'games/nytimes#index'
+      scope 'wordle' do
+        get '/', to: 'games/nytimes#wordle'
+        post 'solve', to: 'games/nytimes#wordle_solve'
+        get 'all', to: 'games/nytimes#wordle_all'
+        get 'answer/:date', to: 'games/nytimes#wordle_answer'
+      end
+      get 'connections', to: 'games/nytimes#connections'
+    end
   end
 
   # Handle old redirects
@@ -81,6 +86,9 @@ Rails.application.routes.draw do
   get 'roblox/:path', to: redirect('/games/roblox/%{path}'), constraints: { path: /.*/ }
   get 'cookiesinc', to: redirect('/games/cookiesinc')
   get 'cookiesinc/:path', to: redirect('/games/cookiesinc/%{path}'), constraints: { path: /.*/ }
+  get 'util/wordle', to: redirect('/games/nytimes/wordle')
+  get 'util/wordle/:path', to: redirect('/games/nytimes/wordle/%{path}'), constraints: { path: /.*/ }
+  get 'util/connections', to: redirect('/games/nytimes/connections')
 
   get 'webhooks', to: redirect("/discord/webhooks")
 
