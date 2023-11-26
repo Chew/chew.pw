@@ -1,6 +1,6 @@
 <h1>Wordle Answer For <%= params[:date] %></h1>
 
-<p><%= link_to "Home", "/util/wordle", class: "btn btn-primary" %></p>
+<p><%= link_to "Home", "/games/nytimes/wordle", class: "btn btn-primary" %></p>
 
 <% if @walkout %>
   <p>
@@ -11,10 +11,10 @@
 <% else %>
 
 <p>
-  <%= link_to "Yesterday's Word", "/util/wordle/answer/#{Time.now.yesterday.strftime("%F")}", class: "btn btn-primary" %>
+  <%= link_to "Yesterday's Word", "/games/nytimes/wordle/answer/#{Time.now.yesterday.strftime("%F")}", class: "btn btn-primary" %>
 
   <% if params[:date] != Time.now.strftime("%F") %>
-    <%= link_to "Today's Word", "/util/wordle/answer/#{Time.now.strftime("%F")}", class: "btn btn-primary" %>
+    <%= link_to "Today's Word", "/games/nytimes/wordle/answer/#{Time.now.strftime("%F")}", class: "btn btn-primary" %>
   <% end %>
 </p>
 

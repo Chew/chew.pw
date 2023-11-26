@@ -23,7 +23,7 @@
           <% @teams.each do |data| %>
             <tr>
               <td><%= data['rank'] %></td>
-              <td><a href="/cookiesinc/team/<%= data['teamId'] %>"><%= data['teamName'] %></a></td>
+              <td><a href="/games/cookiesinc/team/<%= data['teamId'] %>"><%= data['teamName'] %></a></td>
               <td><%= number_with_delimiter data['collectedCookieCount'].round(0) %></td>
             </tr>
           <% end %>

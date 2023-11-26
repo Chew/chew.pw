@@ -7,7 +7,7 @@
 
 <h1>Daily Challenges for <%= Time.new(params['year'], params['month'], 1).strftime("%B %Y") %></h1>
 
-<p><%= link_to "All Months", "/solitaire/challenges", class: "btn btn-primary" %></p>
+<p><%= link_to "All Months", "/games/solitaire/challenges", class: "btn btn-primary" %></p>
 
 <% @info['DailyChallenges'].sort_by { |day| day['Date'].gsub(/\/|Date|\(|\)/, '').to_i }.each do |day| %>
   <h2><%= Time.at(day['Date'].gsub(/\/|Date|\(|\)/, '').to_i / 1000).utc.strftime("%A, %B %d, %Y") %></h2>

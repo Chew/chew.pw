@@ -25,7 +25,7 @@
         <% (2015..Time.now.year).each do |year| %>
           <% time = Time.new(year, month, 1) %>
           <% if @months.include?("monthchallenges#{time.strftime("%m%y")}") %>
-            <td><%= link_to time.strftime("%B"), "/solitaire/challenges/#{time.strftime("%m/%Y")}" %></td>
+            <td><%= link_to time.strftime("%B"), "/games/solitaire/challenges/#{time.strftime("%m/%Y")}" %></td>
           <% else %>
             <td><%= time.strftime("%B") %></td>
           <% end %>
