@@ -15,7 +15,12 @@ class ApplicationController < ActionController::Base
   def info
     @controller_name = request.controller_class.to_s.gsub("Controller", "").downcase
     # get everything before ::
-    @controller_name = @controller_name.split("::").first
+    controller_name = @controller_name.split("::")
+    if controller_name[0] == "games"
+      @controller_name = controller_name[1]
+    else
+      @controller_name = controller_name[0]
+    end
 
     @layout = Dir['app/views/layouts/extra/*'].map { |f| File.basename(f, '.html.erb') }.include? "_#{@controller_name}"
     @navs = []

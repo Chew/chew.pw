@@ -1,4 +1,4 @@
-class CookiesincController < ApplicationController
+class Games::CookiesincController < GamesController
   include ActionView::Helpers::TagHelper
 
   def team

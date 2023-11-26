@@ -50,19 +50,37 @@ Rails.application.routes.draw do
 
   get 'vaccine', to: 'utilities#vaccine'
 
-  scope 'cookiesinc' do
-    get '/', to: 'cookiesinc#home'
-    get '/team/:id', to: 'cookiesinc#team'
-    get 'team/:id/neighboring', to: 'cookiesinc#neighboringteams'
-    get 'team/:id/neighbouring', to: 'cookiesinc#neighboringteams'
-    get '/teams/top', to: 'cookiesinc#topteams'
+  scope 'games' do
+    # Cookies, Inc.
+    scope 'cookiesinc' do
+      get '/', to: 'games/cookiesinc#home'
+      get '/team/:id', to: 'games/cookiesinc#team'
+      get 'team/:id/neighboring', to: 'games/cookiesinc#neighboringteams'
+      get 'team/:id/neighbouring', to: 'games/cookiesinc#neighboringteams'
+      get '/teams/top', to: 'games/cookiesinc#topteams'
+    end
+
+    # ROBLOX
+    scope 'roblox' do
+      get '/', to: 'games/roblox#index'
+      get 'badges', to: 'games/roblox#badges'
+      get 'badges/stats', to: 'games/roblox#badgestats'
+    end
+
+    # Solitaire
+    scope 'solitaire' do
+      get 'challenges', to: 'games/solitaire#challenges_list'
+      get 'challenges/:month/:year', to: 'games/solitaire#challenges'
+    end
   end
 
-  scope 'roblox' do
-    get '/', to: 'roblox#index'
-    get 'badges', to: 'roblox#badges'
-    get 'badges/stats', to: 'roblox#badgestats'
-  end
+  # Handle old redirects
+  get 'solitaire', to: redirect('/games/solitaire')
+  get 'solitaire/:path', to: redirect('/games/solitaire/%{path}'), constraints: { path: /.*/ }
+  get 'roblox', to: redirect('/games/roblox')
+  get 'roblox/:path', to: redirect('/games/roblox/%{path}'), constraints: { path: /.*/ }
+  get 'cookiesinc', to: redirect('/games/cookiesinc')
+  get 'cookiesinc/:path', to: redirect('/games/cookiesinc/%{path}'), constraints: { path: /.*/ }
 
   get 'webhooks', to: redirect("/discord/webhooks")
 
@@ -140,11 +158,6 @@ Rails.application.routes.draw do
       get 'support', to: 'chewbotcca#slack_support'
       get 'oauth', to: 'chewbotcca#slack_oauth'
     end
-  end
-
-  scope 'solitaire' do
-    get 'challenges', to: 'solitaire#challenges_list'
-    get 'challenges/:month/:year', to: 'solitaire#challenges'
   end
 
   scope 'sports' do

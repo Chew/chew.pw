@@ -1,4 +1,4 @@
-class RobloxController < ApplicationController
+class Games::RobloxController < GamesController
   def index
   end
 

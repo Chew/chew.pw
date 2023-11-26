@@ -1,4 +1,4 @@
-class SolitaireController < ApplicationController
+class Games::SolitaireController < GamesController
   def index
   end
 

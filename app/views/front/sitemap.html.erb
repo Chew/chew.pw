@@ -20,20 +20,36 @@
           </li>
         </ul>
       </li>
-      <li><%= link_to "/cookiesinc", "/cookiesinc" %> - Cookies, Inc. Home Page
-        <ul>
-          <li>/teams
-            <ul>
-              <li><%= link_to "/top", "/cookiesinc/teams/top" %> - Top Teams</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
       <li><%= link_to "/discord", "/discord" %> - Chew's Discord Tools - Home Page
         <ul>
           <li><%= link_to "/servers", "/discord/servers" %> - Discord Tools - Server Viewer</li>
           <li><%= link_to "/connections", "/discord/connections" %> - Discord Tools - Connections Viewer</li>
           <li><%= link_to "/webhooks", "/discord/webhooks" %> - Discord Tools - Webhook Sender</li>
+        </ul>
+      </li>
+      <li>/games - Path for game pages, e.g. ROBLOX
+        <ul>
+          <li><%= link_to "/cookiesinc", "/games/cookiesinc" %> - Cookies, Inc. Home Page
+            <ul>
+              <li>/teams
+                <ul>
+                  <li><%= link_to "/top", "/games/cookiesinc/teams/top" %> - Top Teams</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li>/solitaire
+            <ul>
+              <li><%= link_to "/challenges", "/games/solitaire/challenges" %> - Microsoft Solitaire Collection Daily Challenge List</li>
+            </ul>
+          </li>
+
+          <li><%= link_to "/roblox", "/games/roblox" %> - Roblox Stuff - Home Page
+            <ul>
+              <li><%= link_to "/badges", "/games/roblox/badges" %> - Badge Progress</li>
+            </ul>
+          </li>
         </ul>
       </li>
       <li><%= link_to "/mc", "/mc" %> - Chew's Minecraft Tools - Home Page
@@ -42,16 +58,6 @@
           <li><%= link_to "/favicon", "/mc/favicon" %> - Favicon Resizer</li>
           <li><%= link_to "/jars", "/mc/jars" %> - JAR Downloader</li>
           <li><%= link_to "/log", "/mc/log" %> - Log Analyzer</li>
-        </ul>
-      </li>
-      <li><%= link_to "/roblox", "/roblox" %> - Roblox Stuff - Home Page
-        <ul>
-          <li><%= link_to "/badges", "/roblox/badges" %> - Badge Progress</li>
-        </ul>
-      </li>
-      <li>/solitaire
-        <ul>
-          <li><%= link_to "/challenges", "/solitaire/challenges" %> - Microsoft Solitaire Collection Daily Challenge List</li>
         </ul>
       </li>
       <li>/sports
