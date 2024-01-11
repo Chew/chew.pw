@@ -89,6 +89,22 @@ $("#hideNotPossible").change(function() {
     }
 });
 
+// Connections Answer
+$("#connectionsAnswer").click((e) => {
+    e.preventDefault();
+
+    // get today's date as YYYY-MM-DD (as local time)
+    const localToday = new Date();
+    const today = new Date(localToday.getTime() - (localToday.getTimezoneOffset() * 60000));
+
+    // Append ?date=YYYY-MM-DD to the URL
+    let url = new URL(window.location.href);
+    url.searchParams.set("date", today.toISOString().slice(0, 10));
+
+    // Redirect to the new URL
+    window.location = url.href;
+})
+
 // Listen for the #invertButtonToBlacklist button click
 const invertButtonToBlackList = function(e) {
     if (e) e.preventDefault();

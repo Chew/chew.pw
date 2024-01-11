@@ -4,18 +4,15 @@
 
 <a href="https://www.nytimes.com/games/connections" class="btn btn-primary">Play Game!</a>
 
-<a href="#today" class="btn btn-danger">View Today's Answer</a>
+<% if params[:date].nil? %>
+  <a id="connectionsAnswer" class="btn btn-danger">Click To See Today's Answer</a>
+<% end %>
 
+<hr>
 
-<% @data.each_with_index do |info, i| %>
-  <hr>
-
-  <% day = Time.new(2023, 6, 12) + i.days %>
-
-  <h2 id="<%= 'today' if day.today? %>"><%= day.strftime("%B %-d, %Y") %></h2>
-
+<% if params[:date] %>
   <div class="row">
-    <% info['groups'].each do |name, answers| %>
+    <% @data['groups'].each do |name, answers| %>
       <div class="col">
         <strong><%= name %></strong>
         <ul>
@@ -26,5 +23,6 @@
       </div>
     <% end %>
   </div>
-
+<% else %>
+  <p>Please click the button above to show the answers.</p>
 <% end %>
