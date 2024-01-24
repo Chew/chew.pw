@@ -14,8 +14,8 @@ Rails.application.config.content_security_policy do |policy|
   policy.style_src   :self, :data,
                      "https://kit.fontawesome.com/", # FontAwesome
                      "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='", # jQuery
-                     "'sha256-VSwmy6A2LlCnCFYhg9V4esv1ZAJvTGI5AZs0ulNb+mQ='", # FontAwesome
-                     "'sha256-MbjzfRiT02mtB5wyBhiVPdkyYpcwVgwRy8OF00H+5kU='", # FontAwesome
+                     "'sha256-Ajrn2JfOTISCPhOetahUcaOhZ854HKtCcNBgJTdIGxM='", # FontAwesome
+                     "'sha256-FG186pX32/RqkjtL5kNb6LG7uYR99KhVlJGHiAbALxk='", # FontAwesome
                      "https://fonts.googleapis.com/", # Google Fonts
                      "https://use.typekit.net/" # Typekit/Adobe Fonts
   # If you are using webpack-dev-server then specify webpack-dev-server host
