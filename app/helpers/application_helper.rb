@@ -120,4 +120,9 @@ module ApplicationHelper
     formatted = Time.at(time).utc.strftime("%H:%M:%S.%L")
     formatted.start_with?("00:") ? formatted.sub("00:", "") : formatted
   end
+
+  # Creates a Bootstrap tooltip
+  def tooltip(text, title, underline = false)
+    tag.span(text, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', title: title, class: underline ? 'abbr-formatting' : '')
+  end
 end

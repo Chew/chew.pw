@@ -35,4 +35,40 @@ module DiscordHelper
     perms = Discordrb::Permissions.new bits
     perms.defined_permissions.map { |e| e.to_s.titleize }.join(', ')
   end
+
+  def admin?(bits)
+    perms = friendly_permissions bits
+    perms.include? "Administrator"
+  end
+
+  def staff?(bits)
+    perms = friendly_permissions bits
+    perms.include?("Manage Server") or perms.include?("Manage Channels") or perms.include?("Manage Roles")
+  end
+
+  def mod?(bits)
+    perms = friendly_permissions bits
+    perms.include?("Kick Members") or perms.include?("Ban Members") or perms.include?("Manage Messages")
+  end
+
+  def vc_mod?(bits)
+    perms = friendly_permissions bits
+    perms.include?("Move Members") or perms.include?("Mute Members") or perms.include?("Deafen Members")
+  end
+
+  def rank(server)
+    if server['owner']
+      "Owner"
+    elsif admin? server['permissions']
+      "Admin"
+    elsif staff? server['permissions']
+      "Staff"
+    elsif mod? server['permissions']
+      "Mod"
+    elsif vc_mod? server['permissions']
+      "VC Mod"
+    else
+      "Member"
+    end
+  end
 end

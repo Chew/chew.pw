@@ -11,9 +11,17 @@
 
 <p>A list of your servers!</p>
 
-<p>Total Servers: <%= @servers.length %></p>
+<h2>Stats</h2>
+<p>
+  Total Servers: <%= @servers.length %><br>
+  Servers Where You're Owner: <%= @servers.count { |e| e['owner'] } %><br>
+  Servers Where You're <%= tooltip "Admin", "Administrator permission.", true %>: <%= @servers.count { |e| admin?(e['permissions']) } %><br>
+  Servers Where You're <%= tooltip "Staff", "Manage Server/Roles/Channels permission(s).", true %>: <%= @servers.count { |e| staff?(e['permissions']) } %><br>
+  Servers Where You're <%= tooltip "Mod", "Manage Messages or Kick/Ban Members permission(s).", true %>: <%= @servers.count { |e| mod?(e['permissions']) } %><br>
+  Servers Where You're <%= tooltip "VC Mod", "Mute/Deafen/Move Members permission(s).", true %>: <%= @servers.count { |e| vc_mod?(e['permissions']) } %><br>
+</p>
 
-<p><%= link_to "Log-out", "/discord/servers/logout" %></p>
+<p><%= link_to "Log-out", "/discord/servers/logout", class: 'btn btn-primary' %></p>
 
 <template id="serverTemplate">
   <div class="col-4 mt-3">
@@ -37,7 +45,7 @@
             <small>%PERMISSIONS%</small>
           </div>
           <div class="col-12 col-lg-6">
-            <h3 class="mb-0">Owner?</h3>
+            <h3 class="mb-0">Rank</h3>
             <small>%OWNER%</small>
           </div>
         </div>
@@ -63,7 +71,7 @@
       <th data-sortable="true" data-field="server_id" data-switchable="false" data-sort-order="asc">ID</th>
       <th data-sortable="true" data-field="created" data-switchable="false" data-sort-order="asc">Created</th>
       <th data-sortable="true" data-field="name" data-switchable="true" data-sort-order="desc">Name</th>
-      <th data-sortable="true" data-field="owner" data-switchable="true">Owner?</th>
+      <th data-sortable="true" data-field="owner" data-switchable="true">Rank</th>
       <th data-sortable="true" data-field="permsraw" data-switchable="false" data-visible="false" data-sort-order="desc">Permissions Raw</th>
       <th data-sortable="false" data-field="features" data-switchable="true" data-visible="false">Features</th>
       <th data-sortable="true" data-field="perms" data-sort-name="permsraw" data-switchable="true">Permissions</th>
@@ -77,7 +85,7 @@
         <td><%= server['id'] %></td>
         <td><%= created_at server['id'] %></td>
         <td><%= server['name'] %></td>
-        <td><%= server['owner'] %></td>
+        <td><%= rank server %></td>
         <td><%= server['permissions'] %></td>
         <td><%= server['features'].join(", ") %></td>
         <td>

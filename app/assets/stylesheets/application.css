@@ -55,3 +55,7 @@
 .sponsor {
     color: #db61a2;
 }
+
+.abbr-formatting {
+    text-decoration: underline dotted;
+}
