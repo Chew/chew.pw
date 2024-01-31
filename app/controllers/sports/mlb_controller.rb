@@ -533,7 +533,7 @@ class Sports::MlbController < SportsController
     # Major League Affiliate teams. Minor teams + rookie.
     @affiliates = ["Major League Baseball", "Triple-A", "Double-A", "High-A", "Single-A", "Rookie"]
 
-    @sports = @teams.map {|e| e['sport']['name']}.uniq.sort_by do |item|
+    @sports = @teams.map {|e| e['sport'].nil? ? "Unknown" : e['sport']['name']}.uniq.sort_by do |item|
       if @affiliates.include? item
         @affiliates.index item
       else

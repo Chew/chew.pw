@@ -42,12 +42,12 @@
       </tr>
     </thead>
     <tbody>
-    <% @teams.find_all { |e| e['sport']['id'] == 1 }.each do |team| %>
+    <% @teams.find_all { |e| (e['sport'].nil? ? 0 : e['sport']['id']) == 1 }.each do |team| %>
       <tr>
         <td><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></td>
         <% @affiliates.each do |sport| %>
           <% next if sport == "Major League Baseball" %>
-          <% teams = @teams.find_all { |e| e['sport']['name'] == sport and e['parentOrgName'] == team['name'] } %>
+          <% teams = @teams.find_all { |e| (e['sport'].nil? ? "Unknown" : e['sport']['name']) == sport and e['parentOrgName'] == team['name'] } %>
           <td>
             <% teams.each do |affiliate| %>
               <%= link_to affiliate['name'], "/sports/mlb/team/#{affiliate['id']}" %><br>
@@ -70,7 +70,7 @@
 
   <ul>
     <% @teams.each do |team| %>
-      <% next unless team['sport']['name'] == sport %>
+      <% next unless (team['sport'].nil? ? "Unknown" : team['sport']['name']) == sport %>
       <li><%= link_to team['name'], "/sports/mlb/team/#{team['id']}" %></li>
     <% end %>
   </ul>
