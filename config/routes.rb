@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     post 'html/strip', to: 'utilities#strippedhtml'
     get 'random', to: 'utilities#random'
     get 'bases', to: 'utilities#bases'
+    get 'aa', to: 'utilities#aa'
+    post 'aa/calculate', to: 'utilities#calculate_aa'
   end
 
   scope 'api' do

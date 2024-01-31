@@ -1,0 +1,61 @@
+<h1>Your Calculation</h1>
+
+<%= link_to "Go Back", "/util/aa", class: 'btn btn-primary' %>
+<br><br>
+
+<div class="alert alert-success">
+  You will earn <%= @points_from_ticket + @points_from_card %> loyalty points!
+</div>
+
+<ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between lh-sm">
+    <div>
+      <h6 class="my-0">Initial Points</h6>
+      <small class="text-body-secondary">You get your initial loyalty points of your pre-tax ticket <i>rounded down</i>.</small>
+    </div>
+    <span class="text-body-secondary"><%= @pre_tax_cost %></span>
+  </li>
+
+  <li class="list-group-item d-flex justify-content-between lh-sm">
+    <div>
+      <h6 class="my-0">Multiplier</h6>
+      <small class="text-body-secondary">
+        <% if @basic_economy %>
+          Because you booked basic economy, you only get a 2x multiplier.
+        <% else %>
+          Being an AAdvantage Member gets you a 5x multiplier.
+        <% end %>
+      </small>
+    </div>
+    <span class="text-body-secondary">+<%= @pre_tax_cost * (@basic_economy ? 1 : 4) %></span>
+  </li>
+
+  <% if @status != "None" && !@basic_economy %>
+    <li class="list-group-item d-flex justify-content-between lh-sm">
+      <div>
+        <h6 class="my-0">Mileage Bonus</h6>
+        <small class="text-body-secondary">
+          Because of your status (<%= @status %>), you get a mileage bonus of <%= @bonus %>%.
+        </small>
+      </div>
+      <span class="text-body-secondary">+<%= @pre_tax_cost * (@multiplier - 5) %></span>
+    </li>
+  <% end %>
+
+  <% if @aadvantage_card %>
+    <li class="list-group-item d-flex justify-content-between lh-sm">
+      <div>
+        <h6 class="my-0">AAdvantage Card</h6>
+        <small class="text-body-secondary">
+          You purchased this ticket with an AAdvantage card, which gives you +1 loyalty point for every dollar spent.
+        </small>
+      </div>
+      <span class="text-body-secondary">+<%= @points_from_card %></span>
+    </li>
+  <% end %>
+
+  <li class="list-group-item d-flex justify-content-between">
+    <span>Total Loyalty Points</span>
+    <strong><%= @points_from_ticket + @points_from_card %></strong>
+  </li>
+</ul>
