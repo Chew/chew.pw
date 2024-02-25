@@ -318,7 +318,8 @@ class Sports::MlbController < SportsController
         @outs += 1 if play['result']['eventType'].include?("double_play")
         @outs += 2 if play['result']['eventType'].include?("triple_play")
       end
-      @duration += Time.parse(play['about']['endTime']).to_f - Time.parse(play['about']['startTime']).to_f
+      now = Time.now.to_s
+      @duration += Time.parse(play.dig(:about, :endTime) || now).to_f - Time.parse(play.dig(:about, :startTime) || now).to_f
 
       # Add or set to 1 if it's a new pitch
       @results[event] ||= 0
