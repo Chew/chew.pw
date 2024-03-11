@@ -1,0 +1,31 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "NY Times Strands Solver",
+                description: "Unlock the answers to every New York Times Strands puzzle effortlessly with this comprehensive guide. Discover the solution to today's challenge and elevate your gaming experience instantly!",
+                keywords: "New York Times Strands,NYT Strands answers,Strands puzzle solutions,Daily puzzle solutions,Puzzle game answers,Word game solutions,NY Times games,Word puzzle solutions",
+                service: "Chew's Tools" %>
+<% end %>
+
+<h1>New York Times' Strands Answers</h1>
+
+<p>The answer to every NYT Strands puzzle!!!</p>
+
+<a href="https://www.nytimes.com/games/strands" class="btn btn-primary">Play Game!</a>
+
+<a id="connectionsAnswer" class="btn btn-danger">Click To See Today's Answer</a>
+
+<hr>
+
+<% if params[:date] %>
+  <p>Answer for <%= params[:date] %></p>
+
+  <p>Spangram: <%= @data['spangram'] %></p>
+
+  <p>Theme Words:</p>
+  <ul>
+    <% @data['themeCoords'].each do |key, _| %>
+    <li><%= key %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Please click the button above to show the answers.</p>
+<% end %>

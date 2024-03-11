@@ -78,6 +78,7 @@ Rails.application.routes.draw do
         get 'answer/:date', to: 'games/nytimes#wordle_answer'
       end
       get 'connections', to: 'games/nytimes#connections'
+      get 'strands', to: 'games/nytimes#strands'
     end
   end
 

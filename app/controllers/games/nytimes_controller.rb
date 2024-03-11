@@ -91,4 +91,12 @@ class Games::NytimesController < GamesController
       @data = JSON.parse(RestClient.get("https://www.nytimes.com/svc/connections/v1/#{params[:date]}.json"))
     end
   end
+
+  def strands
+    # get today's date in YYYY-MM-DD format
+
+    if params[:date]
+      @data = JSON.parse(RestClient.get("https://www.nytimes.com/games-assets/strands/#{params[:date]}.json"))
+    end
+  end
 end

@@ -17,6 +17,7 @@ SitemapGenerator::Sitemap.create do
   add '/games/nytimes', changefreq: 'weekly'
   add '/games/nytimes/wordle', changefreq: 'weekly'
   add '/games/nytimes/connections', changefreq: 'daily'
+  add '/games/nytimes/strands', changefreq: 'daily'
   add '/games/roblox', changefreq: 'monthly'
   add '/games/roblox/badges', changefreq: 'monthly'
   add '/games/solitaire/challenges', changefreq: 'monthly'
