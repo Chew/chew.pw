@@ -29,6 +29,5 @@ SitemapGenerator::Sitemap.create do
   add '/util/html', changefreq: 'weekly'
   add '/util/random', changefreq: 'weekly'
   add '/util/bases', changefreq: 'daily'
-  add '/vaccine', changefreq: 'daily'
   add '/sports/mlb', changefreq: 'daily'
 end

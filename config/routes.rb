@@ -43,8 +43,6 @@ Rails.application.routes.draw do
   get 'acronym/:acronym', to: redirect("/api/acronym/%{acronym}")
   get 'chewspeak', to: redirect("/api/chewspeak")
 
-  get 'vaccine', to: 'utilities#vaccine'
-
   scope 'games' do
     # Cookies, Inc.
     scope 'cookiesinc' do
