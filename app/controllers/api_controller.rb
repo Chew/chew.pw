@@ -86,7 +86,7 @@ class ApiController < ApplicationController
   # Generate some random Spigot Drama
   def spigot_drama
     drama = Rails.cache.fetch("api-spigot-drama") do
-      JSON.parse(RestClient.get("https://raw.githubusercontent.com/md678685/spigot-drama-generator/master/src/data.json"))
+      JSON.parse(RestClient.get("https://raw.githubusercontent.com/mdcfe/spigot-drama-generator/master/src/data.json"))
     end
 
     combinations = drama['combinations']
@@ -112,7 +112,7 @@ class ApiController < ApplicationController
       end
     end
 
-    json_response({ response: sentence, permalink: "https://drama.essentialsx.net/#{Base64.encode64(base64.to_json.to_s).gsub("\n", "")}" }, 200)
+    json_response({ response: sentence, permalink: "https://drama.mdcfe.dev/#{Base64.encode64(base64.to_json.to_s).gsub("\n", "")}" }, 200)
   end
 
   # Grabs a photo from the NASA Astronomy Picture of the Day page
