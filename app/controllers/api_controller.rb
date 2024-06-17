@@ -135,4 +135,19 @@ class ApiController < ApplicationController
 
     json_response({ friendlyDate: friendlyDate, title: title, description: description, img: img, explanation: explanation }, 200)
   end
+
+  def costco_store
+    store = params[:store]
+
+    data = JSON.parse RestClient.get("https://api.costco.com/warehouseLocatorMobile/v1/warehouses/#{store}.json?client_id=#{Rails.application.credentials.costco}&compressL10n=true", 'User-Agent': DUMMY_USER_AGENT)
+
+    gas = JSON.parse(RestClient.get("https://www.costco.com/AjaxGetGasPricesService?warehouseid=#{store}"))
+
+    data['warehouse']['services'].find { |service| service['name'] == 'Gas Station' }['price'] = gas[store]
+
+    # delete context
+    data.delete('context')
+
+    json_response(data)
+  end
 end

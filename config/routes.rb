@@ -37,6 +37,10 @@ Rails.application.routes.draw do
         get 'member/:uscf_id', to: 'api#uscf_user'
       end
     end
+
+    scope 'costco' do
+      get 'store/:store', to: 'api#costco_store'
+    end
   end
 
   get 'trbmb', to: redirect("/api/trbmb")
