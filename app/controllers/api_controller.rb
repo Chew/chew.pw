@@ -137,12 +137,19 @@ class ApiController < ApplicationController
   end
 
   def costco_store
+    # get store number
     store = params[:store]
 
+    # get data
     data = JSON.parse RestClient.get("https://api.costco.com/warehouseLocatorMobile/v1/warehouses/#{store}.json?client_id=#{Rails.application.credentials.costco}&compressL10n=true", 'User-Agent': DUMMY_USER_AGENT)
 
+    # for every warehous service, instead of services beign an array, map it from service code => service object
+    data['warehouse']['services'] = data['warehouse']['services'].map { |service| [service['code'], service] }.to_h
+
+    # if there's a warehouse gas service, add the price
     gas = JSON.parse(RestClient.get("https://www.costco.com/AjaxGetGasPricesService?warehouseid=#{store}"))
 
+    # Add gas station price
     data['warehouse']['services'].find { |service| service['name'] == 'Gas Station' }['price'] = gas[store]
 
     # delete context
