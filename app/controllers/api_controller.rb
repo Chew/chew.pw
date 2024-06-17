@@ -150,7 +150,7 @@ class ApiController < ApplicationController
     gas = JSON.parse(RestClient.get("https://www.costco.com/AjaxGetGasPricesService?warehouseid=#{store}"))
 
     # Add gas station price
-    data['warehouse']['services'].find { |service| service['name'] == 'Gas Station' }['price'] = gas[store]
+    data['warehouse']['services']['gas']['price'] = gas[store]
 
     # delete context
     data.delete('context')
