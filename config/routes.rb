@@ -191,6 +191,7 @@ Rails.application.routes.draw do
           get '', to: 'sports/mlb#mlb_team'
           get 'affiliates', to: 'sports/mlb#mlb_team_affiliates'
           get 'homers', to: 'sports/mlb#team_homers'
+          get 'stats', to: 'sports/mlb#mlb_team_stats'
         end
       end
       get 'game/generator', to: 'sports/mlb#mlb_game_generator'

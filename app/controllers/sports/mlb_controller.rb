@@ -543,6 +543,11 @@ class Sports::MlbController < SportsController
     end
   end
 
+  def mlb_team_stats
+    @team_name = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?fields=teams,name", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]['name']
+    @stats = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}/stats?sportId=1&season=#{params[:season]}&stats=season&group=hitting,pitching,fielding,catching,running&gameType=R"))['stats']
+  end
+
   def mlb_team_affiliates
     url = "https://statsapi.mlb.com/api/v1/teams/affiliates?teamIds=#{params[:team_id]}&hydrate=nextSchedule,previousSchedule,standings&season=#{@season}"
     sports = ["Major League Baseball", "Triple-A", "Double-A", "High-A", "Single-A", "Rookie"]

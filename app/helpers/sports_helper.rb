@@ -9,6 +9,18 @@ module SportsHelper
   BASE_NO_HIT = RESULT_SORT[5..6]
   OUTS = RESULT_SORT[7..-1]
 
+  STATS_MAP = {
+    "Avg" => "Average (AVG)",
+    "Obp" => "On Base Percentage (OBP)",
+    "Slg" => "Slugging Percentage (SLG)",
+    "Ops" => "On Base + Slugging (OPS)",
+    "Rbi" => "Runs Batted In (RBI)",
+    "Babip" => "Batting Average on Balls In Play (BABIP)",
+    "Base On Balls" => "Walks",
+    "Whip" => "Walks + Hits per Inning Pitched (WHIP)",
+    "Era" => "Earned Run Average (ERA)",
+  }
+
   def result_sort
     RESULT_SORT
   end
@@ -233,5 +245,9 @@ module SportsHelper
     end
 
     link_to team['name'], url
+  end
+
+  def pretty_stat(stat)
+    STATS_MAP[stat] || stat
   end
 end

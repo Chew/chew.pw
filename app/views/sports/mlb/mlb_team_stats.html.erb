@@ -1,0 +1,32 @@
+<h1>Team Stats for <%= @team_name %></h1>
+
+<p>Stats for the <%= params[:season] || Time.now.year %> season.</p>
+
+<h2>Breakdowns By Position</h2>
+
+<div class="row">
+  <% @stats.each do |stat| %>
+    <div class="col">
+      <h3 id="<%= stat['group']['displayName'].parameterize %>"><%= stat['group']['displayName'].capitalize %></h3>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover" data-toggle="table">
+          <thead class="table-dark">
+          <tr>
+            <th>Stat</th>
+            <th>Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% stat['splits'][0]['stat'].each do |name, value| %>
+            <tr>
+              <td><%= pretty_stat name.split(/(?<=\p{Ll})(?=\p{Lu})|(?<=\p{Lu})(?=\p{Lu}\p{Ll})/).map(&:capitalize).join(' ') %></td>
+              <td><%= number_with_delimiter value %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
