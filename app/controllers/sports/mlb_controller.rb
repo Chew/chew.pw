@@ -492,6 +492,14 @@ class Sports::MlbController < SportsController
     end
   end
 
+  def game_pace
+    @game_pace = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/gamePace?season=#{@season}&sportId=1&hydrate=sport"))['sports'][0]
+    # This tells the frontend season dropdown to show 1999 to now
+    @team_info = {
+      "firstYearOfPlay" => 1999
+    }
+  end
+
   # Home Run Derby
   def mlb_derby
     begin

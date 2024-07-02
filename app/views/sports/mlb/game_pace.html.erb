@@ -1,0 +1,34 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "#{@season} Season Game Stats - MLB Stats",
+                description: "View game stats, like the total game time, average pitches per game, and much more!",
+                service: "Chew's MLB Stats",
+                keywords: "sports mlb baseball game stats" %>
+<% end %>
+
+<h1>Game Stats</h1>
+
+<p>Stats for the <%= params[:season] || Time.now.year %> season for <%= @game_pace['sport']['name'] %>.</p>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" data-toggle="table">
+    <thead class="table-dark">
+    <tr>
+      <th>Stat</th>
+      <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @game_pace.each do |name, value| %>
+      <% next if %w[season sport prPortalCalculatedFields].include? name %>
+      <tr>
+        <td>
+          <%= name.start_with?("total") ? "" : "Average " %>
+          <%= name.split(/(?<=\p{Ll})(?=\p{Lu})|(?<=\p{Lu})(?=\p{Lu}\p{Ll})/).map(&:capitalize).join(' ')
+                  .gsub("9inn", " 9 Innings").gsub("7inn", " 7 Innings") %>
+        </td>
+        <td><%= number_with_delimiter value %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

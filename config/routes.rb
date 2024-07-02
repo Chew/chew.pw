@@ -186,6 +186,7 @@ Rails.application.routes.draw do
       get 'schedule', to: 'sports/mlb#mlb_schedule'
       get 'draft/:year', to: 'sports/mlb#mlb_draft'
       get 'teams', to: 'sports/mlb#mlb_teams'
+      get 'stats', to: 'sports/mlb#game_pace'
       scope 'team' do
         scope ':team_id' do
           get '', to: 'sports/mlb#mlb_team'
