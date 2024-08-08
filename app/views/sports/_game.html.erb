@@ -10,7 +10,7 @@
       <% end %>
     </span>
     <% if %w[Postponed Scheduled Pre-Game].include? game['status']['detailedState'] %>
-      <p>Game State: <%= game_status game %><% if game['status']['reason'] %> due to <%= game['status']['reason'] %><% end %></p>
+      <p>Game State: <%= link_to game_status(game), "/sports/mlb/game/#{game['gamePk']}" %><% if game['status']['reason'] %> due to <%= game['status']['reason'] %><% end %></p>
     <% else %>
       <p><%= link_to "Game State: #{game_status game}", "/sports/mlb/game/#{game['gamePk']}" %></p>
     <% end %>
