@@ -478,7 +478,7 @@ class Sports::MlbController < SportsController
       "Batters" => %w[AB R H RBI BB K AVG OPS],
       "Pitchers" => %w[IP H R ER BB K HR ERA],
       "Bench" => %w[B Pos AVG G R H HR RBI SB],
-      "Bullpen" => %w[T ERA H BB K]
+      "Bullpen" => %w[T ERA IP H BB K]
     }
 
     # Summary for meta description.
@@ -637,6 +637,7 @@ class Sports::MlbController < SportsController
           "stats" => {
             "t" => player_info['pitchHand']['code'],
             "era" => player_pitching_stats['era'],
+            "ip" => player_pitching_stats['inningsPitched'],
             "h" => player_pitching_stats['hits'],
             "bb" => player_pitching_stats['baseOnBalls'],
             "k" => player_pitching_stats['strikeOuts']
