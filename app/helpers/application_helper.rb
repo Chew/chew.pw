@@ -125,4 +125,9 @@ module ApplicationHelper
   def tooltip(text, title, underline = false)
     tag.span(text, 'data-bs-toggle': 'tooltip', 'data-bs-placement': 'top', title: title, class: underline ? 'abbr-formatting' : '')
   end
+
+  # Turns an array of strings into an array of <th> tags
+  def table_headers(headers, header_class: nil)
+    headers.map { |header| tag.th(header, class: header_class) }.join.html_safe
+  end
 end

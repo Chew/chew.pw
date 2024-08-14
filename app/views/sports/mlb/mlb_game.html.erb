@@ -35,7 +35,107 @@
   </ul>
 <% end %>
 
-<h2>Box Score Game Info</h2>
+<h2>Table of Contents</h2>
+
+<ul>
+  <li><%= header_link "Box Score" %> - The box score of the game.</li>
+  <li><%= header_link "Notable Events" %> - Notable events such as no-hitters, immaculate innings, batting the cycle, etc.</li>
+  <li><%= header_link "Scorecard" %> - The scorecard of the game. Can switch to see hits/errors/left on base per inning!</li>
+  <li><%= header_link "Plays Table of Contents" %> - Shows a summary of every batter.</li>
+  <li><%= header_link "Plays" %> - A breakdown of every plate appearance.</li>
+  <li><%= header_link "Umpire Blunders" %> - Find all the missed balls/strikes! (BETA)</li>
+  <li><%= header_link "Pitcher Breakdown" %> - A breakdown of pitchers, how well they pitched, how much, and the results.</li>
+  <li><%= header_link "Player Breakdown" %> - Find a breakdown of players' batting results.</li>
+</ul>
+
+<h2 id="box-score">Box Score</h2>
+
+<div class="row">
+  <% %w[away home].each do |which| %>
+    <% boxscore_team = @boxscore['teams'][which] %>
+    <div class="col">
+      <h3><%= boxscore_team['team']['name'] %></h3>
+      <h4>Batting</h4>
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="table-dark">
+            <tr>
+              <th>Batters - <%= boxscore_team['team']['abbreviation'] %></th>
+              <%= table_headers %w[AB R H RBI BB K AVG OPS], header_class: "text-center" %>
+            </tr>
+          </thead>
+          <tbody>
+          <% boxscore_team['batters'].each do |batter| %>
+            <tr>
+              <td class="<%= "bold" if batter['name'] == "Totals" %> ">
+                <% if batter['note'] %>&emsp;<%= batter['note'] %><% end %><%= batter['name'] %>
+                <span class="text-body-secondary form-text"><%= batter['position'] %></span>
+              </td>
+              <% %w[ab r h rbi bb k avg ops].each do |stat| %>
+                <td class="<%= "bold" if batter['name'] == "Totals" %> text-center">
+                  <%= batter['stats'][stat] %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <% if boxscore_team['info']['notes'] %>
+        <p class="text-body-secondary">
+          <% boxscore_team['info']['notes'].each do |note| %>
+            <%= note['label'] %> - <%= note['value'] %>;<br>
+          <% end %>
+        </p>
+      <% end %>
+
+      <% %w[batting baserunning fielding].each do |info| %>
+        <% next if boxscore_team['info'][info] == nil %>
+        <p>
+          <b><%= info.capitalize %></b><br>
+          <% boxscore_team['info'][info].each do |note| %>
+            <span><b><%= note['label'] %></b></span> <span class="text-body-secondary"><%= note['value'] %></span><br>
+          <% end %>
+        </p>
+      <% end %>
+
+      <h4>Pitching</h4>
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="table-dark">
+          <tr>
+            <th>Pitchers - <%= boxscore_team['team']['abbreviation'] %></th>
+            <%= table_headers %w[IP H R ER BB K HR ERA], header_class: "text-center" %>
+          </tr>
+          </thead>
+          <tbody>
+          <% boxscore_team['pitchers'].each do |pitcher| %>
+            <tr>
+              <td class="<%= "bold" if pitcher['name'] == "Totals" %>">
+                <%= pitcher['name'] %>
+                <% if pitcher['note'] %>
+                  <span class="text-body-secondary form-text"><%= pitcher['note'] %></span>
+                <% end %>
+              </td>
+              <% %w[ip h r er bb k hr era].each do |stat| %>
+                <td class="<%= "bold" if pitcher['name'] == "Totals" %> text-center">
+                  <%= pitcher[stat] %>
+                  <% if stat == 'name' and pitcher['note'] %>
+                    <span class="text-body-secondary form-text"><%= pitcher['note'] %></span>
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<h3>Game Info</h3>
 
 <ul>
   <% @game['liveData']['boxscore']['info'].each do |info| %>
@@ -50,18 +150,6 @@
       <li><b><%= info['label'].capitalize %></b>: <%= info['value'] %></li>
     <% end %>
 <% end %>
-</ul>
-
-<h2>Table of Contents</h2>
-
-<ul>
-  <li><%= header_link "Notable Events" %> - Notable events such as no-hitters, immaculate innings, batting the cycle, etc.</li>
-  <li><%= header_link "Scorecard" %> - The scorecard of the game. Can switch to see hits/errors/left on base per inning!</li>
-  <li><%= header_link "Plays Table of Contents" %> - Shows a summary of every batter.</li>
-  <li><%= header_link "Plays" %> - A breakdown of every plate appearance.</li>
-  <li><%= header_link "Umpire Blunders" %> - Find all the missed balls/strikes! (BETA)</li>
-  <li><%= header_link "Pitcher Breakdown" %> - A breakdown of pitchers, how well they pitched, how much, and the results.</li>
-  <li><%= header_link "Player Breakdown" %> - Find a breakdown of players' batting results.</li>
 </ul>
 
 <h2 id="notable-events">Notable Events</h2>

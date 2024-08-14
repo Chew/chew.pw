@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     scope 'costco' do
       get 'store/:store', to: 'api#costco_store'
     end
+
+    get '/sports/mlb/:id/boxscore', to: 'api#mlb_boxscore'
   end
 
   get 'trbmb', to: redirect("/api/trbmb")

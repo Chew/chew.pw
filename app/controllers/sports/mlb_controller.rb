@@ -473,6 +473,8 @@ class Sports::MlbController < SportsController
 
     @score = away_score > home_score ? "#{away_score} - #{home_score}" : "#{home_score} - #{away_score}"
 
+    @boxscore = boxscore(@game)
+
     # Summary for meta description.
     # If the game is Final, use the final summary: "The winning team beat the losing time winning score to losing score."
     # If the game is in-progress, use the in-progress summary: "The winning team is beating the losing team winning score to losing score at the inning state inning ordinal."
@@ -490,6 +492,123 @@ class Sports::MlbController < SportsController
     elsif @game['gameData']['status']['abstractGameState'] == "Preview"
       @summary = "The game is scheduled for #{Time.parse(@game['gameData']['datetime']['dateTime']).in_time_zone("Eastern Time (US & Canada)").strftime("%A, %B %d, %Y at %r %Z")}."
     end
+  end
+
+  def boxscore(data)
+    # box score info,  mostly has everything
+    box = data['liveData']['boxscore']
+    # complete player data
+    players = data['gameData']['players']
+    teams = data['gameData']['teams']
+
+    # final render
+    boxscore = {
+      "teams" => {},
+      "info" => ""
+    }
+
+    %w[away home].each do |tea|
+      team_info = teams[tea]
+      box_team = box['teams'][tea]
+
+      box_batters = []
+      box_pitchers = []
+
+      # handle batters
+      box_team['batters'].each do |batter|
+        player_stats = box_team['players']["ID#{batter}"]
+        player_batting_stats = player_stats['stats']['batting']
+        player_info = players["ID#{batter}"]
+
+        next if player_batting_stats.empty?
+
+        batter_box = {
+          "name" => player_info['boxscoreName'],
+          "position" => player_stats['allPositions'].map{|e| e['abbreviation']}.join('-'),
+          "note" => player_batting_stats['note'],
+          "stats" => {
+            "ab" => player_batting_stats['atBats'],
+            "r" => player_batting_stats['runs'],
+            "h" => player_batting_stats['hits'],
+            "rbi" => player_batting_stats['rbi'],
+            "bb" => player_batting_stats['baseOnBalls'],
+            "k" => player_batting_stats['strikeOuts'],
+            "avg" => player_stats['seasonStats']['batting']['avg'],
+            "ops" => player_stats['seasonStats']['batting']['ops'],
+          }
+        }
+
+        box_batters << batter_box
+      end
+      batting_team_stats = box_team['teamStats']['batting']
+      batting_totals = {
+        "name" => "Totals",
+        "stats" => {
+          "ab" => batting_team_stats['atBats'],
+          "r" => batting_team_stats['runs'],
+          "h" => batting_team_stats['hits'],
+          "rbi" => batting_team_stats['rbi'],
+          "bb" => batting_team_stats['baseOnBalls'],
+          "k" => batting_team_stats['strikeOuts'],
+        }
+      }
+      box_batters << batting_totals
+
+      # handle pitchers
+      box_team['pitchers'].each do |pitcher|
+        player_stats = box_team['players']["ID#{pitcher}"]
+        player_pitching_stats = player_stats['stats']['pitching']
+        player_info = players["ID#{pitcher}"]
+
+        pitcher_box = {
+          "name" => player_info['boxscoreName'],
+          "note" => player_pitching_stats['note'],
+          "ip" => player_pitching_stats['inningsPitched'],
+          "h" => player_pitching_stats['hits'],
+          "r" => player_pitching_stats['runs'],
+          "er" => player_pitching_stats['earnedRuns'],
+          "bb" => player_pitching_stats['baseOnBalls'],
+          "k" => player_pitching_stats['strikeOuts'],
+          "hr" => player_pitching_stats['homeRuns'],
+          "era" => player_stats['seasonStats']['pitching']['era'],
+        }
+
+        box_pitchers << pitcher_box
+      end
+      pitching_team_stats = box_team['teamStats']['pitching']
+      pitching_totals = {
+        "name" => "Totals",
+        "ip" => pitching_team_stats['inningsPitched'],
+        "h" => pitching_team_stats['hits'],
+        "r" => pitching_team_stats['runs'],
+        "er" => pitching_team_stats['earnedRuns'],
+        "bb" => pitching_team_stats['baseOnBalls'],
+        "k" => pitching_team_stats['strikeOuts'],
+        "hr" => pitching_team_stats['homeRuns'],
+      }
+      box_pitchers << pitching_totals
+
+      # add data to the boxscore
+      boxscore['teams'][tea] = {
+        "team" => {
+          "id" => team_info['id'],
+          "name" => team_info['name'],
+          "abbreviation" => team_info['abbreviation'],
+        },
+        "batters" => box_batters,
+        "pitchers" => box_pitchers,
+        "info" => {
+          "batting" => box_team['info'].detect{|e| e['title'] == "BATTING"}&.dig('fieldList'),
+          "baserunning" => box_team['info'].detect{|e| e['title'] == "BASERUNNING"}&.dig('fieldList'),
+          "fielding" => box_team['info'].detect{|e| e['title'] == "FIELDING"}&.dig('fieldList'),
+          "notes" => box_team['note'],
+        }
+      }
+    end
+
+    boxscore['info'] = box['info']
+
+    boxscore
   end
 
   def game_pace

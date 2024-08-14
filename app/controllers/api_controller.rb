@@ -157,4 +157,16 @@ class ApiController < ApplicationController
 
     json_response(data)
   end
+
+  def mlb_boxscore
+    # get game id
+    game_id = params[:id]
+
+    # get data
+    data = JSON.parse RestClient.get("https://statsapi.mlb.com/api/v1.1/game/#{game_id}/feed/live", 'User-Agent': DUMMY_USER_AGENT)
+
+    mlb = Sports::MlbController.new
+
+    json_response(mlb.boxscore(data))
+  end
 end
