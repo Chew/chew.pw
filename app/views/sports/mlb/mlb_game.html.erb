@@ -55,25 +55,38 @@
     <% boxscore_team = @boxscore['teams'][which] %>
     <div class="col">
       <h3><%= boxscore_team['team']['name'] %></h3>
-      <h4>Batting</h4>
+
+      <% @boxscore_info.each do |type, headers| %>
+        <% next if game_status(@game).include?("Scheduled") %>
+        <% next if %w[Bench Bullpen].include?(type) && game_status(@game).include?("Final") %>
+      <h4><%= type %></h4>
       <div class="table-responsive">
         <table class="table">
           <thead class="table-dark">
             <tr>
-              <th>Batters - <%= boxscore_team['team']['abbreviation'] %></th>
-              <%= table_headers %w[AB R H RBI BB K AVG OPS], header_class: "text-center" %>
+              <th><%= type %> - <%= boxscore_team['team']['abbreviation'] %></th>
+              <%= table_headers headers, header_class: "text-center" %>
             </tr>
           </thead>
           <tbody>
-          <% boxscore_team['batters'].each do |batter| %>
+          <% boxscore_team[type.downcase].each do |player| %>
             <tr>
-              <td class="<%= "bold" if batter['name'] == "Totals" %> ">
-                <% if batter['note'] %>&emsp;<%= batter['note'] %><% end %><%= batter['name'] %>
-                <span class="text-body-secondary form-text"><%= batter['position'] %></span>
+              <td class="<%= "bold" if player['name'] == "Totals" %> ">
+                <% if type == "Batters" %>
+                  <% if player['note'] %>&emsp;<%= player['note'] %><% end %><%= player['name'] %>
+                  <span class="text-body-secondary form-text"><%= player['position'] %></span>
+                <% elsif type == "Pitchers" %>
+                  <%= player['name'] %>
+                  <% if player['note'] %>
+                    <span class="text-body-secondary form-text"><%= player['note'] %></span>
+                  <% end %>
+                <% else %>
+                  <%= player['name'] %>
+                <% end %>
               </td>
-              <% %w[ab r h rbi bb k avg ops].each do |stat| %>
-                <td class="<%= "bold" if batter['name'] == "Totals" %> text-center">
-                  <%= batter['stats'][stat] %>
+              <% headers.map(&:downcase).each do |stat| %>
+                <td class="<%= "bold" if player['name'] == "Totals" %> text-center">
+                  <%= player['stats'][stat] %>
                 </td>
               <% end %>
             </tr>
@@ -82,6 +95,7 @@
         </table>
       </div>
 
+    <% if type == "Batters" %>
       <% if boxscore_team['info']['notes'] %>
         <p class="text-body-secondary">
           <% boxscore_team['info']['notes'].each do |note| %>
@@ -99,38 +113,9 @@
           <% end %>
         </p>
       <% end %>
+    <% end %>
 
-      <h4>Pitching</h4>
-      <div class="table-responsive">
-        <table class="table">
-          <thead class="table-dark">
-          <tr>
-            <th>Pitchers - <%= boxscore_team['team']['abbreviation'] %></th>
-            <%= table_headers %w[IP H R ER BB K HR ERA], header_class: "text-center" %>
-          </tr>
-          </thead>
-          <tbody>
-          <% boxscore_team['pitchers'].each do |pitcher| %>
-            <tr>
-              <td class="<%= "bold" if pitcher['name'] == "Totals" %>">
-                <%= pitcher['name'] %>
-                <% if pitcher['note'] %>
-                  <span class="text-body-secondary form-text"><%= pitcher['note'] %></span>
-                <% end %>
-              </td>
-              <% %w[ip h r er bb k hr era].each do |stat| %>
-                <td class="<%= "bold" if pitcher['name'] == "Totals" %> text-center">
-                  <%= pitcher[stat] %>
-                  <% if stat == 'name' and pitcher['note'] %>
-                    <span class="text-body-secondary form-text"><%= pitcher['note'] %></span>
-                  <% end %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
-      </div>
+      <% end %>
     </div>
   <% end %>
 </div>

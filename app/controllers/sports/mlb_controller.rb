@@ -474,6 +474,12 @@ class Sports::MlbController < SportsController
     @score = away_score > home_score ? "#{away_score} - #{home_score}" : "#{home_score} - #{away_score}"
 
     @boxscore = boxscore(@game)
+    @boxscore_info = {
+      "Batters" => %w[AB R H RBI BB K AVG OPS],
+      "Pitchers" => %w[IP H R ER BB K HR ERA],
+      "Bench" => %w[B Pos AVG G R H HR RBI SB],
+      "Bullpen" => %w[T ERA H BB K]
+    }
 
     # Summary for meta description.
     # If the game is Final, use the final summary: "The winning team beat the losing time winning score to losing score."
@@ -513,6 +519,8 @@ class Sports::MlbController < SportsController
 
       box_batters = []
       box_pitchers = []
+      box_bench = []
+      box_bullpen = []
 
       # handle batters
       box_team['batters'].each do |batter|
@@ -563,14 +571,16 @@ class Sports::MlbController < SportsController
         pitcher_box = {
           "name" => player_info['boxscoreName'],
           "note" => player_pitching_stats['note'],
-          "ip" => player_pitching_stats['inningsPitched'],
-          "h" => player_pitching_stats['hits'],
-          "r" => player_pitching_stats['runs'],
-          "er" => player_pitching_stats['earnedRuns'],
-          "bb" => player_pitching_stats['baseOnBalls'],
-          "k" => player_pitching_stats['strikeOuts'],
-          "hr" => player_pitching_stats['homeRuns'],
-          "era" => player_stats['seasonStats']['pitching']['era'],
+          "stats" => {
+            "ip" => player_pitching_stats['inningsPitched'],
+            "h" => player_pitching_stats['hits'],
+            "r" => player_pitching_stats['runs'],
+            "er" => player_pitching_stats['earnedRuns'],
+            "bb" => player_pitching_stats['baseOnBalls'],
+            "k" => player_pitching_stats['strikeOuts'],
+            "hr" => player_pitching_stats['homeRuns'],
+            "era" => player_stats['seasonStats']['pitching']['era']
+          }
         }
 
         box_pitchers << pitcher_box
@@ -578,15 +588,63 @@ class Sports::MlbController < SportsController
       pitching_team_stats = box_team['teamStats']['pitching']
       pitching_totals = {
         "name" => "Totals",
-        "ip" => pitching_team_stats['inningsPitched'],
-        "h" => pitching_team_stats['hits'],
-        "r" => pitching_team_stats['runs'],
-        "er" => pitching_team_stats['earnedRuns'],
-        "bb" => pitching_team_stats['baseOnBalls'],
-        "k" => pitching_team_stats['strikeOuts'],
-        "hr" => pitching_team_stats['homeRuns'],
+        "stats" => {
+          "ip" => pitching_team_stats['inningsPitched'],
+          "h" => pitching_team_stats['hits'],
+          "r" => pitching_team_stats['runs'],
+          "er" => pitching_team_stats['earnedRuns'],
+          "bb" => pitching_team_stats['baseOnBalls'],
+          "k" => pitching_team_stats['strikeOuts'],
+          "hr" => pitching_team_stats['homeRuns']
+        }
       }
       box_pitchers << pitching_totals
+
+      # handle bench
+      box_team['bench'].each do |bench|
+        player_stats = box_team['players']["ID#{bench}"]
+        player_batting_stats = player_stats['seasonStats']['batting']
+        player_info = players["ID#{bench}"]
+
+        next if player_batting_stats.empty?
+
+        bench_box = {
+          "name" => player_info['boxscoreName'],
+          "stats" => {
+            "b" => player_info['batSide']['code'],
+            "pos" => player_info['primaryPosition']['abbreviation'],
+            "avg" => player_batting_stats['avg'],
+            "g" => player_batting_stats['gamesPlayed'],
+            "r" => player_batting_stats['runs'],
+            "h" => player_batting_stats['hits'],
+            "hr" => player_batting_stats['homeRuns'],
+            "rbi" => player_batting_stats['rbi'],
+            "sb" => player_batting_stats['stolenBases'],
+          }
+        }
+
+        box_bench << bench_box
+      end
+
+      # handle bullpen
+      box_team['bullpen'].each do |bullpen|
+        player_stats = box_team['players']["ID#{bullpen}"]
+        player_pitching_stats = player_stats['seasonStats']['pitching']
+        player_info = players["ID#{bullpen}"]
+
+        bullpen_box = {
+          "name" => player_info['boxscoreName'],
+          "stats" => {
+            "t" => player_info['pitchHand']['code'],
+            "era" => player_pitching_stats['era'],
+            "h" => player_pitching_stats['hits'],
+            "bb" => player_pitching_stats['baseOnBalls'],
+            "k" => player_pitching_stats['strikeOuts']
+          }
+        }
+
+        box_bullpen << bullpen_box
+      end
 
       # add data to the boxscore
       boxscore['teams'][tea] = {
@@ -597,6 +655,8 @@ class Sports::MlbController < SportsController
         },
         "batters" => box_batters,
         "pitchers" => box_pitchers,
+        "bench" => box_bench,
+        "bullpen" => box_bullpen,
         "info" => {
           "batting" => box_team['info'].detect{|e| e['title'] == "BATTING"}&.dig('fieldList'),
           "baserunning" => box_team['info'].detect{|e| e['title'] == "BASERUNNING"}&.dig('fieldList'),
