@@ -161,11 +161,11 @@ Rails.application.routes.draw do
 
   scope 'chewbotcca' do
     get '/', to: 'chewbotcca#home'
-    scope 'discord' do
-      get '/', to: 'chewbotcca#discord'
-      get 'commands', to: 'chewbotcca#discord_commands'
+    scope 'discord' do # Some routes redirect to ChewHelp, which is a separate application and easier to maintain
+      get '/', to: redirect('https://help.chew.pro/bots/discord/chewbotcca')
+      get 'commands', to: redirect('https://help.chew.pro/bots/discord/chewbotcca/commands')
       get 'api/command/:command', to: 'chewbotcca#commands'
-      get 'privacy', to: 'chewbotcca#discord_privacy'
+      get 'privacy', to: redirect('https://help.chew.pro/bots/discord/chewbotcca/privacy')
     end
     scope 'slack' do
       get '/', to: 'chewbotcca#slack'

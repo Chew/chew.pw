@@ -25,10 +25,6 @@ class ChewbotccaController < ApplicationController
     json_response(command_list[params['command'].downcase], 200)
   end
 
-  def discord_commands
-    @commands = ChewbotccaCommand.all.to_a
-  end
-
   def slack_oauth
     url = "https://slack.com/api/oauth.v2.access"
 
