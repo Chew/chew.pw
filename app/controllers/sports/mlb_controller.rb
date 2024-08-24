@@ -732,8 +732,16 @@ class Sports::MlbController < SportsController
   end
 
   def mlb_team_stats
-    @team_name = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?fields=teams,name", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]['name']
-    @stats = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}/stats?sportId=1&season=#{params[:season]}&stats=season&group=hitting,pitching,fielding,catching,running&gameType=R"))['stats']
+    team = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}?fields=teams,name,sport,id", 'User-Agent': DUMMY_USER_AGENT))['teams'][0]
+    @team_name = team['name']
+    begin
+      @stats = JSON.parse(RestClient.get("https://statsapi.mlb.com/api/v1/teams/#{params[:team_id]}/stats?sportId=#{team['sport']['id']}&season=#{params[:season]}&stats=season&group=hitting,pitching,fielding,catching,running&gameType=R"))['stats']
+    rescue RestClient::NotFound
+      return render status: 404, action: 'error', layout: 'application', locals: {
+        message: "Team Not Found", description: "Could not find the team you specified, or there are no statistics available.",
+        href: "/sports/mlb/teams", link_text: "View All Teams"
+      }
+    end
   end
 
   def mlb_team_affiliates
