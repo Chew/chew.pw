@@ -247,10 +247,10 @@ class Sports::MlbController < SportsController
         message: "Game Not Found", description: "Could not find the game you specified (404).",
         href: "/sports/mlb/schedule", link_text: "View All Games"
       }
-    rescue RestClient::InternalServerError
+    rescue RestClient::InternalServerError, RestClient::BadGateway
       # Render the sports layout with a "could not load game" message
       return render status: 200, action: 'error', layout: 'application', locals: {
-        message: "Could Not Load Game", description: "There was an error loading the specified game on MLB's end.",
+        message: "Could Not Load Game", description: "There was an error loading the specified game on MLB's end. Please reload and try again.",
         href: "/sports/mlb/schedule", link_text: "View All Games"
       }
     end
@@ -271,8 +271,8 @@ class Sports::MlbController < SportsController
       @win_probability.each do |prob|
         @win[prob['atBatIndex']] = prob
       end
-    rescue RestClient::NotFound
-      # Rory: I don't know what to do here.
+    rescue RestClient::NotFound, RestClient::InternalServerError, RestClient::BadGateway
+      # We don't care if this fails, a refresh fixes it anyway.
     end
 
     # Teams
