@@ -172,7 +172,11 @@
     <h3><%= @away['name'] %></h3>
     <ol>
       <% @win_probability&.sort_by {|e| e['homeTeamWinProbabilityAdded']}[0..4].each do |win| %>
-        <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= -win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
+        <% if @game['liveData']['plays']['allPlays'][win['atBatIndex']] %>
+          <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= -win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
+        <% else %>
+          <li>To Be Determined</li>
+        <% end %>
       <% end %>
     </ol>
   </div>
@@ -180,7 +184,11 @@
     <h3><%= @home['name'] %></h3>
     <ol>
       <% @win_probability&.sort_by {|e| e['homeTeamWinProbabilityAdded']}.reverse[0..4].each do |win| %>
-        <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
+        <% if @game['liveData']['plays']['allPlays'][win['atBatIndex']] %>
+          <li><%= @game['liveData']['plays']['allPlays'][win['atBatIndex']]['result']['description'] %> (+<%= win['homeTeamWinProbabilityAdded'].round(2) %>%)</li>
+        <% else %>
+          <li>To Be Determined</li>
+        <% end %>
       <% end %>
     </ol>
   </div>
