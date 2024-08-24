@@ -96,7 +96,7 @@ class Games::NytimesController < GamesController
     # get today's date in YYYY-MM-DD format
 
     if params[:date]
-      @data = JSON.parse(RestClient.get("https://www.nytimes.com/games-assets/strands/#{params[:date]}.json"))
+      @data = JSON.parse(RestClient.get("https://www.nytimes.com/svc/strands/v2/#{params[:date]}.json", 'User-Agent': DUMMY_USER_AGENT))
     end
   end
 end
