@@ -611,7 +611,7 @@ class Sports::MlbController < SportsController
         bench_box = {
           "name" => player_info['boxscoreName'],
           "stats" => {
-            "b" => player_info['batSide']['code'],
+            "b" => player_info.dig('batSide', 'code') || 'X',
             "pos" => player_info['primaryPosition']['abbreviation'],
             "avg" => player_batting_stats['avg'],
             "g" => player_batting_stats['gamesPlayed'],
@@ -635,7 +635,7 @@ class Sports::MlbController < SportsController
         bullpen_box = {
           "name" => player_info['boxscoreName'],
           "stats" => {
-            "t" => player_info['pitchHand']['code'],
+            "t" => player_info.dig('pitchHand', 'code') || 'X',
             "era" => player_pitching_stats['era'],
             "ip" => player_pitching_stats['inningsPitched'],
             "h" => player_pitching_stats['hits'],
