@@ -748,7 +748,7 @@ class Sports::MlbController < SportsController
       end
     end
 
-    @major_league_team = @affiliates.find {|e| e['sport']['name'] == "Major League Baseball"}['name']
+    @major_league_team = @affiliates.find {|e| e['sport']['name'] == "Major League Baseball"}&.dig('name') || @affiliates[0]['name']
 
     today = Time.now.in_time_zone("America/Los_Angeles")
 
