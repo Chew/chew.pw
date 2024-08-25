@@ -213,9 +213,14 @@
   <% (@game['liveData']['linescore']['currentInning'] || 0).times do |i| %>
     <li><%= (i + 1).ordinalize %> Inning</li>
     <ul>
-      <li>Top</li>
+      <% %w[top bottom].each do |half| %>
+      <li><%= half.capitalize %></li>
       <ul>
-        <% plays = @game['liveData']['plays']['playsByInning'][i]['top'] %>
+        <% plays = @game['liveData']['plays']['playsByInning'][i][half] %>
+        <% if half == "bottom" %>
+          <% next unless @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningHalf'] == "Bottom") %>
+        <% end %>
+
         <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
           <% play['playEvents'].each do |event| %>
             <% next if event['details']['eventType'].nil? %>
@@ -224,18 +229,6 @@
           <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
         <% end %>
       </ul>
-      <% if @game['liveData']['linescore']['currentInning'] > (i + 1) or (@game['liveData']['linescore']['currentInning'] == i + 1 and @game['liveData']['linescore']['inningHalf'] == "Bottom") %>
-        <li>Bottom</li>
-        <ul>
-          <% plays = @game['liveData']['plays']['playsByInning'][i]['bottom'] %>
-          <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
-            <% play['playEvents'].each do |event| %>
-              <% next if event['details']['eventType'].nil? %>
-              <li><i><%= event['details']['description'] %> <%= (event['details']['description'].include?("Delay") and !event['startTime'].nil? and !event['endTime'].nil?) ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime']), include_seconds: true))})" : "" %></i></li>
-            <% end %>
-            <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
-          <% end %>
-        </ul>
       <% end %>
     </ul>
   <% end %>
