@@ -224,6 +224,7 @@
         <% @game['liveData']['plays']['allPlays'][plays.min..plays.max].each_with_index do |play, ind| %>
           <% play['playEvents'].each do |event| %>
             <% next if event['details']['eventType'].nil? %>
+            <% next if event['details']['description'].nil? %>
             <li><i><%= event['details']['description'] %> <%= (event['details']['description'].include?("Delay") and !event['startTime'].nil? and !event['endTime'].nil?) ? "(#{(distance_of_time_in_words(Time.parse(event['startTime']), Time.parse(event['endTime']), include_seconds: true))})" : "" %></i></li>
           <% end %>
           <li><%= link_to play['result']['description'] || "#{play['matchup']['batter']['fullName']} is at bat.", "#play-#{plays[ind]}", class: (play['about']['isScoringPlay'] ? "bold" : "") %></li>
