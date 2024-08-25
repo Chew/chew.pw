@@ -115,6 +115,7 @@ module SportsHelper
 
     if status['detailedState'].include? "Suspended"
       resume = game['resumeDate'] || game['gameDate'] || game['gameData']['datetime']['resumeDateTime']
+      return "#{status['detailedState']}, unknown resume date" if resume.nil?
       return "#{status['detailedState']}, will resume #{friendly_date resume, with_time: true, in_zone: "America/New_York"}"
     end
 
