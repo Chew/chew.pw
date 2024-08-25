@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  before_action :set_raven_context
   before_action :add_permissions_policy_header
   before_action :info
   skip_before_action :verify_authenticity_token, :only => [:flush]
@@ -82,9 +81,5 @@ class ApplicationController < ActionController::Base
     end
 
     response.headers['Permissions-Policy'] = header.join(", ")
-  end
-
-  def set_raven_context
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 end

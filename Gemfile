@@ -38,7 +38,8 @@ gem 'rest-client'
 gem 'discordrb', github: "shardlab/discordrb", branch: 'main'
 
 # Error catching
-gem "sentry-raven"
+gem 'sentry-ruby'
+gem "sentry-rails"
 
 # Image processing and storage
 gem 'aws-sdk-s3'

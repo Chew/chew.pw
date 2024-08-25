@@ -19,9 +19,9 @@ module Chewapi
     config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    Raven.configure do |config|
+    Sentry.init do |config|
       config.dsn = Rails.application.credentials.sentry[:dsn]
-      config.environments = ["production"]
+      config.enabled_environments = ["production"]
     end
   end
 end
