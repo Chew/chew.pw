@@ -465,7 +465,7 @@
       <% next unless @game['liveData']['boxscore']['teams'][team]['players'].include?(id) %>
       <% stats = @game['liveData']['boxscore']['teams'][team]['players'][id] %>
       <% pitches = @game['liveData']['plays']['allPlays'].filter { |play| play['matchup']['pitcher']['fullName'] == pitcher }.map {|play| [play['about']['inning'], play['playEvents'].count {|e| e['isPitch']}] } %>
-      <% unearned = stats['stats']['pitching']['rbi'] - stats['stats']['pitching']['earnedRuns'] %>
+      <% unearned = (stats['stats']['pitching']['rbi'] || 0) - (stats['stats']['pitching']['earnedRuns'] || 0) %>
       <div class="col">
         <div class="card h-100" id="<%= player['nameSlug'] %>">
           <div class="card-body">
