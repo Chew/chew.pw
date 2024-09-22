@@ -23,7 +23,7 @@
 <p>Summary: <%= @summary %></p>
 
 <% if !game_status(@game).include?("Final") && @outs != @max_outs && @plays > 0 %>
-  <p>Progress: <%= ((@outs / @max_outs.to_f)*100).round(2) %>% done, expected to be done at <%= friendly_date @estimated_done.to_s, with_time: true, in_zone: @game['gameData']['venue']['timeZone']['name'] %> </p>
+  <p>Progress: <%= ((@outs / @max_outs.to_f)*100).round(2) %>% done, expected to be done at <%= friendly_date @estimated_done.to_s, with_time: true, in_zone: @game['gameData']['venue']['timeZone']['id'] %> </p>
 <% end %>
 
 <% if @game['liveData']['decisions'] %>

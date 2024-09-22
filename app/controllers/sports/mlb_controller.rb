@@ -319,7 +319,7 @@ class Sports::MlbController < SportsController
         @outs += 2 if play['result']['eventType'].include?("triple_play")
       end
       now = Time.now.to_s
-      @duration += Time.parse(play.dig(:about, :endTime) || now).to_f - Time.parse(play.dig(:about, :startTime) || now).to_f
+      @duration += Time.parse(play.dig('about', 'endTime') || now).to_f - Time.parse(play.dig('about', 'startTime') || now).to_f
 
       # Add or set to 1 if it's a new pitch
       @results[event] ||= 0
@@ -391,9 +391,11 @@ class Sports::MlbController < SportsController
 
     if @plays > 0
       remaining_half_innings = ((@max_outs - @outs) / 3.0).ceil
-      @estimated_done = Time.now + (@duration / @plays.to_f) * (@max_outs - @outs.to_f)
-      # add in 2m for every half inning left
-      @estimated_done += 120 * remaining_half_innings
+      average_duration_per_play = @duration / @plays.to_f
+      remaining_duration = average_duration_per_play * (remaining_half_innings * 6)
+      additional_time_per_half_inning = 120 # 2 minutes in seconds
+
+      @estimated_done = Time.now.in_time_zone(@game['gameData']['venue']['timeZone']['id']) + remaining_duration + (additional_time_per_half_inning * remaining_half_innings)
     end
 
     # Make sure the pitchers are unique
