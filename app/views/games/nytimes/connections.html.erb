@@ -13,8 +13,9 @@
 <% if params[:date] %>
   <div class="row">
     <% @data['groups'].each do |name, answers| %>
-      <div class="col">
-        <strong><%= name %></strong>
+      <div class="col-md-6 col-lg-3">
+        <strong><%= name %></strong><br>
+        <small><i>Level: <%= answers['level'] + 1 %></i></small>
         <ul>
           <% answers['members'].each do |answer| %>
             <li><%= answer.titleize %></li>
