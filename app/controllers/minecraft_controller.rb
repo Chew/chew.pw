@@ -2,6 +2,8 @@ class MinecraftController < ApplicationController
   include Response
   include Magick
 
+  PAPER_BASE_URL = "https://api.papermc.io/v2"
+
   def analyzelog
     if 1 == 2
       captcha = {
@@ -17,7 +19,7 @@ class MinecraftController < ApplicationController
     end
 
     @paper_versions = Rails.cache.fetch("paper/version", expires_in: 1.day) do
-      JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/paper"))
+      JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/paper"))
     end
 
     @type = ""
@@ -61,7 +63,7 @@ class MinecraftController < ApplicationController
 
     @version_message = nil
     if @version.include?('Paper') && @paper_versions['versions'].include?(@mc_ver)
-      latest = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/paper/versions/#{@mc_ver}"))['builds'].last.to_i
+      latest = JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/paper/versions/#{@mc_ver}"))['builds'].last.to_i
       current = @version.split('git-Paper-').last.split(" ").first.to_i
       if current == latest
         @version_message = "Your Paper build is up to date!"
@@ -127,7 +129,7 @@ class MinecraftController < ApplicationController
 
   def jars
     @paper = Rails.cache.fetch("paper/version", expires_in: 1.day) do
-      JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/paper"))
+      JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/paper"))
     end
   end
 
@@ -139,9 +141,9 @@ class MinecraftController < ApplicationController
     when 'paper', 'waterfall', 'velocity'
       mc_ver = params['version']
       if mc_ver.nil?
-        mc_ver = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}"))['versions'].last
+        mc_ver = JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/#{params['type']}"))['versions'].last
       end
-      version = "#" + JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}/versions/#{mc_ver}"))['builds'].last.to_s
+      version = "#" + JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/#{params['type']}/versions/#{mc_ver}"))['builds'].last.to_s
       if params['type'] == 'paper'
         params['type'] = "paper/#{mc_ver}"
       end
@@ -162,10 +164,10 @@ class MinecraftController < ApplicationController
   def download_jar
     version = params['version']
     if version.nil?
-      version = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}"))['versions'].last
+      version = JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/#{params['type']}"))['versions'].last
     end
     begin
-      build = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}"))['builds'].last
+      build = JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/#{params['type']}/versions/#{version}"))['builds'].last
     rescue RestClient::NotFound
       flash[:modal] = "This version does not exist!"
       redirect_to "/mc/jars"
@@ -176,9 +178,9 @@ class MinecraftController < ApplicationController
       redirect_to "/mc/jars"
       return
     end
-    download = JSON.parse(RestClient.get("https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}/builds/#{build}"))['downloads']['application']['name']
+    download = JSON.parse(RestClient.get("#{PAPER_BASE_URL}/projects/#{params['type']}/versions/#{version}/builds/#{build}"))['downloads']['application']['name']
 
-    redirect_to "https://papermc.io/api/v2/projects/#{params['type']}/versions/#{version}/builds/#{build}/downloads/#{download}"
+    redirect_to "#{PAPER_BASE_URL}/projects/#{params['type']}/versions/#{version}/builds/#{build}/downloads/#{download}"
   end
 
   def favicon_handle
