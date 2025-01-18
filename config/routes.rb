@@ -208,6 +208,10 @@ Rails.application.routes.draw do
     end
   end
 
+  scope 'wikipedia' do
+    get '/', to: 'wikipedia#home'
+  end
+
   # Secret routes
   (1..2).each do |i|
     post Rails.application.credentials.routes["post#{i}".to_sym], to: Rails.application.credentials.routes["to#{i}".to_sym]

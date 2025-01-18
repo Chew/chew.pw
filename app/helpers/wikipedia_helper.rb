@@ -1,0 +1,2 @@
+module WikipediaHelper
+end

@@ -1,0 +1,2 @@
+class WikipediaController < ApplicationController
+end
