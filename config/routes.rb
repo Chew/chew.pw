@@ -210,6 +210,8 @@ Rails.application.routes.draw do
 
   scope 'wikipedia' do
     get '/', to: 'wikipedia#home'
+    get 'parser', to: 'wikipedia#parser'
+    post 'parse', to: 'wikipedia#parse'
   end
 
   # Secret routes

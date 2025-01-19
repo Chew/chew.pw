@@ -1,0 +1,16 @@
+<h1>Citation Parser</h1>
+
+<p>This parses a few URLs with more detail. However, only the following URLs work:</p>
+<ul>
+  <% @parsers.each do |parser| %>
+  <li><%= parser %></li>
+  <% end %>
+</ul>
+
+<%= form_tag "/wikipedia/parse", method: :post do %>
+  <div class="mb-3">
+    <%= label_tag "url", "Enter a URL to parse.", class: 'form-label' %>
+    <%= text_field_tag "parse", '', placeholder: "URL", class: 'form-control', required: true %>
+  </div>
+  <%= submit_tag "Submit", class: "btn btn-primary", data: { disable_with: "Submitting..." } %>
+<% end %>

@@ -1,0 +1,22 @@
+<h1>Parsed URL</h1>
+
+<%= link_to "Back", "/wikipedia/parser", class: "btn btn-primary mb-4" %>
+
+<p>Here is your parsed code.</p>
+
+<% if @parsed[:error] %>
+  <div class="alert alert-danger" role="alert">
+    <%= @parsed[:error] %>
+  </div>
+<% else %>
+  <button id="copy" class="btn btn-primary" data-clipboard-text="<%= @parsed[:markup] %>">Copy</button>
+
+  <div class="form-group">
+    <label for="markup">Wiki Markup</label>
+    <textarea rows="4" class="form-control" id="markup" readonly><%= @parsed[:markup] %></textarea>
+  </div>
+<% end %>
+
+<% content_for :extra_foot do %>
+  <%= javascript_pack_tag "random" %>
+<% end %>
