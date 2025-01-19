@@ -148,9 +148,9 @@ class MinecraftController < ApplicationController
         params['type'] = "paper/#{mc_ver}"
       end
     when 'geyser'
-      version = "#" + JSON.parse(RestClient.get("https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/api/json"))['id']
+      version = "##{JSON.parse(RestClient.get("https://download.geysermc.org/v2/projects/geyser/versions/latest/builds"))['builds'].last['build'].to_s}"
     when 'floodgate'
-      version = "#" + JSON.parse(RestClient.get("https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/api/json"))['id']
+      version = "##{JSON.parse(RestClient.get("https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds"))['builds'].last['build'].to_s}"
     else
       'Unknown!'
     end

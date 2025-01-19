@@ -112,12 +112,9 @@
       </tr>
       </thead>
       <tbody>
+      <% %w[Standalone BungeeCord Fabric NeoForge Spigot Velocity ViaProxy].each do |type| %>
       <tr>
-        <td><%= link_to "Standalone", "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/build/libs/Geyser.jar" %></td>
-      </tr>
-      <% %w[Spigot BungeeCord Velocity Sponge Fabric].each do |type| %>
-      <tr>
-        <td><%= link_to t(type.downcase), "https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/#{type.downcase}/build/libs/Geyser-#{type}.jar" %></td>
+        <td><%= link_to t(type.downcase), "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/#{type.downcase}" %></td>
       </tr>
       <% end %>
       </tbody>
@@ -139,7 +136,7 @@
       <tbody>
       <% %w[spigot bungee velocity].each do |type| %>
       <tr>
-        <td><%= link_to t(type), "https://ci.opencollab.dev/job/GeyserMC/job/Floodgate/job/master/lastSuccessfulBuild/artifact/#{type}/build/libs/floodgate-#{type}.jar" %></td>
+        <td><%= link_to t(type), "https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/#{type}" %></td>
       </tr>
       <% end %>
       <tr>
