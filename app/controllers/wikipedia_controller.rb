@@ -1,5 +1,3 @@
-require_relative './wikipedia/parsers/index'
-
 class WikipediaController < ApplicationController
   def parser
     @parsers = PARSERS
