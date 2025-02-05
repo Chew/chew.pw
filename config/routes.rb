@@ -210,6 +210,8 @@ Rails.application.routes.draw do
 
   scope 'wikipedia' do
     get '/', to: 'wikipedia#home'
+    get 'age', to: 'wikipedia#age'
+    post 'age', to: 'wikipedia#age'
     get 'parser', to: 'wikipedia#parser'
     post 'parse', to: 'wikipedia#parse'
   end

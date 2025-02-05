@@ -45,4 +45,22 @@ class WikipediaController < ApplicationController
       return { error: e  }
     end
   end
+
+  def age
+    if params[:birthdate]
+      date = Date.parse(params[:birthdate].to_s).strftime("%Y%m%d00")
+      @wiki = JSON.parse(RestClient.get('https://en.wikipedia.org/w/api.php?action=query&meta=siteinfo&siprop=statistics&format=json'))['query']['statistics']['articles']
+
+      begin
+        data = JSON.parse(RestClient.get("https://wikimedia.org/api/rest_v1/metrics/edited-pages/new/en.wikipedia.org/all-editor-types/content/daily/1980010100/#{date}"))
+
+        @total = 0
+        data['items'][0]['results'].each do |item|
+          @total += item['new_pages']
+        end
+      rescue RestClient::NotFound
+        @total = 0
+      end
+    end
+  end
 end

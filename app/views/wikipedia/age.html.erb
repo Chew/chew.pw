@@ -1,0 +1,27 @@
+<% content_for :meta_tags do %>
+  <%= meta_tags title: "Wikipedia Age",
+                description: "Find out how many Wikipedia articles you are older than!",
+                service: "Chew's Wikipedia Tools",
+                keywords: "wikipedia age articles" %>
+<% end %>
+
+<h1>How many Wikipedia articles are you older than?</h1>
+
+<p>Type in your birthdate and see how many articles existed when you were born, and how many exist now!</p>
+
+<% if params['birthdate'] %>
+  <p>
+    When you were born, there were <%= number_with_delimiter @total %> articles.
+    Now, there are currently <%= number_with_delimiter @wiki %>. Wow!
+    You are older than <%= ((@wiki-@total)/@wiki.to_f * 100).round(2) %>% of articles!
+  </p>
+<% end %>
+
+<%= form_with url: '/wikipedia/age', method: :post do |form| %>
+  <div class="form-group mb-4">
+    <%= form.label :birthdate, "Birth date" %>
+    <%= form.date_field :birthdate, class: "form-control", placeholder: "YYYY-MM-DD" %>
+  </div>
+
+  <%= form.submit "Submit", class: "btn btn-primary", data: { disable_with: "Calculating..." } %>
+<% end %>
