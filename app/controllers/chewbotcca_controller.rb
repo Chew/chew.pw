@@ -8,12 +8,6 @@ class ChewbotccaController < ApplicationController
     commands.each do |com|
       command_list[com.command] = com
       commands_all.push com.command
-      next if com.aliases.nil?
-
-      com.aliases.split(", ").each do |ali|
-        command_list[ali] = com
-        commands_all.push ali
-      end
     end
     unless commands_all.include?(params['command'].downcase)
       dictionary = DidYouMean::SpellChecker.new(dictionary: commands_all)
