@@ -126,9 +126,15 @@ class ApiController < ApplicationController
 
     title = doc.xpath("/html/body/center[2]/b[1]").text.strip
     friendly_date = "Date: " + doc.xpath("/html/body/center[1]/p[2]/text()").text.strip
-    image = doc.xpath("/html/body/center[1]/p[2]/a/img")
-    description = image.attr("alt")&.value&.gsub("\n", " ")&.strip
-    img = "https://apod.nasa.gov/apod/#{image.attr("src")&.value&.strip}"
+    image = doc.xpath("/html/body/center[1]/p[2]/a/img") # /html/body/center[1]/p[2]/video/source
+    if image.length > 0
+      puts "has image"
+      description = image.attr("alt")&.value&.gsub("\n", " ")&.strip
+      img = "https://apod.nasa.gov/apod/#{image.attr("src")&.value&.strip}"
+    else
+      video = doc.xpath("/html/body/center[1]/p[2]/video/source")
+      img = "https://apod.nasa.gov/apod/#{video.attr("src")&.value&.strip}"
+    end
     explanation = doc.xpath("/html/body/p[1]").text.gsub("\n", " ").gsub("  ", " ").strip
 
     # Ensure img is a valid image
