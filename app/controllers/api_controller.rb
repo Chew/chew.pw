@@ -119,12 +119,13 @@ class ApiController < ApplicationController
   # Date format is YYMMDD
   # @return [Response, nil] JSON response of the photo
   def apod
-    data = RestClient.get("https://apod.nasa.gov/apod/ap#{params[:date]}.html")
+    url = "https://apod.nasa.gov/apod/ap#{params[:date]}.html"
+    data = RestClient.get(url)
 
     doc = Nokogiri::HTML.parse(data)
 
     title = doc.xpath("/html/body/center[2]/b[1]").text.strip
-    friendlyDate = "Date: " + doc.xpath("/html/body/center[1]/p[2]/text()").text.strip
+    friendly_date = "Date: " + doc.xpath("/html/body/center[1]/p[2]/text()").text.strip
     image = doc.xpath("/html/body/center[1]/p[2]/a/img")
     description = image.attr("alt")&.value&.gsub("\n", " ")&.strip
     img = "https://apod.nasa.gov/apod/#{image.attr("src")&.value&.strip}"
@@ -133,7 +134,7 @@ class ApiController < ApplicationController
     # Ensure img is a valid image
     img = nil if img == "https://apod.nasa.gov/apod/"
 
-    json_response({ friendlyDate: friendlyDate, title: title, description: description, img: img, explanation: explanation }, 200)
+    json_response({ friendlyDate: friendly_date, title: title, description: description, img: img, explanation: explanation, url: url }, 200)
   end
 
   def costco_store
